@@ -18,10 +18,6 @@ Por fim, o candidato deve atualizar o Readme.md com as seguintes informações:
 
 ## Avaliação
 
- | Hello | World |
-   |---|---|
-   | How | are you? |  
-
 O programa será avaliado levando em conta os seguintes critérios:
 |Critério|	Valor|
 |-------|--------|

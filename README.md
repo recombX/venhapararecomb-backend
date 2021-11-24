@@ -25,7 +25,7 @@ O programa será avaliado levando em conta os seguintes critérios:
 |Documentação do código 	|10|
 |Documentação da solução 	|10|
 |Tratamento de Erros 	|10|
-|Total| 	|40|
+|Total| 	40|
 
 A pontuação do candidato será a soma dos valores obtidos nos critérios acima.
 

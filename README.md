@@ -12,9 +12,9 @@ Para enviar o resultado, basta realiazar um Fork deste repositório e abra um Pu
 É importante comentar que deve ser enviado apenas o código fonte. Não aceitaremos códigos compilados.
 
 Por fim, o candidato deve atualizar o Readme.md com as seguintes informações:
-
-    Documentação da solução;
-    Lista dos diferenciais implementados
+  
+ 1) Documentação da solução;
+ 2) Lista dos diferenciais implementados
 
 ## Avaliação
 
@@ -22,10 +22,11 @@ O programa será avaliado levando em conta os seguintes critérios:
 |Critério|	Valor|
 |-------|--------|
 |Legibilidade do Código 	|10|
+|Organização do Código|10|
 |Documentação do código 	|10|
 |Documentação da solução 	|10|
 |Tratamento de Erros 	|10|
-|Total| 	40|
+|Total| 	50|
 
 A pontuação do candidato será a soma dos valores obtidos nos critérios acima.
 

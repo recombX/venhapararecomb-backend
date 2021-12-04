@@ -5,11 +5,16 @@ from re import match
 import database
 
 def parsing_and_saving(file):
+    # Inicializando banco de dados
     con = database.create_connection('my-test.db')
     database.drop_tables(con)
     database.initiate_tables(con)
 
-    tree = ET.parse(file)
+    try:
+        tree = ET.parse(file)
+    except OSError:
+        print("Arquivo não encontrado! Tchau!")
+        exit()
     root = tree.getroot()
     namespace = match(r'\{.*\}', root.tag).group(0)
 
@@ -35,6 +40,7 @@ def parsing_and_saving(file):
         valor = (cobr.find(f'{namespace}fat')).find(f'{namespace}vLiq').text
         vencimento = (cobr.find(f'{namespace}dup')).find(f'{namespace}dVenc').text
 
+        # Inserir na tabela de notas fiscais (cpf/cnpj_emit, cpf/cnpj_cliente, dvenc, valor)
         sql = 'INSERT INTO NOTAS_FISCAIS (cnpj_or_cpf_emit, cnpj_or_cpf_client, dvenc, valor) VALUES (?, ?, ?, ?)'
         data_tuple = (cpf_or_cnpj_emit, cpf_or_cnpj_dest, vencimento, float(valor))
 
@@ -63,21 +69,3 @@ def busca_query(cpf_or_cnpj, query):
     result = database.execute_and_print(query, data, con)
     con.close()
     return result
-
-# def busca1(cpf_or_cnpj):
-#     con = database.create_connection('my-test.db')
-#     request = 
-#     data = (cpf_or_cnpj,)
-#     result = database.execute_and_print(request, data, con)
-#     con.close()
-#     return result
-
-# def busca2(cpf_or_cnpj):
-#     con = database.create_connection('my-test.db')
-#     request = 
-#     data = (cpf_or_cnpj,)
-#     result = database.execute_and_print(request, data, con)
-#     con.close()
-#     return result
-    
-#06273476000182

@@ -51,7 +51,10 @@ def execute_and_print(request, data, con):
     return result
 
 def drop_tables(con):
-    with con:
-        con.execute("DROP TABLE CLIENTES")
-        con.execute("DROP TABLE NOTAS_FISCAIS")
+    try:
+        with con:
+            con.execute("DROP TABLE CLIENTES")
+            con.execute("DROP TABLE NOTAS_FISCAIS")
+    except sl.OperationalError:
+        print("Tabelas não existem")
     

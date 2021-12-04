@@ -36,11 +36,11 @@
 
             <div class="buttons-div">
                 <button onclick="busca(1)">
-                    Busca 1
+                    Boletos
                 </button>
 
                 <button onclick="busca(2)">
-                    Busca 2
+                    Clientes
                 </button>
             </div>
         </div>
@@ -50,7 +50,6 @@
         const input = document.querySelector("#identificador");
         function busca(tipo){
             location.href = `${tipo}/${input.value}`
-            console.log(input.value)
         }
     </script>
 </html>

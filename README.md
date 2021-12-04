@@ -16,7 +16,9 @@
 
 #### Pré-requisitos:
 Python >= 3.8;
+
 Python Virtual Environment;
+
 Python pip.
 
 - Criando um *Virtual Environment*: `python3 -m venv env`

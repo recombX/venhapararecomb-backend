@@ -15,7 +15,7 @@
 ### Sem Docker:
 
 #### Pré-requisitos:
-Python $\ge$ 3.8;
+Python >= 3.8;
 Python Virtual Environment;
 Python pip.
 

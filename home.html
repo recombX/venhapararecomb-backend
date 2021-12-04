@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <style>
+        h1{text-align:center;}
+        .form-div{
+            display: flex;
+            flex-direction: column;
+            width: 50%; 
+            margin: auto;
+        }
+        .form-div input{
+            width: 20%;
+            margin: auto;
+        }
+        .form-div label{
+            text-align: center;
+        }
+        .buttons-div{
+            display: flex;
+            margin: auto;
+        }
+        .buttons-div button{
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+    <head>
+        <title> Consulta de Dados em Notas Fiscais</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <h1>Consulta de dados em Notas Fiscais</h1>
+        <div class="form-div">
+            <label for="identificador">Insira o CPF/CNPJ do Fornecedor:</label><br>
+            <input type="text" id="identificador" name="identificador"><br>
+
+            <div class="buttons-div">
+                <button onclick="busca(1)">
+                    Busca 1
+                </button>
+
+                <button onclick="busca(2)">
+                    Busca 2
+                </button>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        const input = document.querySelector("#identificador");
+        function busca(tipo){
+            location.href = `${tipo}/${input.value}`
+            console.log(input.value)
+        }
+    </script>
+</html>

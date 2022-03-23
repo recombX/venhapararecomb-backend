@@ -86,13 +86,11 @@ def dismember_xml(path) -> dict:
 
 
 def save_xml(files):
-    result = []
     for file in files:
         if file.filename[-3:] == 'xml':
             timestamp = datetime.timestamp(datetime.now())
-            with open(f"./static/xmlDocs/{timestamp}-{file.filename}", "wb") as f:
+            filename = f'{timestamp}-{file.filename}'
+            path = f"./venhapararecomb/static/xmlDocs/{filename}"
+            with open(path, "wb") as f:
                 shutil.copyfileobj(file.file, f)
-                data = dismember_xml(
-                    f"./static/xmlDocs/{timestamp}-{file.filename}")
-                result.append(data)
-    return result
+                dismember_xml(path)

@@ -12,6 +12,14 @@ class PersonCreate(BaseModel):
         orm_mode = True
 
 
+class PersonView(BaseModel):
+    id: int
+    name: str
+    cpf: str | None = None
+    cnpj: str | None = None
+    type_person: int
+
+
 class AddressCreate(BaseModel):
     logradouro: str | None = None
     numero: int | None = None

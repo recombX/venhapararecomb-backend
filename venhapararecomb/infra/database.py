@@ -1,27 +1,20 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+import databases
+import sqlalchemy
 import os
+from .models.models import create_models
 
-
-uri = os.getenv(
+DATABASE_URL = os.getenv(
     "DATABASE_URL", "postgresql://postgres:123456@localhost:5432/postgres")
 
-if uri and uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-engine = create_engine(
-    uri
-)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+database = databases.Database(DATABASE_URL)
 
-Base = declarative_base()
+metadata = sqlalchemy.MetaData()
 
+models = create_models(metadata=metadata)
 
-def get_db():
-    db = SessionLocal()
+engine = sqlalchemy.create_engine(DATABASE_URL)
 
-    try:
-        yield db
-    except Exception:
-        db.close()
+metadata.create_all(engine)

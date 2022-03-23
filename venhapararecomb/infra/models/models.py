@@ -1,62 +1,64 @@
-from ..database import Base
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, DECIMAL
 from sqlalchemy.sql import func
-
-PROVAIDER = 0
-CLIENT = 1
+import sqlalchemy
 
 
-class Person(Base):
+def create_models(metadata):
 
-    __tablename__ = "people"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    cpf = Column(String, nullable=True, unique=True)
-    cnpj = Column(String, nullable=True, unique=True)
-    type_person = Column(Integer, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True),
-                        server_default=func.now(), onupdate=func.now())
+    person = sqlalchemy.Table(
+        "person",
+        metadata,
+        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+        sqlalchemy.Column("name", sqlalchemy.String, nullable=False),
+        sqlalchemy.Column("cpf", sqlalchemy.String,
+                          nullable=True, unique=True),
+        sqlalchemy.Column("cnpj", sqlalchemy.String,
+                          nullable=True, unique=True),
+        sqlalchemy.Column("type_person", sqlalchemy.Integer, nullable=False),
+        sqlalchemy.Column("created_at", sqlalchemy.DateTime(timezone=True),
+                          server_default=func.now()),
+        sqlalchemy.Column("updated_at", sqlalchemy.DateTime(timezone=True),
+                          server_default=func.now(), onupdate=func.now()),
+    )
 
-    def __str__(self) -> str:
-        return f'name: {self.name}'
+    address = sqlalchemy.Table(
+        "address",
+        metadata,
+        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+        sqlalchemy.Column("logradouro", sqlalchemy.String, nullable=False),
+        sqlalchemy.Column("numero", sqlalchemy.String, nullable=True),
+        sqlalchemy.Column("bairro", sqlalchemy.String, nullable=True),
+        sqlalchemy.Column("municipio", sqlalchemy.String, nullable=True),
+        sqlalchemy.Column("uf", sqlalchemy.String, nullable=True),
+        sqlalchemy.Column("cep", sqlalchemy.String, nullable=True),
+        sqlalchemy.Column("pais", sqlalchemy.String, nullable=True),
+        sqlalchemy.Column("created_at", sqlalchemy.DateTime(timezone=True),
+                          server_default=func.now()),
+        sqlalchemy.Column("updated_at", sqlalchemy.DateTime(timezone=True),
+                          server_default=func.now(), onupdate=func.now()),
+        sqlalchemy.Column('person_id', sqlalchemy.Integer,
+                          sqlalchemy.ForeignKey('person.id', ondelete="CASCADE"))
+    )
 
+    nfe = sqlalchemy.Table(
+        "nfe",
+        metadata,
+        sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+        sqlalchemy.Column("nfe_id", sqlalchemy.String, nullable=False),
+        sqlalchemy.Column("date_venc", sqlalchemy.DateTime),
+        sqlalchemy.Column("total", sqlalchemy.DECIMAL),
+        sqlalchemy.Column("type_person", sqlalchemy.Integer, nullable=False),
+        sqlalchemy.Column("created_at", sqlalchemy.DateTime(timezone=True),
+                          server_default=func.now()),
+        sqlalchemy.Column("updated_at", sqlalchemy.DateTime(timezone=True),
+                          server_default=func.now(), onupdate=func.now()),
 
-class Address(Base):
-    __tablename__ = "address"
-
-    id = Column(Integer, primary_key=True, index=True)
-    logradouro = Column(String, nullable=True)
-    numero = Column(Integer, nullable=True)
-    bairro = Column(String, nullable=True)
-    municipio = Column(String, nullable=True)
-    uf = Column(String, nullable=True)
-    cep = Column(String, nullable=True)
-    pais = Column(String, nullable=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True),
-                        server_default=func.now(), onupdate=func.now())
-
-    people_id = Column(Integer, ForeignKey("people.id"))
-
-    def __str__(self) -> str:
-        return f'Address: {self.uf} - {self.municipio}'
-
-
-class NFe(Base):
-    __tablename__ = "nfe"
-
-    id = Column(Integer, primary_key=True, index=True)
-    nfe_id = Column(String)
-    date_venc = Column(DateTime(timezone=True))
-    total = Column(DECIMAL, nullable=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True),
-                        server_default=func.now(), onupdate=func.now())
-
-    provider_id = Column(Integer, ForeignKey("people.id"))
-
-    client_id = Column(Integer, ForeignKey("people.id"))
-
-    def __str__(self) -> str:
-        return f'NFe: {self.nfeid}'
+        sqlalchemy.Column('provider_id', sqlalchemy.Integer,
+                          sqlalchemy.ForeignKey('person.id', ondelete="CASCADE")),
+        sqlalchemy.Column('client_id', sqlalchemy.Integer,
+                          sqlalchemy.ForeignKey('person.id', ondelete="CASCADE"))
+    )
+    return {
+        "person": person,
+        "address": address,
+        "nfe": nfe
+    }

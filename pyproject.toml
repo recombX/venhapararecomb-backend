@@ -12,6 +12,8 @@ Jinja2 = "^3.0.3"
 SQLAlchemy = "^1.4.32"
 psycopg2-binary = "^2.9.3"
 python-multipart = "^0.0.5"
+databases = "^0.5.5"
+asyncpg = "^0.25.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"

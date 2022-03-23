@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from infra.database import engine
 from provider.save_xml import save_xml
 from infra.models import models
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()

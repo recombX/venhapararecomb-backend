@@ -1,10 +1,9 @@
 from ..database import Base
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, DECIMAL
-from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-PROVAIDER = 1
-CLIENT = 2
+PROVAIDER = 0
+CLIENT = 1
 
 
 class Person(Base):
@@ -12,8 +11,8 @@ class Person(Base):
     __tablename__ = "people"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    cpf = Column(String, nullable=True)
-    cnpj = Column(String, nullable=True)
+    cpf = Column(String, nullable=True, unique=True)
+    cnpj = Column(String, nullable=True, unique=True)
     type_person = Column(Integer, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True),
@@ -21,14 +20,6 @@ class Person(Base):
 
     def __str__(self) -> str:
         return f'name: {self.name}'
-
-
-class Provaider(Person):
-    pass
-
-
-class Client(Person):
-    address = relationship("Adress", back_populates="people")
 
 
 class Address(Base):
@@ -46,15 +37,13 @@ class Address(Base):
     updated_at = Column(DateTime(timezone=True),
                         server_default=func.now(), onupdate=func.now())
 
-    enterprise_id = Column(Integer, ForeignKey("people.id"))
-    enterprise = relationship("Person", back_populates="address")
+    people_id = Column(Integer, ForeignKey("people.id"))
 
     def __str__(self) -> str:
         return f'Address: {self.uf} - {self.municipio}'
 
 
 class NFe(Base):
-
     __tablename__ = "nfe"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -66,10 +55,8 @@ class NFe(Base):
                         server_default=func.now(), onupdate=func.now())
 
     provider_id = Column(Integer, ForeignKey("people.id"))
-    provider = relationship("Person", back_populates="nfe")
 
     client_id = Column(Integer, ForeignKey("people.id"))
-    client = relationship("Person", back_populates="nfe")
 
     def __str__(self) -> str:
         return f'NFe: {self.nfeid}'

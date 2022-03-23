@@ -2,9 +2,9 @@ from fastapi import FastAPI, Request, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from infra.database import engine
-from provider.save_xml import save_xml
-from infra.models import models
+from .infra.database import engine
+from .provider.save_xml import save_xml
+from .infra.models import models
 
 models.Base.metadata.create_all(bind=engine)
 

@@ -5,6 +5,9 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from infra.database import engine, get_db
 from provider.save_xml import save_xml
+from infra.models import models
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 

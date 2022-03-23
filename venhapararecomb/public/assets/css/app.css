@@ -1,0 +1,22 @@
+.navegacao{
+    background-color: rgb(154, 193, 194);
+    color: black;
+
+}
+
+.rodape{
+    background-color: rgb(60, 74, 82);
+    color: white;
+
+}
+
+.nav-item{
+    text-decoration: none;
+    color: white;
+    margin: 0px 10px;
+}
+
+.nav-item:hover{
+    text-decoration: underline;
+    color: white;
+}

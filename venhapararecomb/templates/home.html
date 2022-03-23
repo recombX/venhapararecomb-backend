@@ -1,18 +1,28 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Item Details</title>
-    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
-    <title>venha para recomb</title>
-</head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{{ url_for('public', path='/assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('public', path='/assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('public', path='/assets/css/all.min.css') }}">
+    <link href="{{ url_for('public', path='/css/style.css') }}" rel="stylesheet">
 
+    <title>Venha para Recomb</title>
+</head>
 <body>
     <h1>Venha para Recomb</h1>
+
 
     {% if message != "None" %}
         <p>Message: {{message}}</p>
     {% else %}
     {% endif %}
-</body>
 
+
+    <script src="{{ url_for('public', path='/assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('public', path='/assets/js/app.js') }}"></script>
+</body>
 </html>

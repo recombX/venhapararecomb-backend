@@ -3,9 +3,9 @@ from fastapi import FastAPI, Request, UploadFile, BackgroundTasks
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from .provider.save_xml import save_xml
-from .infra.database import database, models
-from .schemas.schemas import PersonView
+from provider.save_xml import save_xml
+from infra.database import database, models
+from schemas.schemas import PersonView
 
 app = FastAPI()
 
@@ -20,8 +20,8 @@ async def shutdown():
     await database.disconnect()
 
 
-app.mount("/static", StaticFiles(directory="venhapararecomb/static"), name="static")
-templates = Jinja2Templates(directory="venhapararecomb/templates")
+app.mount("/public", StaticFiles(directory="public"), name="public")
+templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/", response_class=HTMLResponse)

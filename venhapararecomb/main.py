@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 from .provider.save_xml import save_xml
 from .infra.database import database, models
 from .schemas.schemas import PersonView
+import os
 
 app = FastAPI()
 
@@ -20,11 +21,19 @@ async def shutdown():
     await database.disconnect()
 
 
-app.mount("/public",
-          StaticFiles(directory="public"), name="public")
+__dir = os.path.dirname(__file__)
+__static_path = os.path.join(__dir, "static/")
+__public_path = os.path.join(__dir, "public/")
+__templates_path = os.path.join(__dir, "templates/")
+
+
 app.mount("/static",
-          StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+          StaticFiles(directory=__static_path), name="static")
+
+app.mount("/public",
+          StaticFiles(directory=__public_path), name="public")
+
+templates = Jinja2Templates(directory=__templates_path)
 
 
 @app.get("/", response_class=HTMLResponse)

@@ -1,25 +1,27 @@
 from sqlalchemy.orm import Session
-from app.schemas.schemas import PersonCreate
-from ..models.models import Person
+
+from app.infra.sqlalchemy.models import models
+from app.schemas import schemas
 
 
-class PersonRepository():
+def get_person(db: Session, person_id: int):
+    return db.query(models.Person).filter(models.Person.id == person_id).first()
 
-    def __init__(self, db: Session):
-        self.db = db
 
-    def create(self, person: PersonCreate):
+def get_person_by_document(db: Session, cnpj: str, cpf: str):
+    if(cnpj):
+        return db.query(models.Person).filter(models.Person.cnpj == cnpj).first()
+    return db.query(models.Person).filter(models.Person.cpf == cpf).first()
 
-        db_person = Person(**person)
 
-        self.db.add(db_person)
-        self.db.commit()
-        self.db.refresh(db_person)
+def get_persons(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Person).offset(skip).limit(limit).all()
 
-        return db_person
 
-    def list_all(self):
-        pass
+def create_person(db: Session, person: schemas.PersonCreate):
 
-    def list_by_id(self):
-        pass
+    db_person = models.Person(**person)
+    db.add(db_person)
+    db.commit()
+    db.refresh(db_person)
+    return db_person

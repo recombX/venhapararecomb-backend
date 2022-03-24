@@ -10,8 +10,8 @@ class Person(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    cpf = Column(String, nullable=True)
-    cnpj = Column(String, nullable=True)
+    cpf = Column(String, nullable=True, unique=True)
+    cnpj = Column(String, nullable=True, unique=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True),
                         server_default=func.now(), onupdate=func.now())
@@ -24,7 +24,7 @@ class Address(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     logradouro = Column(String, nullable=True)
-    numero = Column(String, nullable=True)
+    numero = Column(Integer, nullable=True)
     bairro = Column(String, nullable=True)
     municipio = Column(String, nullable=True)
     uf = Column(String, nullable=True)
@@ -43,7 +43,7 @@ class NFe(Base):
     __tablename__ = "nfe"
 
     id = Column(Integer, primary_key=True, index=True)
-    nfe_id = Column(Integer, nullable=False)
+    nfe_id = Column(String, nullable=False, unique=True)
     date_venc = Column(DateTime, nullable=False)
     total = Column(Float, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

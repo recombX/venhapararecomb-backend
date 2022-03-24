@@ -76,7 +76,7 @@ def dismember_xml(path):
 
     nfe = get_NFe_info(xml)
     nfe["nfe_id"] = nfe_id
-
+    '''
     data = {
         "enderEmit": enderEmit,
         "enderDest": enderDest,
@@ -84,6 +84,8 @@ def dismember_xml(path):
         "client": client,
         "nfe": nfe,
     }
+    
+    '''
 
 
 async def save_xml(files):

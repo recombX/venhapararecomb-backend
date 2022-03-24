@@ -56,3 +56,11 @@ def get_nfe(db: Session, nfe_id: str):
     )
 
     return data
+
+
+def get_all_nfe(db):
+    nfes = nfe_repository.get_all_nfe(db)
+    lst = []
+    for nfe in nfes:
+        lst.append(get_nfe(db, nfe.nfe_id))
+    return lst

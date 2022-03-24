@@ -5,7 +5,6 @@ from fastapi.templating import Jinja2Templates
 
 from app.infra.sqlalchemy.config.database import SessionLocal
 from app.provider.save_xml import save_xml
-from app.schemas import schemas
 from app.controllers import get_nfe_controller
 router = APIRouter()
 
@@ -21,8 +20,9 @@ def get_db():
 
 
 @router.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse("home.html", {"request": request, "id": "id", "message": "None"})
+async def home(request: Request, db: Session = Depends(get_db)):
+    data = get_nfe_controller.get_all_nfe(db)
+    return templates.TemplateResponse("home.html", {"request": request, "id": "id", "data": data})
 
 
 @router.get("/xml/{nfe_id}")

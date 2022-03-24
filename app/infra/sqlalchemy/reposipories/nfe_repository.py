@@ -25,3 +25,7 @@ def get_nfe_by_client_id(db: Session, client_id: int):
 
 def get_nfe_by_nfe_id(db: Session, nfe_id: str):
     return db.query(models.NFe).filter(models.NFe.nfe_id == nfe_id).first()
+
+
+def get_all_nfe(db: Session):
+    return db.query(models.NFe).all()

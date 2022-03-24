@@ -1,30 +1,20 @@
-from typing import List
 from fastapi import FastAPI, Request, UploadFile, BackgroundTasks
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from provider.save_xml import save_xml
-from infra.database import database, models
-from schemas.schemas import PersonView
+from .provider.save_xml import save_xml
 
 app = FastAPI()
 
+# create_db()
+'''
 
-@app.on_event("startup")
-async def startup():
-    await database.connect()
-
-
-@app.on_event("shutdown")
-async def shutdown():
-    await database.disconnect()
-
-
+'''
 app.mount("/static",
-          StaticFiles(directory="static"), name="static")
+          StaticFiles(directory="app/static"), name="static")
 app.mount("/public",
-          StaticFiles(directory="public"), name="public")
-templates = Jinja2Templates(directory="templates")
+          StaticFiles(directory="app/public"), name="public")
+templates = Jinja2Templates(directory="app/templates")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -32,11 +22,9 @@ async def home(request: Request):
     return templates.TemplateResponse("home.html", {"request": request, "id": "id", "message": "None"})
 
 
-@app.get("/xml", response_model=List[PersonView])
-async def list_xml():
-    query = models['person'].select()
-    return await database.fetch_all(query)
-    # return templates.TemplateResponse("home.html", {"request": request, "id": "id", "message": data})
+@app.get("/xml", response_class=HTMLResponse)
+async def list_xml(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request, "id": "id", "message": "data"})
 
 
 @app.post("/uploadfiles/", response_class=HTMLResponse)

@@ -6,7 +6,6 @@ class PersonCreate(BaseModel):
     name: str
     cpf: str | None = None
     cnpj: str | None = None
-    type_person: int
 
     class Config:
         orm_mode = True
@@ -17,7 +16,6 @@ class PersonView(BaseModel):
     name: str
     cpf: str | None = None
     cnpj: str | None = None
-    type_person: int
 
 
 class AddressCreate(BaseModel):
@@ -29,6 +27,9 @@ class AddressCreate(BaseModel):
     cep: str | None = None
     pais: str | None = None
 
+    class Config:
+        orm_mode = True
+
 
 class NfeCreate(BaseModel):
     nfe_id: str
@@ -36,3 +37,6 @@ class NfeCreate(BaseModel):
     total: float
     provider_id: int
     client_id: int
+
+    class Config:
+        orm_mode = True

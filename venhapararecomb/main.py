@@ -10,7 +10,7 @@ import pathlib
 app = FastAPI()
 
 
-BAE_DIR = pathlib.Path(__file__).parent
+BASE_DIR = pathlib.Path(__file__).parent
 
 
 @app.on_event("startup")
@@ -24,12 +24,12 @@ async def shutdown():
 
 
 app.mount("/static",
-          StaticFiles(directory=BAE_DIR / "static"), name="static")
+          StaticFiles(directory="app/static"), name="static")
 
 app.mount("/public",
-          StaticFiles(directory=BAE_DIR / "public"), name="public")
+          StaticFiles(directory="app/public"), name="public")
 
-templates = Jinja2Templates(directory=BAE_DIR / "templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 @app.get("/", response_class=HTMLResponse)

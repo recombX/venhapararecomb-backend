@@ -22,6 +22,8 @@ async def shutdown():
 
 app.mount("/venhapararecomb/public",
           StaticFiles(directory="venhapararecomb/public"), name="public")
+app.mount("/venhapararecomb/static",
+          StaticFiles(directory="venhapararecomb/static"), name="static")
 templates = Jinja2Templates(directory="venhapararecomb/templates")
 
 

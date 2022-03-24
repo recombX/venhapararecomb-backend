@@ -1,5 +1,6 @@
 from datetime import datetime
 import shutil
+import os
 from xml.dom.minidom import parse
 import xml.etree.ElementTree as ET
 
@@ -57,7 +58,7 @@ def get_NFe_info(xml):
     return nfe
 
 
-def dismember_xml(path) -> dict:
+def dismember_xml(path):
     with open(path, "r", encoding='utf-8') as f:
         xml = parse(f)
         tree = ET.parse(path)
@@ -66,7 +67,7 @@ def dismember_xml(path) -> dict:
         for child in root[0]:
             if('Id' in child.attrib):
                 nfe_id = child.attrib['Id']
-
+    os.remove(path)
     enderEmit = get_address(xml, 0)
     enderDest = get_address(xml, 1)
 
@@ -76,7 +77,7 @@ def dismember_xml(path) -> dict:
     nfe = get_NFe_info(xml)
     nfe["nfe_id"] = nfe_id
 
-    return {
+    data = {
         "enderEmit": enderEmit,
         "enderDest": enderDest,
         "provider": provider,
@@ -85,7 +86,7 @@ def dismember_xml(path) -> dict:
     }
 
 
-def save_xml(files):
+async def save_xml(files):
     for file in files:
         if file.filename[-3:] == 'xml':
             timestamp = datetime.timestamp(datetime.now())
@@ -93,4 +94,4 @@ def save_xml(files):
             path = f"./venhapararecomb/static/xmlDocs/{filename}"
             with open(path, "wb") as f:
                 shutil.copyfileobj(file.file, f)
-                dismember_xml(path)
+            dismember_xml(path)

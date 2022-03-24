@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi.responses import HTMLResponse
-from fastapi import APIRouter, Request, UploadFile, BackgroundTasks, Depends
+from fastapi import APIRouter, Request, File, Depends
 from fastapi.templating import Jinja2Templates
 
 from app.infra.sqlalchemy.config.database import SessionLocal
@@ -31,7 +31,13 @@ async def list_xml(nfe_id: str, db: Session = Depends(get_db)):
     return result
 
 
-@router.post("/uploadfiles/", response_class=HTMLResponse)
-async def create_upload_files(request: Request, files: list[UploadFile], background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-    background_tasks.add_task(save_xml, files, db)
-    return templates.TemplateResponse("home.html", {"request": request, "message": "result"})
+@router.post("/files/", response_class=HTMLResponse)
+async def create_upload_files(request: Request, files: list[bytes] = File(...), db: Session = Depends(get_db)
+                              ):
+    if not files:
+        return templates.TemplateResponse("home.html", {"request": request, "message": "No upload file sent"})
+
+    await save_xml(files, db)
+
+    data = get_nfe_controller.get_all_nfe(db)
+    return templates.TemplateResponse("home.html", {"request": request, "data": data})

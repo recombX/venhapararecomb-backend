@@ -1,16 +1,14 @@
-from datetime import datetime
-import shutil
-import os
-from xml.dom.minidom import parse
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as Et
+from xml.dom import minidom
 from sqlalchemy.orm import Session
-
 from app.infra.sqlalchemy.reposipories import person_repository
 from app.infra.sqlalchemy.reposipories import address_repository
 from app.infra.sqlalchemy.reposipories import nfe_repository
+from fastapi import HTTPException, status
 
 
-def get_address(xml, pos):
+def get_address(file, pos):
+    xml = minidom.parseString(file)
     logradouro = xml.getElementsByTagName("xLgr")
     numero = xml.getElementsByTagName("nro")
     bairro = xml.getElementsByTagName("xBairro")
@@ -30,8 +28,8 @@ def get_address(xml, pos):
     return address
 
 
-def get_people(xml, pos):
-
+def get_people(file, pos):
+    xml = minidom.parseString(file)
     name = xml.getElementsByTagName("xNome")
     cpf = xml.getElementsByTagName("CPF")
     cnpj = xml.getElementsByTagName("CNPJ")
@@ -51,7 +49,8 @@ def get_people(xml, pos):
     return person
 
 
-def get_NFe_info(xml):
+def get_NFe_info(file):
+    xml = minidom.parseString(file)
     date_venc = xml.getElementsByTagName("dVenc")
     total = xml.getElementsByTagName("vLiq")
 
@@ -59,28 +58,24 @@ def get_NFe_info(xml):
         "date_venc": date_venc[0].firstChild.data,
         "total": total[0].firstChild.data,
     }
+
     return nfe
 
 
-def dismember_xml(path, db: Session):
-    with open(path, "r", encoding='utf-8') as f:
-        xml = parse(f)
-        tree = ET.parse(path)
-        root = tree.getroot()
+def dismember_xml(file, db: Session):
+    xml = Et.fromstring(file)
+    for x in xml[0]:
+        if x.get('Id'):
+            nfe_id = x.get('Id')
 
-        for child in root[0]:
-            if('Id' in child.attrib):
-                nfe_id = child.attrib['Id']
-    os.remove(path)
+    enderEmit = get_address(file, 0)
+    enderDest = get_address(file, 1)
 
-    enderEmit = get_address(xml, 0)
-    enderDest = get_address(xml, 1)
+    provider = get_people(file, 0)
+    client = get_people(file, 1)
 
-    provider = get_people(xml, 0)
-    client = get_people(xml, 1)
-
-    nfe = get_NFe_info(xml)
-    nfe["nfe_id"] = nfe_id
+    nfe = get_NFe_info(file)
+    nfe['nfe_id'] = nfe_id
 
     db_provider = person_repository.get_person_by_document(
         db, cnpj=provider.get('cnpj'), cpf=provider.get('cpf'))
@@ -104,17 +99,25 @@ def dismember_xml(path, db: Session):
     if not nfe_repository.get_nfe_by_nfe_id(db, nfe_id):
         nfe_repository.create_nfe(db, nfe, db_provider.id, db_client.id)
 
-    return
+    data = {
+        "nfe": nfe,
+        "provedor": provider,
+        "client": client,
+        "origem": enderEmit,
+        "destino": enderDest,
+    }
+    return data
 
 
 async def save_xml(files, db: Session):
-    BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+    nfe_lst = []
     for file in files:
-        if file.filename[-3:] == 'xml':
-            timestamp = datetime.timestamp(datetime.now())
-            filename = f'{timestamp}-{file.filename}'
-
-            path = f"{os.path.join(BASE_DIR, 'static/xmlDocs')}{filename}"
-            with open(path, "wb") as f:
-                shutil.copyfileobj(file.file, f)
-                dismember_xml(path, db)
+        try:
+            if(file.decode("utf-8")[:5] == "<?xml"):
+                nfe_lst.append(dismember_xml(file.decode("utf-8"), db))
+        except Exception:
+            return HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail={"message": "this document does not exist."}
+            )
+    return nfe_lst

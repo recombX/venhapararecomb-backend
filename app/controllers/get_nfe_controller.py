@@ -1,10 +1,19 @@
 from sqlalchemy.orm import Session
 from app.schemas import schemas
+from fastapi import HTTPException, status
 from app.infra.sqlalchemy.reposipories import nfe_repository, person_repository, address_repository
 
 
 def get_nfe(db: Session, nfe_id: str):
+
     nfe = nfe_repository.get_nfe_by_nfe_id(db, nfe_id)
+
+    if(not nfe):
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={"message": "this document does not exist."}
+        )
+
     provider = person_repository.get_person(db, nfe.provider_id)
     client = person_repository.get_person(db, nfe.client_id)
     address_pro = address_repository.get_address_by_person_id(

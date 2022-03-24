@@ -1,11 +1,62 @@
-{% extends 'base.html' %}
-
+{% extends 'footer.html' %}
 
 
 {% block content %}
 
+<div class=" col-8 mx-auto">
+    <form action="/files/" enctype="multipart/form-data" method="post" style="margin-top: 50px; margin-bottom: 20px;">
+        <div class="custom-file">
+            <input input name="files" type="file" multiple class="custom-file-input" id="file" multiple
+                onchange="javascript:updateList()">
+            <label class="custom-file-label" for="customFile">Selecionar Aquivos</label>
+        </div>
 
-<h1>Venha para Recomb</h1>
+        <div class="mx-auto" style="width: 200px;">
+            <div id="fileList" style="margin-top: 15px; margin-bottom: 15px;"></div>
+            <input type="submit" class="btn btn-secondary" value="Enviar">
+        </div>
+
+    </form>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Data de Vencimento</th>
+                <th scope="col">Documento Emissor</th>
+                <th scope="col">Documento Emissor</th>
+                <th scope="col">Saiba Mais</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nfe in data %}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{nfe.total}}</td>
+                <td>{{nfe.date_venc}}</td>
+
+                {% if nfe.provider.cnpj %}
+                <td>{{nfe.provider.cnpj}}</td>
+                {% else %}
+                <td>{{nfe.provider.cpf}}</td>
+                {% endif %}
+
+                {% if nfe.client.cnpj %}
+                <td>{{nfe.client.cnpj}}</td>
+                {% else %}
+                <td>{{nfe.client.cpf}}</td>
+                {% endif %}
+
+                <td><a href="/xml/{{nfe.nfe_id}}">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                    </a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
-

@@ -13,15 +13,10 @@
     <title>Venha para Recomb</title>
 </head>
 <body>
-    <h1>Venha para Recomb</h1>
+    
+    {%block content%}
 
-
-    {% if message != "None" %}
-        <p>Message: {{message}}</p>
-    {% else %}
-    {% endif %}
-
-
+    {%endblock%}
     <script src="{{ url_for('public', path='/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('public', path='/assets/js/app.js') }}"></script>
 </body>

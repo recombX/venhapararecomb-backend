@@ -24,12 +24,12 @@ async def shutdown():
 
 
 app.mount("/static",
-          StaticFiles(directory="app/static"), name="static")
+          StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 app.mount("/public",
-          StaticFiles(directory="app/public"), name="public")
+          StaticFiles(directory=BASE_DIR / "public"), name="public")
 
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
 @app.get("/", response_class=HTMLResponse)

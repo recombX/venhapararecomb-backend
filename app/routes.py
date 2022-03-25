@@ -25,19 +25,19 @@ async def home(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("home.html", {"request": request, "id": "id", "data": data})
 
 
-@router.get("/xml/{nfe_id}")
+@router.get("/api/xml/{nfe_id}")
 async def list_xml(nfe_id: str, db: Session = Depends(get_db)):
     result = get_nfe_controller.get_nfe(db, nfe_id)
     return result
 
 
-@router.post("/files/", response_class=HTMLResponse)
+@router.post("/files/")
 async def create_upload_files(request: Request, files: list[bytes] = File(...), db: Session = Depends(get_db)
                               ):
     if not files:
-        return templates.TemplateResponse("home.html", {"request": request, "message": "No upload file sent"})
+        return templates.TemplateResponse("base.html", {"request": request, "message": "No upload file sent"})
 
     await save_xml(files, db)
 
     data = get_nfe_controller.get_all_nfe(db)
-    return templates.TemplateResponse("home.html", {"request": request, "data": data})
+    return templates.TemplateResponse("base.html", {"request": request, "data": data})

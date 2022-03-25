@@ -31,7 +31,7 @@ async def list_xml(nfe_id: str, db: Session = Depends(get_db)):
     return result
 
 
-@router.post("/files/")
+@router.post("/")
 async def create_upload_files(request: Request, files: list[bytes] = File(...), db: Session = Depends(get_db)
                               ):
     if not files:

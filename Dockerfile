@@ -10,12 +10,12 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
 FROM python:3.10
 
-WORKDIR /app
+WORKDIR /venhapararecomb
 
-COPY --from=requirements-stage /tmp/requirements.txt /app/requirements.txt
+COPY --from=requirements-stage /tmp/requirements.txt /venhapararecomb/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /venhapararecomb/requirements.txt
 
-COPY . /app
+COPY . /venhapararecomb
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

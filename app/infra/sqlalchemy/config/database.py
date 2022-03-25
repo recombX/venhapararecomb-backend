@@ -4,15 +4,22 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 
-uri = os.getenv(
-    "DATABASE_URL", "postgresql://postgres:123456@localhost:5432/postgres")
 
-if uri and uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+env = os.getenv("DEV", True)
 
+if env:
+    SQLALCHEMY_DATABASE_URL = "postgresql://postgres:123456@localhost:5432/postgres"
+else:
+    url = os.getenv(
+        "DATABASE_URL", "postgresql://postgres:123456@localhost:5432/postgres")
+    if url and url.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URL = url.replace(
+            "postgres://", "postgresql://", 1)
+print(env)
 engine = create_engine(
-    uri
+    SQLALCHEMY_DATABASE_URL
 )
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

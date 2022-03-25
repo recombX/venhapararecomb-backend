@@ -1,18 +1,28 @@
 version: '3.3'
 
 services:
-
-  postgres:
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: "123456"
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./data:/var/lib/postgresql/data
   #web:
   #  build: .
   #  ports:
   #    - "8000:8000"
   #  depends_on:
   #    - postgres
+  #  deploy:
+  #    resources:
+  #      limits:
+  #        memory: 50M
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data:/var/lib/postgresql/data/
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 50M

@@ -15,56 +15,61 @@
     </div>
 
 </form>
+<div class="container-lg">
+    <div class="row g-3">
+        {% for nfe in data %}
+        <div class="col-12 col-md-8 col-md-6 col-lg-4 col-md-4" style="padding: 5px;">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Nota Fiscal</h5>
 
-<div class="card-group" style="max-width: 1000px;">
-    {% for nfe in data %}
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Nota Fiscal</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Vencimento: {{nfe.date_venc}}</h6>
-            <h6 class="card-subtitle mb-2 text-muted">Valor: {{nfe.total}}</h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Vencimento: {{nfe.date_venc}}</p>
+                    <p class="card-text">Valor: {{nfe.total}}</p>
+                </div>
 
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <p>Nome fornecedor: {{nfe.provider.name}}</p>
+                        {% if nfe.provider.cnpj %}
+                        Documento fornecedor: {{nfe.provider.cnpj}}
+                        {% else %}
+                        Documento fornecedor: {{nfe.provider.cpf}}
+                        {% endif %}
+                    </li>
+
+                    <li class="list-group-item">
+                        <p> Nome cliente: {{nfe.client.name}}</p>
+                        {% if nfe.client.cnpj %}
+                        Documento do Cliente: {{nfe.client.cnpj}}
+                        {% else %}
+                        Documento Cliente: {{nfe.client.cpf}}
+                        {% endif %}
+                    </li>
+
+                    <li class="list-group-item">
+                        <p>
+                            Endereço do Cliente:
+                            {{nfe.client.address.logradouro}} -
+                            {{nfe.client.address.municipio}} -
+                            {{nfe.client.address.uf}}.
+                        </p>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a href="/api/xml/{{nfe.nfe_id}}" class="card-link"
+                        style="display: flex; justify-content: space-between; padding: 0 15px; align-items: center;">
+                        <p style="margin-top: 10px;">
+                            Todas as informações:
+                        </p>
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <ul class="list-group list-group-flush">
-
-            <li class="list-group-item">
-                <p>Nome fornecedor: <br> {{nfe.provider.name}}</p>
-                {% if nfe.provider.cnpj %}
-                Documento fornecedor: {{nfe.provider.cnpj}}
-                {% else %}
-                Documento fornecedor: {{nfe.provider.cpf}}
-                {% endif %}
-            </li>
-
-            <li class="list-group-item">
-                <p> Nome cliente: <br> {{nfe.client.name}}</p>
-                {% if nfe.client.cnpj %}
-                Documento do Cliente: {{nfe.client.cnpj}}
-                {% else %}
-                Documento Cliente: {{nfe.client.cpf}}
-                {% endif %}
-            </li>
-
-            <li class="list-group-item">
-                <p>
-                    Endereço do Cliente: <br>
-                    Logradouro: {{nfe.client.address.logradouro}} <br>
-                    Municipio: {{nfe.client.address.municipio}}<br>
-                    Estado: {{nfe.client.address.uf}}
-                </p>
-            </li>
-        </ul>
-        <div class="card-body">
-            <a href="/api/xml/{{nfe.nfe_id}}" class="card-link"
-                style="display: flex; justify-content: space-between; padding: 0 15px; align-items: center;">
-                <p style="margin-top: 10px;">
-                    Todas as informações:
-                </p>
-                <i class="fa-solid fa-up-right-from-square"></i>
-            </a>
-        </div>
+        {%endfor%}
     </div>
-    <br>
-    {% endfor %}
 </div>
+
 {% endblock %}

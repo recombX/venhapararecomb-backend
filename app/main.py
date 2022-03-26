@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi.responses import HTMLResponse
-from fastapi import Request, File, Depends, FastAPI, BackgroundTasks
+from fastapi import Request, File, Depends, FastAPI, BackgroundTasks, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from app.infra.sqlalchemy.config.database import SessionLocal
@@ -33,8 +33,8 @@ async def list_xml(nfe_id: str, db: Session = Depends(get_db)):
     return result
 
 
-@app.post("/files/", status_code=302)
+@app.post("/files/")
 async def create_upload_files(background_tasks: BackgroundTasks, files: list[bytes] = File(...), db: Session = Depends(get_db)
                               ):
     background_tasks.add_task(save_xml, files, db)
-    return RedirectResponse("/docs")
+    return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)

@@ -5,9 +5,9 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 
-env = os.getenv("DEV", True)
+env = os.getenv("DEV", "true")
 
-if env:
+if env == "true":
     SQLALCHEMY_DATABASE_URL = "postgresql://postgres:123456@localhost:5432/postgres"
 else:
     url = os.getenv(

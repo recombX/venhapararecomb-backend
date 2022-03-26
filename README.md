@@ -21,6 +21,7 @@
 * [Badges](#badges)
 * [Índice](#índice)
 * [Desafio](#desafio)
+* [Configuração](#configuração)
 * [Status do Projeto](#status-do-Projeto)
 * [Tecnologias Ultilizadas](#tecnologias-ultilizadas)
 * [Pessoas Desenvolvedoras do Projeto](#pessoas-desenvolvedoras)
@@ -31,6 +32,17 @@
 No momento o projeto se encontra finalizado, podendo no futuro ter alguma adição de funcionalidades, atualmente se encontra hospedado para teste em: https://venhapararecomb.herokuapp.com/
 
 ![Badge Finalizado](https://img.shields.io/badge/Venha%20para%20Recomb-Finalizado-green)
+
+## ⚙ Configuração
+
+1- Para baixar o projeto:
+> git clone https://github.com/alexandrejastrow/venhapararecomb.git
+
+2- Variáveis de ambiente:
+> Crie um arquivo .env e use o .envExemple como base
+
+3- Para iniciar a aplicação:
+> docker-compose up
 
 ## ✔️ Tecnologias Ultilizadas
 

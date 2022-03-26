@@ -1,20 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<form class="" action="/files/" enctype="multipart/form-data" method="post"
-    style="margin-top: 50px; margin-bottom: 20px;">
-    <div class="custom-file">
-        <input input name="files" type="file" multiple class="custom-file-input" id="file" multiple
-            onchange="javascript:updateList()">
-        <label class="custom-file-label" for="customFile">Selecionar Aquivos</label>
-    </div>
-
-    <div class="mx-auto end-0">
-        <div id="fileList" style="margin-top: 15px; margin-bottom: 15px;"></div>
-        <input type="submit" class="btn btn-secondary" value="Enviar">
-    </div>
-
-</form>
 <div class="container-lg">
     <div class="row g-3">
         {% for nfe in data %}

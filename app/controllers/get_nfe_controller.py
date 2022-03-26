@@ -1,11 +1,20 @@
-from sqlalchemy.orm import Session
-from app.schemas import schemas
 from fastapi import HTTPException, status
-from app.infra.sqlalchemy.reposipories import nfe_repository, person_repository, address_repository
+from sqlalchemy.orm import Session
+from typing import List
+from app.schemas import schemas
+from app.infra.sqlalchemy.reposipories import nfe_repository
+from app.infra.sqlalchemy.reposipories import person_repository
+from app.infra.sqlalchemy.reposipories import address_repository
 
 
-def get_nfe(db: Session, nfe_id: str):
+def get_nfe(db: Session, nfe_id: str) -> dict:
+    """Function responsible for obtaining information regarding the NFe and returning it formatted.
+    Args:
+        db (Session): database session
 
+    Returns:
+        dict: Returns all information regarding an NFe.
+    """
     nfe = nfe_repository.get_nfe_by_nfe_id(db, nfe_id)
 
     if(not nfe):
@@ -67,9 +76,18 @@ def get_nfe(db: Session, nfe_id: str):
     return data
 
 
-def get_all_nfe(db):
+def get_all_nfe(db: Session) -> List[dict]:
+    """Function responsible for getting the information already formatted regarding the NFe and returning them.
+
+    Args:
+        db (Session): database session
+
+    Returns:
+        List[dict]: returns a list with all information for all NFe.
+    """
     nfes = nfe_repository.get_all_nfe(db)
     lst = []
     for nfe in nfes:
         lst.append(get_nfe(db, nfe.nfe_id))
-    return lst
+    data = reversed(lst)
+    return data

@@ -1,14 +1,21 @@
+from sqlalchemy.orm import Session
 import xml.etree.ElementTree as Et
 from xml.dom import minidom
-from sqlalchemy.orm import Session
+from typing import List
 from app.infra.sqlalchemy.reposipories import person_repository
 from app.infra.sqlalchemy.reposipories import address_repository
 from app.infra.sqlalchemy.reposipories import nfe_repository
-from fastapi import HTTPException, status
 
 
-def get_address(file, pos):
-    xml = minidom.parseString(file)
+def get_address(xml, pos) -> dict:
+    """Extract information about a person's address (supplier, customer).
+
+    Args:
+        xml (str): Is a string from an xml file
+        pos (int): This variable indicates which address will be returned.
+    Returns:
+        dict: Returns a dictionary with information about a person's address.
+    """
     logradouro = xml.getElementsByTagName("xLgr")
     numero = xml.getElementsByTagName("nro")
     bairro = xml.getElementsByTagName("xBairro")
@@ -28,8 +35,15 @@ def get_address(file, pos):
     return address
 
 
-def get_people(file, pos):
-    xml = minidom.parseString(file)
+def get_people(xml, pos) -> dict:
+    """Extract information about a person (supplier, customer).
+
+    Args:
+        xml (str): Is a string from an xml file
+        pos (int): this variable indicates which person of the found will be returned.
+    Returns:
+        dict: Returns a dictionary with information about a person.
+    """
     name = xml.getElementsByTagName("xNome")
     cpf = xml.getElementsByTagName("CPF")
     cnpj = xml.getElementsByTagName("CNPJ")
@@ -49,8 +63,16 @@ def get_people(file, pos):
     return person
 
 
-def get_NFe_info(file):
-    xml = minidom.parseString(file)
+def get_NFe_info(xml) -> dict:
+    """Extract the information regarding the NFe
+
+    Args:
+        xml (str): Is a string from an xml file
+
+    Returns:
+        dict: Returns a dictionary with information regarding Nfe
+    """
+
     date_venc = xml.getElementsByTagName("dVenc")
     total = xml.getElementsByTagName("vLiq")
 
@@ -62,62 +84,83 @@ def get_NFe_info(file):
     return nfe
 
 
-def dismember_xml(file, db: Session):
+def dismember_xml(file: bytes, db: Session) -> None:
+    """_summary_
+
+    Args:
+        file (bytes): file in binary format
+        db (Session): database session
+    Returns:
+        None
+    """
+    # convert a binary to string
     xml = Et.fromstring(file)
+
+    # capture the id of the NFe
     for x in xml[0]:
         if x.get('Id'):
             nfe_id = x.get('Id')
 
-    enderEmit = get_address(file, 0)
-    enderDest = get_address(file, 1)
+    # if the NFe has already been created returns
+    if nfe_repository.get_nfe_by_nfe_id(db, nfe_id):
+        return
 
-    provider = get_people(file, 0)
-    client = get_people(file, 1)
+    xml = minidom.parseString(file)
 
-    nfe = get_NFe_info(file)
+    # capture the information in the NFe by the tags
+    enderEmit = get_address(xml, 0)
+    enderDest = get_address(xml, 1)
+
+    provider = get_people(xml, 0)
+    client = get_people(xml, 1)
+
+    nfe = get_NFe_info(xml)
     nfe['nfe_id'] = nfe_id
 
+    # search for a person by CNPJ and CPF
     db_provider = person_repository.get_person_by_document(
         db, cnpj=provider.get('cnpj'), cpf=provider.get('cpf'))
     db_client = person_repository.get_person_by_document(
         db, cnpj=client.get('cnpj'), cpf=client.get('cpf'))
 
+    # if it doesn't exist create a new person
     if not db_client:
         db_client = person_repository.create_person(db, client)
-
+    # if it doesn't exist create a new person
     if not db_provider:
         db_provider = person_repository.create_person(db, provider)
 
     if not address_repository.get_address_by_person_id(db, db_provider.id):
+        # save the person's address
         address_repository.create_address(
             db, enderEmit, db_provider.id)
 
     if not address_repository.get_address_by_person_id(db, db_client.id):
+        # save the person's address
         address_repository.create_address(
             db, enderDest, db_client.id)
 
-    if not nfe_repository.get_nfe_by_nfe_id(db, nfe_id):
-        nfe_repository.create_nfe(db, nfe, db_provider.id, db_client.id)
+    # create an Nfe
 
-    data = {
-        "nfe": nfe,
-        "provedor": provider,
-        "client": client,
-        "origem": enderEmit,
-        "destino": enderDest,
-    }
-    return data
+    nfe_repository.create_nfe(db, nfe, db_provider.id, db_client.id)
+
+    return None
 
 
-async def save_xml(files, db: Session):
-    nfe_lst = []
+async def save_xml(files: List[bytes], db: Session) -> None:
+    """_summary_
+
+    Args:
+        files (List[bytes]): A list of files in binary format
+        db (Session): database session
+
+    Returns:
+        None
+    """
+
     for file in files:
         try:
             if(file.decode("utf-8")[:5] == "<?xml"):
-                nfe_lst.append(dismember_xml(file.decode("utf-8"), db))
+                dismember_xml(file.decode("utf-8"), db)
         except Exception:
-            return HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail={"message": "this document does not exist."}
-            )
-    return nfe_lst
+            return

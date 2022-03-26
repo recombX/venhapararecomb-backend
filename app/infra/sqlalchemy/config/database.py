@@ -1,20 +1,21 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from app.infra.settings import settings
 
-import os
 
+if settings.dev == "true":
+    if settings.app_docker_run == "true":
+        SQLALCHEMY_DATABASE_URL = settings.database_url_docker
+    else:
+        SQLALCHEMY_DATABASE_URL = settings.database_url
 
-env = os.getenv("DEV", "true")
-
-if env == "true":
-    SQLALCHEMY_DATABASE_URL = "postgresql://postgres:123456@db:5432/postgres"
 else:
-    url = os.getenv(
-        "DATABASE_URL", "postgresql://postgres:123456@localhost:5432/postgres")
+    url = settings.database_url
     if url and url.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URL = url.replace(
             "postgres://", "postgresql://", 1)
+
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )

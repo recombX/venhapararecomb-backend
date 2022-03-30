@@ -1,0 +1,135 @@
+body {
+  background-color: #8EC5FC;
+  background-image: linear-gradient(50deg, #000 0%, #e2e2e2 100%);
+  height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+}
+
+form {
+  background-color: $white;
+  padding: 3em;
+  min-height: 320px;
+  border-radius: 20px;
+  border-left: 1px solid $white;
+  border-top: 1px solid $white;
+  backdrop-filter: blur(10px);
+  box-shadow: 20px 20px 40px -6px rgba(0,0,0,0.2);
+  text-align: center;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+p {
+  font-weight: 500;
+  color: #fff;
+  opacity: 0.7;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.title {
+  font-size: 1.4rem;
+  margin-top: 0px;
+  margin-bottom: 50px;
+}
+
+.sub-title {
+  font-size: 1.2rem;
+}
+
+input, label {
+  background: transparent;
+  min-width: 200px;
+  padding: 1em;
+  margin-bottom: 2em;
+  border: none;
+  border-left: 1px solid $white;
+  border-top: 1px solid $white;
+  border-radius: 5000px;
+  backdrop-filter: blur(5px);
+  box-shadow: 4px 4px 60px rgba(0,0,0,0.2);
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  text-align:center;
+}
+
+input:hover, label:hover {
+  background: rgba(255,255,255,0.1);
+  box-shadow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+}
+
+input:focus, label:focus {
+  background: rgba(255,255,255,0.1);
+  box-shadow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+}
+
+input::placeholder {
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+input[type="submit"] {
+  margin-top: 10px;
+  font-size: 1rem;
+  position: absolute;
+  transform: translate(-50%,0%);
+  bottom: 0%;
+  left: 50%;
+}
+
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+  
+input[type="submit"]:active {
+  background: rgba(255,255,255,0.2);
+}
+
+input:focus,
+button:focus {
+  outline: none;
+}
+
+input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+label {
+  cursor: pointer;
+}
+
+ul {
+  padding-inline-start: 0px;
+}
+
+li {
+  list-style-type: none;
+  max-width: 340px;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  box-shadow: 2px 2px 15px rgb(0 0 0 / 20%);
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgb(0 0 0 / 20%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}

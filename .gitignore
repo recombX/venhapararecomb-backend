@@ -1,0 +1,4 @@
+env/
+db/database.db
+__pycache__/
+src/__pycache__/

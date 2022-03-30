@@ -1,0 +1,14 @@
+<html>
+   <head>
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.scss') }}">
+    </head>
+   <body>
+      <div class="container">
+         <form action="http://localhost:5000/3" method="POST" enctype="multipart/form-data">
+            <p class="title">Informações do Fornecedor</p>
+            <input type="text" name="identificador" placeholder="CFP ou CNPJ"/><br>
+            <input type="submit" value="Próximo"><br>
+         </form>
+      </div>
+   </body>
+</html>

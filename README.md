@@ -1,5 +1,28 @@
 # Venha para Recomb
 
+## Documentação da solução
+
+### Execução
+
+```bash
+docker build -t recomb .
+docker run -it -p 5000:5000 recomb
+```
+
+## Lista dos diferenciais implementados
+
+|Item |	Pontos Ganhos|
+|-----|--------------|
+|Criar um serviço com o problema 	|30|
+|Utilizar banco de dados 	|30|
+|Implementar Clean Code 	|20|
+|Implementar o padrão de programação da tecnologia escolhida 	|20|
+|Qualidade de Código com SonarQube| 	15|
+|Implementar usando Docker 	|5|
+|Total |	120|
+
+## Desafio
+
 O desafio é desenvolver um programa que permita realizar as seguintes buscas:
 
 1) Listar os valores e data de Vencimento dos boletos presentes em um nota fiscal conforme o CPF ou CNPJ de um fornecedor.

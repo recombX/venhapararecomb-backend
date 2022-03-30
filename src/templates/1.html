@@ -1,0 +1,34 @@
+<html>
+   <head>
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.scss') }}">
+   </head>
+   <body>
+      <div class="container">
+         <form action="http://localhost:5000/2" method="POST" enctype="multipart/form-data">
+            <p class="title">Upload do Arquivo</p>
+            <input type="file" name="file" id="file" multiple data-multiple-caption="{count} arquivos selecionados"/>
+            <label for="file">Escolha o(s) arquivo(s)</label><br>
+            <br><br>
+            <p>Caso nenhum arquivo seja selecionado,<br> os dados do banco serão utilizados</p>
+            <input type="submit" value="Próximo"><br>
+         </form>
+      </div>
+   </body>
+   <script>
+      var inputs = document.querySelectorAll( '#file' );
+      Array.prototype.forEach.call( inputs, function( input ) {
+         var label = input.nextElementSibling,
+         labelVal = label.innerHTML;
+
+         input.addEventListener('change', function( e ){
+            var fileName = '';
+            if ( this.files && this.files.length > 1 ) {
+               fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+            } else {
+               fileName = e.target.value.split('\\').pop();
+            }
+            label.innerHTML = fileName ? fileName : labelVal; 
+         });
+      });
+   </script>
+</html>

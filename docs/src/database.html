@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>src.database API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.database</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import sqlite3
+from contextlib import closing
+from datetime import datetime
+from models import Fornecedor, Cliente, NotaFiscal
+
+def create_database(db_file_path, db_schema_path):
+    &#34;&#34;&#34;
+    Creates a database file from a schema file.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        db_schema_path (str): The path to the schema file.
+    
+    Returns:
+        None
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with open(db_schema_path) as f:
+            connection.executescript(f.read())
+        connection.commit()
+
+def create_if_not_exist(connection, cursor, should_commit, table_name, columns, primary_key, primary_attribute, item_tuple):
+    &#34;&#34;&#34;
+    Creates a new item in the database if it doesn&#39;t exist.
+    
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        table_name (str): The name of the table to insert the item into.
+        columns (list): The list of columns to insert the item into.
+        primary_key (str): The name of the primary key column.
+        primary_attribute (str): The value of the primary key attribute.
+        item_tuple (tuple): The tuple of values to insert into the table.
+        
+    Returns:
+        int: The id of the item. 
+    &#34;&#34;&#34;
+    result = cursor.execute(f&#34;SELECT * FROM {table_name} WHERE {primary_key} = ?&#34;, (primary_attribute,)).fetchone()
+    if result is None:
+        cursor.execute(f&#34;INSERT INTO {table_name} ({&#39;, &#39;.join(columns)}) VALUES ({&#39;, &#39;.join([&#39;?&#39;]*len(columns))})&#34;,
+            item_tuple
+        )
+        _id = cursor.lastrowid
+        if should_commit:
+            connection.commit()
+    else:
+        _id = result[0]
+    return _id
+
+def create_many(connection, cursor, should_commit, table_name, columns, items_list):
+    &#34;&#34;&#34;
+    Creates many items in the database.
+
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        table_name (str): The name of the table to insert the item into.
+        columns (list): The list of columns to insert the item into.
+        items_list (list): The list of items to insert into the table.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    cursor.executemany(f&#34;INSERT INTO {table_name} ({&#39;, &#39;.join(columns)}) VALUES ({&#39;, &#39;.join([&#39;?&#39;]*len(columns))})&#34;,
+        items_list
+    )
+    if should_commit:
+        connection.commit()
+
+def create_fornecedor(connection, cursor, should_commit, fornecedor):
+    &#34;&#34;&#34;
+    Creates a new fornecedor in the database.
+
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        fornecedor (Fornecedor): The fornecedor to insert into the database.
+
+    Returns:
+        int: The id of the fornecedor.
+    &#34;&#34;&#34;
+    return create_if_not_exist(connection, cursor, should_commit, 
+        &#39;fornecedores&#39;, [&#39;identificador&#39;], &#39;identificador&#39;, 
+        fornecedor.identificador, (fornecedor.identificador,))
+
+def create_cliente(connection, cursor, should_commit, cliente):
+    &#34;&#34;&#34;
+    Creates a new cliente in the database.
+    
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        cliente (Cliente): The cliente to insert into the database.
+
+    Returns:
+        int: The id of the cliente.
+    &#34;&#34;&#34;
+    return create_if_not_exist(connection, cursor, should_commit, 
+        &#39;clientes&#39;, [&#39;identificador&#39;, &#39;nome&#39;, &#39;endereco&#39;], &#39;identificador&#39;, 
+        cliente.identificador, (cliente.identificador, cliente.nome, cliente.endereco))
+
+def create_boletos(connection, cursor, should_commit, boletos):
+    &#34;&#34;&#34;
+    Creates many boletos in the database.
+
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        boletos (list): The list of boletos to insert into the database.
+    
+    Returns:
+        None
+    &#34;&#34;&#34;
+    return create_many(connection, cursor, should_commit, 
+        &#39;boletos&#39;, [&#39;nota_fiscal_id&#39;, &#39;valor&#39;, &#39;vencimento&#39;], 
+        boletos)
+
+def create_NF(db_file_path, nota_fiscal):
+    &#34;&#34;&#34;
+    Creates a new nota fiscal in the database.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        nota_fiscal (NotaFiscal): The nota fiscal to insert into the database.
+
+    Returns:
+        int: The id of the nota fiscal.
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with closing(connection.cursor()) as cursor:
+            fornecedor_id = create_fornecedor(connection, cursor, False, nota_fiscal.fornecedor)
+            cliente_id = create_cliente(connection, cursor, False, nota_fiscal.cliente)
+            cursor.execute(&#34;INSERT INTO notas_fiscais (fornecedor_id, cliente_id) VALUES (?, ?)&#34;,
+                (fornecedor_id, cliente_id)
+            )
+            nota_fiscal_id = cursor.lastrowid
+            create_boletos(connection, cursor, False, [(nota_fiscal_id, boleto[&#39;valor&#39;], boleto[&#39;vencimento&#39;]) for boleto in nota_fiscal.boletos])
+            connection.commit()
+
+def query1(db_file_path, fornecedor_identificador):
+    &#34;&#34;&#34;
+    Queries the database for the list of all boletos issued to a fornecedor.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        fornecedor_identificador (str): The fornecedor&#39;s identificador.
+
+    Returns:
+        list: The list of boletos issued to the fornecedor.
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with closing(connection.cursor()) as cursor:
+            return [{&#39;valor&#39;: float(val), &#39;vencimento&#39;: datetime.strptime(ven, &#39;%Y-%m-%d %H:%M:%S&#39;)} for _, val, ven in
+                    cursor.execute(&#34;&#34;&#34;
+                    SELECT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
+                    FROM boletos
+                    INNER JOIN notas_fiscais ON boletos.nota_fiscal_id = notas_fiscais._id
+                    INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
+                    WHERE fornecedores.identificador = ?;
+                &#34;&#34;&#34;, (fornecedor_identificador, )).fetchall()
+            ]
+
+def query2(db_file_path, fornecedor_identificador):
+    &#34;&#34;&#34;
+    Queries the database for the list of all clientes of a fornecedor.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        fornecedor_identificador (str): The fornecedor&#39;s identificador.
+
+    Returns:
+        list: The list of clientes of the fornecedor.
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with closing(connection.cursor()) as cursor:
+            return [Cliente(i, n, e) for i, n, e in 
+                cursor.execute(&#34;&#34;&#34;
+                    SELECT clientes.identificador, clientes.nome, clientes.endereco
+                    FROM clientes
+                    INNER JOIN notas_fiscais ON clientes._id = notas_fiscais.cliente_id
+                    INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
+                    WHERE fornecedores.identificador = ?;
+                &#34;&#34;&#34;, (fornecedor_identificador, )).fetchall()
+            ]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="src.database.create_NF"><code class="name flex">
+<span>def <span class="ident">create_NF</span></span>(<span>db_file_path, nota_fiscal)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new nota fiscal in the database.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>db_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the database file.</dd>
+<dt><strong><code>nota_fiscal</code></strong> :&ensp;<code>NotaFiscal</code></dt>
+<dd>The nota fiscal to insert into the database.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The id of the nota fiscal.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_NF(db_file_path, nota_fiscal):
+    &#34;&#34;&#34;
+    Creates a new nota fiscal in the database.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        nota_fiscal (NotaFiscal): The nota fiscal to insert into the database.
+
+    Returns:
+        int: The id of the nota fiscal.
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with closing(connection.cursor()) as cursor:
+            fornecedor_id = create_fornecedor(connection, cursor, False, nota_fiscal.fornecedor)
+            cliente_id = create_cliente(connection, cursor, False, nota_fiscal.cliente)
+            cursor.execute(&#34;INSERT INTO notas_fiscais (fornecedor_id, cliente_id) VALUES (?, ?)&#34;,
+                (fornecedor_id, cliente_id)
+            )
+            nota_fiscal_id = cursor.lastrowid
+            create_boletos(connection, cursor, False, [(nota_fiscal_id, boleto[&#39;valor&#39;], boleto[&#39;vencimento&#39;]) for boleto in nota_fiscal.boletos])
+            connection.commit()</code></pre>
+</details>
+</dd>
+<dt id="src.database.create_boletos"><code class="name flex">
+<span>def <span class="ident">create_boletos</span></span>(<span>connection, cursor, should_commit, boletos)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates many boletos in the database.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>connection</code></strong> :&ensp;<code>sqlite3.Connection</code></dt>
+<dd>The connection to the database.</dd>
+<dt><strong><code>cursor</code></strong> :&ensp;<code>sqlite3.Cursor</code></dt>
+<dd>The cursor to the database.</dd>
+<dt><strong><code>should_commit</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether or not to commit the changes to the database.</dd>
+<dt><strong><code>boletos</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of boletos to insert into the database.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_boletos(connection, cursor, should_commit, boletos):
+    &#34;&#34;&#34;
+    Creates many boletos in the database.
+
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        boletos (list): The list of boletos to insert into the database.
+    
+    Returns:
+        None
+    &#34;&#34;&#34;
+    return create_many(connection, cursor, should_commit, 
+        &#39;boletos&#39;, [&#39;nota_fiscal_id&#39;, &#39;valor&#39;, &#39;vencimento&#39;], 
+        boletos)</code></pre>
+</details>
+</dd>
+<dt id="src.database.create_cliente"><code class="name flex">
+<span>def <span class="ident">create_cliente</span></span>(<span>connection, cursor, should_commit, cliente)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new cliente in the database.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>connection</code></strong> :&ensp;<code>sqlite3.Connection</code></dt>
+<dd>The connection to the database.</dd>
+<dt><strong><code>cursor</code></strong> :&ensp;<code>sqlite3.Cursor</code></dt>
+<dd>The cursor to the database.</dd>
+<dt><strong><code>should_commit</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether or not to commit the changes to the database.</dd>
+<dt><strong><code>cliente</code></strong> :&ensp;<code>Cliente</code></dt>
+<dd>The cliente to insert into the database.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The id of the cliente.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_cliente(connection, cursor, should_commit, cliente):
+    &#34;&#34;&#34;
+    Creates a new cliente in the database.
+    
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        cliente (Cliente): The cliente to insert into the database.
+
+    Returns:
+        int: The id of the cliente.
+    &#34;&#34;&#34;
+    return create_if_not_exist(connection, cursor, should_commit, 
+        &#39;clientes&#39;, [&#39;identificador&#39;, &#39;nome&#39;, &#39;endereco&#39;], &#39;identificador&#39;, 
+        cliente.identificador, (cliente.identificador, cliente.nome, cliente.endereco))</code></pre>
+</details>
+</dd>
+<dt id="src.database.create_database"><code class="name flex">
+<span>def <span class="ident">create_database</span></span>(<span>db_file_path, db_schema_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a database file from a schema file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>db_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the database file.</dd>
+<dt><strong><code>db_schema_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the schema file.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_database(db_file_path, db_schema_path):
+    &#34;&#34;&#34;
+    Creates a database file from a schema file.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        db_schema_path (str): The path to the schema file.
+    
+    Returns:
+        None
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with open(db_schema_path) as f:
+            connection.executescript(f.read())
+        connection.commit()</code></pre>
+</details>
+</dd>
+<dt id="src.database.create_fornecedor"><code class="name flex">
+<span>def <span class="ident">create_fornecedor</span></span>(<span>connection, cursor, should_commit, fornecedor)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new fornecedor in the database.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>connection</code></strong> :&ensp;<code>sqlite3.Connection</code></dt>
+<dd>The connection to the database.</dd>
+<dt><strong><code>cursor</code></strong> :&ensp;<code>sqlite3.Cursor</code></dt>
+<dd>The cursor to the database.</dd>
+<dt><strong><code>should_commit</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether or not to commit the changes to the database.</dd>
+<dt><strong><code>fornecedor</code></strong> :&ensp;<code>Fornecedor</code></dt>
+<dd>The fornecedor to insert into the database.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The id of the fornecedor.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_fornecedor(connection, cursor, should_commit, fornecedor):
+    &#34;&#34;&#34;
+    Creates a new fornecedor in the database.
+
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        fornecedor (Fornecedor): The fornecedor to insert into the database.
+
+    Returns:
+        int: The id of the fornecedor.
+    &#34;&#34;&#34;
+    return create_if_not_exist(connection, cursor, should_commit, 
+        &#39;fornecedores&#39;, [&#39;identificador&#39;], &#39;identificador&#39;, 
+        fornecedor.identificador, (fornecedor.identificador,))</code></pre>
+</details>
+</dd>
+<dt id="src.database.create_if_not_exist"><code class="name flex">
+<span>def <span class="ident">create_if_not_exist</span></span>(<span>connection, cursor, should_commit, table_name, columns, primary_key, primary_attribute, item_tuple)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new item in the database if it doesn't exist.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>connection</code></strong> :&ensp;<code>sqlite3.Connection</code></dt>
+<dd>The connection to the database.</dd>
+<dt><strong><code>cursor</code></strong> :&ensp;<code>sqlite3.Cursor</code></dt>
+<dd>The cursor to the database.</dd>
+<dt><strong><code>should_commit</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether or not to commit the changes to the database.</dd>
+<dt><strong><code>table_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the table to insert the item into.</dd>
+<dt><strong><code>columns</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of columns to insert the item into.</dd>
+<dt><strong><code>primary_key</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the primary key column.</dd>
+<dt><strong><code>primary_attribute</code></strong> :&ensp;<code>str</code></dt>
+<dd>The value of the primary key attribute.</dd>
+<dt><strong><code>item_tuple</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>The tuple of values to insert into the table.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The id of the item.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_if_not_exist(connection, cursor, should_commit, table_name, columns, primary_key, primary_attribute, item_tuple):
+    &#34;&#34;&#34;
+    Creates a new item in the database if it doesn&#39;t exist.
+    
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        table_name (str): The name of the table to insert the item into.
+        columns (list): The list of columns to insert the item into.
+        primary_key (str): The name of the primary key column.
+        primary_attribute (str): The value of the primary key attribute.
+        item_tuple (tuple): The tuple of values to insert into the table.
+        
+    Returns:
+        int: The id of the item. 
+    &#34;&#34;&#34;
+    result = cursor.execute(f&#34;SELECT * FROM {table_name} WHERE {primary_key} = ?&#34;, (primary_attribute,)).fetchone()
+    if result is None:
+        cursor.execute(f&#34;INSERT INTO {table_name} ({&#39;, &#39;.join(columns)}) VALUES ({&#39;, &#39;.join([&#39;?&#39;]*len(columns))})&#34;,
+            item_tuple
+        )
+        _id = cursor.lastrowid
+        if should_commit:
+            connection.commit()
+    else:
+        _id = result[0]
+    return _id</code></pre>
+</details>
+</dd>
+<dt id="src.database.create_many"><code class="name flex">
+<span>def <span class="ident">create_many</span></span>(<span>connection, cursor, should_commit, table_name, columns, items_list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates many items in the database.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>connection</code></strong> :&ensp;<code>sqlite3.Connection</code></dt>
+<dd>The connection to the database.</dd>
+<dt><strong><code>cursor</code></strong> :&ensp;<code>sqlite3.Cursor</code></dt>
+<dd>The cursor to the database.</dd>
+<dt><strong><code>should_commit</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether or not to commit the changes to the database.</dd>
+<dt><strong><code>table_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the table to insert the item into.</dd>
+<dt><strong><code>columns</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of columns to insert the item into.</dd>
+<dt><strong><code>items_list</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of items to insert into the table.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_many(connection, cursor, should_commit, table_name, columns, items_list):
+    &#34;&#34;&#34;
+    Creates many items in the database.
+
+    Args:
+        connection (sqlite3.Connection): The connection to the database.
+        cursor (sqlite3.Cursor): The cursor to the database.
+        should_commit (bool): Whether or not to commit the changes to the database.
+        table_name (str): The name of the table to insert the item into.
+        columns (list): The list of columns to insert the item into.
+        items_list (list): The list of items to insert into the table.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    cursor.executemany(f&#34;INSERT INTO {table_name} ({&#39;, &#39;.join(columns)}) VALUES ({&#39;, &#39;.join([&#39;?&#39;]*len(columns))})&#34;,
+        items_list
+    )
+    if should_commit:
+        connection.commit()</code></pre>
+</details>
+</dd>
+<dt id="src.database.query1"><code class="name flex">
+<span>def <span class="ident">query1</span></span>(<span>db_file_path, fornecedor_identificador)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Queries the database for the list of all boletos issued to a fornecedor.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>db_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the database file.</dd>
+<dt><strong><code>fornecedor_identificador</code></strong> :&ensp;<code>str</code></dt>
+<dd>The fornecedor's identificador.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>The list of boletos issued to the fornecedor.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def query1(db_file_path, fornecedor_identificador):
+    &#34;&#34;&#34;
+    Queries the database for the list of all boletos issued to a fornecedor.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        fornecedor_identificador (str): The fornecedor&#39;s identificador.
+
+    Returns:
+        list: The list of boletos issued to the fornecedor.
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with closing(connection.cursor()) as cursor:
+            return [{&#39;valor&#39;: float(val), &#39;vencimento&#39;: datetime.strptime(ven, &#39;%Y-%m-%d %H:%M:%S&#39;)} for _, val, ven in
+                    cursor.execute(&#34;&#34;&#34;
+                    SELECT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
+                    FROM boletos
+                    INNER JOIN notas_fiscais ON boletos.nota_fiscal_id = notas_fiscais._id
+                    INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
+                    WHERE fornecedores.identificador = ?;
+                &#34;&#34;&#34;, (fornecedor_identificador, )).fetchall()
+            ]</code></pre>
+</details>
+</dd>
+<dt id="src.database.query2"><code class="name flex">
+<span>def <span class="ident">query2</span></span>(<span>db_file_path, fornecedor_identificador)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Queries the database for the list of all clientes of a fornecedor.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>db_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the database file.</dd>
+<dt><strong><code>fornecedor_identificador</code></strong> :&ensp;<code>str</code></dt>
+<dd>The fornecedor's identificador.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>The list of clientes of the fornecedor.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def query2(db_file_path, fornecedor_identificador):
+    &#34;&#34;&#34;
+    Queries the database for the list of all clientes of a fornecedor.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        fornecedor_identificador (str): The fornecedor&#39;s identificador.
+
+    Returns:
+        list: The list of clientes of the fornecedor.
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with closing(connection.cursor()) as cursor:
+            return [Cliente(i, n, e) for i, n, e in 
+                cursor.execute(&#34;&#34;&#34;
+                    SELECT clientes.identificador, clientes.nome, clientes.endereco
+                    FROM clientes
+                    INNER JOIN notas_fiscais ON clientes._id = notas_fiscais.cliente_id
+                    INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
+                    WHERE fornecedores.identificador = ?;
+                &#34;&#34;&#34;, (fornecedor_identificador, )).fetchall()
+            ]</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src" href="index.html">src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="src.database.create_NF" href="#src.database.create_NF">create_NF</a></code></li>
+<li><code><a title="src.database.create_boletos" href="#src.database.create_boletos">create_boletos</a></code></li>
+<li><code><a title="src.database.create_cliente" href="#src.database.create_cliente">create_cliente</a></code></li>
+<li><code><a title="src.database.create_database" href="#src.database.create_database">create_database</a></code></li>
+<li><code><a title="src.database.create_fornecedor" href="#src.database.create_fornecedor">create_fornecedor</a></code></li>
+<li><code><a title="src.database.create_if_not_exist" href="#src.database.create_if_not_exist">create_if_not_exist</a></code></li>
+<li><code><a title="src.database.create_many" href="#src.database.create_many">create_many</a></code></li>
+<li><code><a title="src.database.query1" href="#src.database.query1">query1</a></code></li>
+<li><code><a title="src.database.query2" href="#src.database.query2">query2</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

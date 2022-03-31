@@ -1,5 +1,7 @@
 # Venha para Recomb
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=LKhoe_venhapararecomb&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=LKhoe_venhapararecomb)
+
 ## Documentação da solução
 
 ### Execução

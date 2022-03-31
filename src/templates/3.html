@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xml:lang="pt-BR">
+   <head>
+      <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+      <link rel= "stylesheet" type="text/css" href= "{{ url_for('static',filename='styles.css') }}">
+      <meta content="text/html; charset=utf-8"/>
+      <title>Venha para Recomb</title>
+    </head>
+   <body>
+      <div class="container">
+         <form>
+            <p class="title">Resultados</p>
+            <p class="sub-title">Clientes</p>
+            {% if clientes|length > 0 %}
+               <ul>
+                  {% for cliente in clientes %}
+                  <li>
+                     <span>{{ cliente.nome }}</span>
+                     <span>{{ cliente.identificador }}</span>
+                     <span>{{ cliente.endereco }}</span>
+                  </li>
+                  {% endfor %}
+               </ul>
+            {% else %}
+               <p style="max-width: 250px;">Nenhum cliente foi encontrado</p>
+            {% endif %}
+            
+            <hr style="width: 80%;">
+
+            <p class="sub-title">Boletos</p>
+            {% if boletos|length > 0 %}
+               <ul>
+                  {% for boleto in boletos %}
+                  <li>
+                     <span>R$ {{ boleto['valor'] }}</span>
+                     <span>Vence em {{ boleto['vencimento']|format_datetime }}</span>
+                  </li>
+                  {% endfor %}
+               </ul>
+            {% else %}
+               <p style="max-width: 250px;">Nenhum boleto foi encontrado</p>
+            {% endif %}
+            <br>
+            <input type="submit" value="Voltar ao início"><br>
+         </form>
+      </div>
+   </body>
+</html>

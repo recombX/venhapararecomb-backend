@@ -46,7 +46,12 @@ class NotaFiscal:
     def set_namespace_nota_fiscal(self, namespace: str) -> None:
         self.namespace = namespace
 
-    # --------- EMIT ---------
+    # --------- Emitente ---------
+
+    # Retorna nome do destinatário
+    def get_emit_name(self) -> str:
+        name = self.get_text_from_xml_tree_element('./NFe/infNFe/emit/xNome')
+        return name
 
     # Retorna cnpj do emissor da nota fiscal caso o 
     # mesmo seja uma pessoa jurídica
@@ -73,7 +78,7 @@ class NotaFiscal:
         enderEmit = self.get_dict_from_xml_tree_element('./NFe/infNFe/emit/enderEmit')
         return enderEmit
         
-    # --------- DEST ---------    
+    # --------- Destinador ---------    
 
     # Retorna cnpj do destinatário da nota fiscal caso o 
     # mesmo seja uma pessoa jurídica
@@ -99,11 +104,40 @@ class NotaFiscal:
     def get_dest_name(self) -> str:
         name = self.get_text_from_xml_tree_element('./NFe/infNFe/dest/xNome')
         return name
-        
+    
+    # --------- Endereço ---------
+
     # Retorna endereço do destinatário
     def get_dest_enderDest(self) -> dict:
         enderDest = self.get_dict_from_xml_tree_element('./NFe/infNFe/dest/enderDest')
+        enderDest['destinador_endereco_id'] = self.get_dest_cnpj()
+        enderDest['destinador_id'] = self.get_dest_cnpj()
+
         return enderDest
+
+    # --------- Dados para identificação da nota fiscal ---------
+    def get_nota_fiscal_id(self) -> str:
+        xml_tree_element = self.root.find('./NFe/infNFe')
+        return xml_tree_element.attrib['Id']
+    
+    def get_nota_fiscal_valor_total(self) -> str:
+        name = self.get_text_from_xml_tree_element('./NFe/infNFe/pag/detPag/vPag')
+        return name
+
+    # --------- Fatura ---------
+    
+    # Retorna lista de faturas contidas em uma 
+    # nota fiscal
+    def get_faturas(self) -> dict:
+        faturas = []
+        for tree_element_fatura in self.root.findall('./NFe/infNFe/cobr/dup'):
+            fatura = {}
+            fatura['duplicata_id'] = tree_element_fatura.find('nDup').text + self.get_nota_fiscal_id()
+            fatura['nota_fiscal_id'] = self.get_nota_fiscal_id()
+            fatura['data_vencimento'] = tree_element_fatura.find('dVenc').text
+            fatura['valor_pago'] = tree_element_fatura.find('vDup').text
+            faturas.append(fatura)
+        return faturas
 
     # --------- Specific methods ---------
 
@@ -117,18 +151,6 @@ class NotaFiscal:
     def get_valor_total(self) -> str:
         valor_total_nota = self.get_text_from_xml_tree_element('./NFe/infNFe/total/ICMSTot/vNF')
         return valor_total_nota
-
-    # Retorna lista de faturas contidas em uma 
-    # nota fiscal
-    def get_faturas(self) -> dict:
-        faturas = []
-        for tree_element_fatura in self.root.findall('./NFe/infNFe/cobr/dup'):
-            fatura = {}
-            fatura[tree_element_fatura.find('nDup').tag] = tree_element_fatura.find('nDup').text
-            fatura['Validade'] = tree_element_fatura.find('dVenc').text
-            fatura['Valor'] = tree_element_fatura.find('vDup').text
-            faturas.append(fatura)
-        return faturas
 
     # Exibe faturas da nota fiscal
     # Listar os valores e data de Vencimento dos boletos 
@@ -144,7 +166,7 @@ class NotaFiscal:
     # Retorna o texto de um determinado elemento
     def get_text_from_xml_tree_element(self, tree_path: str) -> str:
         xml_tree_element = self.root.find(tree_path)
-        if xml_tree_element.tag:
+        if xml_tree_element != None:
             return xml_tree_element.text
         return None
     

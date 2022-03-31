@@ -12,6 +12,7 @@ jobs:
       - name: Generate documentation
         run: |
           pip install pdoc3
+          pip install flask
           PYTHONPATH=src pdoc --html src/ --force --output-dir ./docs
       - name: Commit and push changes
         uses: devops-infra/action-commit-push@v0.9.0

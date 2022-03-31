@@ -99,7 +99,7 @@ def create_many(connection, cursor, should_commit, table_name, columns, items_li
 
 def create_fornecedor(connection, cursor, should_commit, fornecedor):
     &#34;&#34;&#34;
-    Creates a new fornecedor in the database.
+    Creates a new fornecedor in the database if it not exists.
 
     Args:
         connection (sqlite3.Connection): The connection to the database.
@@ -116,7 +116,7 @@ def create_fornecedor(connection, cursor, should_commit, fornecedor):
 
 def create_cliente(connection, cursor, should_commit, cliente):
     &#34;&#34;&#34;
-    Creates a new cliente in the database.
+    Creates a new cliente in the database if it not exists.
     
     Args:
         connection (sqlite3.Connection): The connection to the database.
@@ -144,13 +144,17 @@ def create_boletos(connection, cursor, should_commit, boletos):
     Returns:
         None
     &#34;&#34;&#34;
+    notas_fiscais_id = {str(boleto[0]) for boleto in boletos}
+    results = cursor.execute(f&#34;SELECT * FROM boletos WHERE nota_fiscal_id IN ({&#39;,&#39;.join(notas_fiscais_id)})&#34;).fetchall()
+    results = map(lambda x: (x[3], x[1], datetime.strptime(x[2], &#39;%Y-%m-%d %H:%M:%S&#39;)), results)
+    boletos = list(set(boletos) - set(results))
     return create_many(connection, cursor, should_commit, 
         &#39;boletos&#39;, [&#39;nota_fiscal_id&#39;, &#39;valor&#39;, &#39;vencimento&#39;], 
         boletos)
 
-def create_NF(db_file_path, nota_fiscal):
+def create_nota_fiscal(db_file_path, nota_fiscal):
     &#34;&#34;&#34;
-    Creates a new nota fiscal in the database.
+    Creates a new nota fiscal in the database if it not exists.
 
     Args:
         db_file_path (str): The path to the database file.
@@ -163,10 +167,9 @@ def create_NF(db_file_path, nota_fiscal):
         with closing(connection.cursor()) as cursor:
             fornecedor_id = create_fornecedor(connection, cursor, False, nota_fiscal.fornecedor)
             cliente_id = create_cliente(connection, cursor, False, nota_fiscal.cliente)
-            cursor.execute(&#34;INSERT INTO notas_fiscais (fornecedor_id, cliente_id) VALUES (?, ?)&#34;,
-                (fornecedor_id, cliente_id)
-            )
-            nota_fiscal_id = cursor.lastrowid
+            nota_fiscal_id = create_if_not_exist(connection, cursor, False, 
+                &#39;notas_fiscais&#39;, [&#39;chave_acesso&#39;, &#39;fornecedor_id&#39;, &#39;cliente_id&#39;], &#39;chave_acesso&#39;,
+                nota_fiscal.chave_acesso, (nota_fiscal.chave_acesso, fornecedor_id, cliente_id))
             create_boletos(connection, cursor, False, [(nota_fiscal_id, boleto[&#39;valor&#39;], boleto[&#39;vencimento&#39;]) for boleto in nota_fiscal.boletos])
             connection.commit()
 
@@ -185,7 +188,7 @@ def query1(db_file_path, fornecedor_identificador):
         with closing(connection.cursor()) as cursor:
             return [{&#39;valor&#39;: float(val), &#39;vencimento&#39;: datetime.strptime(ven, &#39;%Y-%m-%d %H:%M:%S&#39;)} for _, val, ven in
                     cursor.execute(&#34;&#34;&#34;
-                    SELECT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
+                    SELECT DISTINCT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
                     FROM boletos
                     INNER JOIN notas_fiscais ON boletos.nota_fiscal_id = notas_fiscais._id
                     INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
@@ -208,7 +211,7 @@ def query2(db_file_path, fornecedor_identificador):
         with closing(connection.cursor()) as cursor:
             return [Cliente(i, n, e) for i, n, e in 
                 cursor.execute(&#34;&#34;&#34;
-                    SELECT clientes.identificador, clientes.nome, clientes.endereco
+                    SELECT DISTINCT clientes.identificador, clientes.nome, clientes.endereco
                     FROM clientes
                     INNER JOIN notas_fiscais ON clientes._id = notas_fiscais.cliente_id
                     INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
@@ -224,50 +227,6 @@ def query2(db_file_path, fornecedor_identificador):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="src.database.create_NF"><code class="name flex">
-<span>def <span class="ident">create_NF</span></span>(<span>db_file_path, nota_fiscal)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Creates a new nota fiscal in the database.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>db_file_path</code></strong> :&ensp;<code>str</code></dt>
-<dd>The path to the database file.</dd>
-<dt><strong><code>nota_fiscal</code></strong> :&ensp;<code>NotaFiscal</code></dt>
-<dd>The nota fiscal to insert into the database.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>int</code></dt>
-<dd>The id of the nota fiscal.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def create_NF(db_file_path, nota_fiscal):
-    &#34;&#34;&#34;
-    Creates a new nota fiscal in the database.
-
-    Args:
-        db_file_path (str): The path to the database file.
-        nota_fiscal (NotaFiscal): The nota fiscal to insert into the database.
-
-    Returns:
-        int: The id of the nota fiscal.
-    &#34;&#34;&#34;
-    with closing(sqlite3.connect(db_file_path)) as connection:
-        with closing(connection.cursor()) as cursor:
-            fornecedor_id = create_fornecedor(connection, cursor, False, nota_fiscal.fornecedor)
-            cliente_id = create_cliente(connection, cursor, False, nota_fiscal.cliente)
-            cursor.execute(&#34;INSERT INTO notas_fiscais (fornecedor_id, cliente_id) VALUES (?, ?)&#34;,
-                (fornecedor_id, cliente_id)
-            )
-            nota_fiscal_id = cursor.lastrowid
-            create_boletos(connection, cursor, False, [(nota_fiscal_id, boleto[&#39;valor&#39;], boleto[&#39;vencimento&#39;]) for boleto in nota_fiscal.boletos])
-            connection.commit()</code></pre>
-</details>
-</dd>
 <dt id="src.database.create_boletos"><code class="name flex">
 <span>def <span class="ident">create_boletos</span></span>(<span>connection, cursor, should_commit, boletos)</span>
 </code></dt>
@@ -303,6 +262,10 @@ def query2(db_file_path, fornecedor_identificador):
     Returns:
         None
     &#34;&#34;&#34;
+    notas_fiscais_id = {str(boleto[0]) for boleto in boletos}
+    results = cursor.execute(f&#34;SELECT * FROM boletos WHERE nota_fiscal_id IN ({&#39;,&#39;.join(notas_fiscais_id)})&#34;).fetchall()
+    results = map(lambda x: (x[3], x[1], datetime.strptime(x[2], &#39;%Y-%m-%d %H:%M:%S&#39;)), results)
+    boletos = list(set(boletos) - set(results))
     return create_many(connection, cursor, should_commit, 
         &#39;boletos&#39;, [&#39;nota_fiscal_id&#39;, &#39;valor&#39;, &#39;vencimento&#39;], 
         boletos)</code></pre>
@@ -312,7 +275,7 @@ def query2(db_file_path, fornecedor_identificador):
 <span>def <span class="ident">create_cliente</span></span>(<span>connection, cursor, should_commit, cliente)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Creates a new cliente in the database.</p>
+<div class="desc"><p>Creates a new cliente in the database if it not exists.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>connection</code></strong> :&ensp;<code>sqlite3.Connection</code></dt>
@@ -335,7 +298,7 @@ def query2(db_file_path, fornecedor_identificador):
 </summary>
 <pre><code class="python">def create_cliente(connection, cursor, should_commit, cliente):
     &#34;&#34;&#34;
-    Creates a new cliente in the database.
+    Creates a new cliente in the database if it not exists.
     
     Args:
         connection (sqlite3.Connection): The connection to the database.
@@ -390,7 +353,7 @@ def query2(db_file_path, fornecedor_identificador):
 <span>def <span class="ident">create_fornecedor</span></span>(<span>connection, cursor, should_commit, fornecedor)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Creates a new fornecedor in the database.</p>
+<div class="desc"><p>Creates a new fornecedor in the database if it not exists.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>connection</code></strong> :&ensp;<code>sqlite3.Connection</code></dt>
@@ -413,7 +376,7 @@ def query2(db_file_path, fornecedor_identificador):
 </summary>
 <pre><code class="python">def create_fornecedor(connection, cursor, should_commit, fornecedor):
     &#34;&#34;&#34;
-    Creates a new fornecedor in the database.
+    Creates a new fornecedor in the database if it not exists.
 
     Args:
         connection (sqlite3.Connection): The connection to the database.
@@ -540,6 +503,49 @@ def query2(db_file_path, fornecedor_identificador):
         connection.commit()</code></pre>
 </details>
 </dd>
+<dt id="src.database.create_nota_fiscal"><code class="name flex">
+<span>def <span class="ident">create_nota_fiscal</span></span>(<span>db_file_path, nota_fiscal)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new nota fiscal in the database if it not exists.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>db_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the database file.</dd>
+<dt><strong><code>nota_fiscal</code></strong> :&ensp;<code>NotaFiscal</code></dt>
+<dd>The nota fiscal to insert into the database.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The id of the nota fiscal.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_nota_fiscal(db_file_path, nota_fiscal):
+    &#34;&#34;&#34;
+    Creates a new nota fiscal in the database if it not exists.
+
+    Args:
+        db_file_path (str): The path to the database file.
+        nota_fiscal (NotaFiscal): The nota fiscal to insert into the database.
+
+    Returns:
+        int: The id of the nota fiscal.
+    &#34;&#34;&#34;
+    with closing(sqlite3.connect(db_file_path)) as connection:
+        with closing(connection.cursor()) as cursor:
+            fornecedor_id = create_fornecedor(connection, cursor, False, nota_fiscal.fornecedor)
+            cliente_id = create_cliente(connection, cursor, False, nota_fiscal.cliente)
+            nota_fiscal_id = create_if_not_exist(connection, cursor, False, 
+                &#39;notas_fiscais&#39;, [&#39;chave_acesso&#39;, &#39;fornecedor_id&#39;, &#39;cliente_id&#39;], &#39;chave_acesso&#39;,
+                nota_fiscal.chave_acesso, (nota_fiscal.chave_acesso, fornecedor_id, cliente_id))
+            create_boletos(connection, cursor, False, [(nota_fiscal_id, boleto[&#39;valor&#39;], boleto[&#39;vencimento&#39;]) for boleto in nota_fiscal.boletos])
+            connection.commit()</code></pre>
+</details>
+</dd>
 <dt id="src.database.query1"><code class="name flex">
 <span>def <span class="ident">query1</span></span>(<span>db_file_path, fornecedor_identificador)</span>
 </code></dt>
@@ -576,7 +582,7 @@ def query2(db_file_path, fornecedor_identificador):
         with closing(connection.cursor()) as cursor:
             return [{&#39;valor&#39;: float(val), &#39;vencimento&#39;: datetime.strptime(ven, &#39;%Y-%m-%d %H:%M:%S&#39;)} for _, val, ven in
                     cursor.execute(&#34;&#34;&#34;
-                    SELECT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
+                    SELECT DISTINCT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
                     FROM boletos
                     INNER JOIN notas_fiscais ON boletos.nota_fiscal_id = notas_fiscais._id
                     INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
@@ -621,7 +627,7 @@ def query2(db_file_path, fornecedor_identificador):
         with closing(connection.cursor()) as cursor:
             return [Cliente(i, n, e) for i, n, e in 
                 cursor.execute(&#34;&#34;&#34;
-                    SELECT clientes.identificador, clientes.nome, clientes.endereco
+                    SELECT DISTINCT clientes.identificador, clientes.nome, clientes.endereco
                     FROM clientes
                     INNER JOIN notas_fiscais ON clientes._id = notas_fiscais.cliente_id
                     INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
@@ -648,13 +654,13 @@ def query2(db_file_path, fornecedor_identificador):
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
-<li><code><a title="src.database.create_NF" href="#src.database.create_NF">create_NF</a></code></li>
 <li><code><a title="src.database.create_boletos" href="#src.database.create_boletos">create_boletos</a></code></li>
 <li><code><a title="src.database.create_cliente" href="#src.database.create_cliente">create_cliente</a></code></li>
 <li><code><a title="src.database.create_database" href="#src.database.create_database">create_database</a></code></li>
 <li><code><a title="src.database.create_fornecedor" href="#src.database.create_fornecedor">create_fornecedor</a></code></li>
 <li><code><a title="src.database.create_if_not_exist" href="#src.database.create_if_not_exist">create_if_not_exist</a></code></li>
 <li><code><a title="src.database.create_many" href="#src.database.create_many">create_many</a></code></li>
+<li><code><a title="src.database.create_nota_fiscal" href="#src.database.create_nota_fiscal">create_nota_fiscal</a></code></li>
 <li><code><a title="src.database.query1" href="#src.database.query1">query1</a></code></li>
 <li><code><a title="src.database.query2" href="#src.database.query2">query2</a></code></li>
 </ul>

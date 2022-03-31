@@ -33,7 +33,8 @@ class NotaFiscal():
         cliente (Cliente): The cliente of the nota fiscal.
         boletos (list): The list of boletos of the nota fiscal.
     """
-    def __init__(self, fornecedor, cliente, boletos):
+    def __init__(self, chave_acesso, fornecedor, cliente, boletos):
+        self.chave_acesso = chave_acesso
         self.fornecedor = fornecedor
         self.cliente = cliente
         self.boletos = boletos

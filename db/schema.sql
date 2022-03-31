@@ -17,6 +17,7 @@ CREATE TABLE clientes (
 
 CREATE TABLE notas_fiscais (
     _id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chave_acesso TEXT NOT NULL UNIQUE,
     fornecedor_id INTEGER,
     cliente_id INTEGER,
     FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(_id),

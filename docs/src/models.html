@@ -61,7 +61,8 @@ class NotaFiscal():
         cliente (Cliente): The cliente of the nota fiscal.
         boletos (list): The list of boletos of the nota fiscal.
     &#34;&#34;&#34;
-    def __init__(self, fornecedor, cliente, boletos):
+    def __init__(self, chave_acesso, fornecedor, cliente, boletos):
+        self.chave_acesso = chave_acesso
         self.fornecedor = fornecedor
         self.cliente = cliente
         self.boletos = boletos</code></pre>
@@ -138,7 +139,7 @@ class NotaFiscal():
 </dd>
 <dt id="src.models.NotaFiscal"><code class="flex name class">
 <span>class <span class="ident">NotaFiscal</span></span>
-<span>(</span><span>fornecedor, cliente, boletos)</span>
+<span>(</span><span>chave_acesso, fornecedor, cliente, boletos)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class that represents a nota fiscal.</p>
@@ -164,7 +165,8 @@ class NotaFiscal():
         cliente (Cliente): The cliente of the nota fiscal.
         boletos (list): The list of boletos of the nota fiscal.
     &#34;&#34;&#34;
-    def __init__(self, fornecedor, cliente, boletos):
+    def __init__(self, chave_acesso, fornecedor, cliente, boletos):
+        self.chave_acesso = chave_acesso
         self.fornecedor = fornecedor
         self.cliente = cliente
         self.boletos = boletos</code></pre>

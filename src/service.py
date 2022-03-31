@@ -1,8 +1,8 @@
 from flask import Flask, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
-from parsing import parse_NF
+from parsing import parse_nota_fiscal
 from database import create_database as create_database_original, \
-    create_NF as create_NF_original, \
+    create_nota_fiscal as create_nota_fiscal_original, \
     query1 as query1_original, \
     query2 as query2_original
 
@@ -10,7 +10,7 @@ from database import create_database as create_database_original, \
 DB_FILE_PATH = 'db/database.db'
 DB_SCHEMA_PATH = 'db/schema.sql'
 create_database = lambda: create_database_original(DB_FILE_PATH, DB_SCHEMA_PATH)
-create_NF = lambda x: create_NF_original(DB_FILE_PATH, x)
+create_nota_fiscal = lambda x: create_nota_fiscal_original(DB_FILE_PATH, x)
 query1 = lambda x: query1_original(DB_FILE_PATH, x)
 query2 = lambda x: query2_original(DB_FILE_PATH, x)
 
@@ -32,8 +32,9 @@ def page_2():
     for file in files:
         if file.filename == '':
             continue
-        nf = parse_NF(file.read()) # Parse the file
-        create_NF(nf) # Create the nota fiscal in database
+        nf = parse_nota_fiscal(file.read()) # Parse the file
+        if nf is not None:
+            create_nota_fiscal(nf) # Create the nota fiscal in database
 
     return render_template('2.html')
 
@@ -43,8 +44,6 @@ def page_3():
         # To avoid breaking the flow of application, we will redirect to the first page
         return redirect(url_for('page_1'))
     identificador = request.form.get('identificador', '') # Get the identificador from the request
-
-    # FILTER TO GET UNIQUES
     boletos = query1(identificador) # Get all boletos from a fornecedor
     clientes = query2(identificador) # Get all clientes related to a fornecedor
 
@@ -55,5 +54,8 @@ def format_datetime(value):
     return value.strftime('%d/%m/%Y')
 
 if __name__ == '__main__':
-    create_database() # Create the database
+    try:
+        create_database() # Create the database
+    except Exception:
+        print("Não foi possível criar o banco de dados")
     app.run("0.0.0.0", port=5000, debug = True) # Run the app

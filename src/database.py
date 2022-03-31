@@ -116,13 +116,17 @@ def create_boletos(connection, cursor, should_commit, boletos):
     Returns:
         None
     """
+    notas_fiscais_id = {str(boleto[0]) for boleto in boletos}
+    results = cursor.execute(f"SELECT * FROM boletos WHERE nota_fiscal_id IN ({','.join(notas_fiscais_id)})").fetchall()
+    results = map(lambda x: (x[3], x[1], datetime.strptime(x[2], '%Y-%m-%d %H:%M:%S')), results)
+    boletos = list(set(boletos) - set(results))
     return create_many(connection, cursor, should_commit, 
         'boletos', ['nota_fiscal_id', 'valor', 'vencimento'], 
         boletos)
 
-def create_NF(db_file_path, nota_fiscal):
+def create_nota_fiscal(db_file_path, nota_fiscal):
     """
-    Creates a new nota fiscal in the database.
+    Creates a new nota fiscal in the database if it not exists.
 
     Args:
         db_file_path (str): The path to the database file.
@@ -135,10 +139,9 @@ def create_NF(db_file_path, nota_fiscal):
         with closing(connection.cursor()) as cursor:
             fornecedor_id = create_fornecedor(connection, cursor, False, nota_fiscal.fornecedor)
             cliente_id = create_cliente(connection, cursor, False, nota_fiscal.cliente)
-            cursor.execute("INSERT INTO notas_fiscais (fornecedor_id, cliente_id) VALUES (?, ?)",
-                (fornecedor_id, cliente_id)
-            )
-            nota_fiscal_id = cursor.lastrowid
+            nota_fiscal_id = create_if_not_exist(connection, cursor, False, 
+                'notas_fiscais', ['chave_acesso', 'fornecedor_id', 'cliente_id'], 'chave_acesso',
+                nota_fiscal.chave_acesso, (nota_fiscal.chave_acesso, fornecedor_id, cliente_id))
             create_boletos(connection, cursor, False, [(nota_fiscal_id, boleto['valor'], boleto['vencimento']) for boleto in nota_fiscal.boletos])
             connection.commit()
 
@@ -157,7 +160,7 @@ def query1(db_file_path, fornecedor_identificador):
         with closing(connection.cursor()) as cursor:
             return [{'valor': float(val), 'vencimento': datetime.strptime(ven, '%Y-%m-%d %H:%M:%S')} for _, val, ven in
                     cursor.execute("""
-                    SELECT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
+                    SELECT DISTINCT boletos.nota_fiscal_id, boletos.valor, boletos.vencimento
                     FROM boletos
                     INNER JOIN notas_fiscais ON boletos.nota_fiscal_id = notas_fiscais._id
                     INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id
@@ -180,7 +183,7 @@ def query2(db_file_path, fornecedor_identificador):
         with closing(connection.cursor()) as cursor:
             return [Cliente(i, n, e) for i, n, e in 
                 cursor.execute("""
-                    SELECT clientes.identificador, clientes.nome, clientes.endereco
+                    SELECT DISTINCT clientes.identificador, clientes.nome, clientes.endereco
                     FROM clientes
                     INNER JOIN notas_fiscais ON clientes._id = notas_fiscais.cliente_id
                     INNER JOIN fornecedores ON notas_fiscais.fornecedor_id = fornecedores._id

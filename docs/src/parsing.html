@@ -31,51 +31,51 @@ import re
 from models import Fornecedor, Cliente, NotaFiscal
 from datetime import datetime
 
-def parse_fornecedor(fornecedor_XML, namespace=&#39;&#39;):
+def parse_fornecedor(fornecedor_xml, namespace=&#39;&#39;):
     &#34;&#34;&#34;
     Parses a fornecedor from an XML element.
 
     Args:
-        fornecedor_XML (xml.etree.ElementTree.Element): The XML element to parse.
+        fornecedor_xml (xml.etree.ElementTree.Element): The XML element to parse.
         namespace (str): The namespace of the XML element.
     
     Returns:
         Fornecedor: The parsed fornecedor.
     &#34;&#34;&#34;
-    if (cnpj := fornecedor_XML.find(f&#39;{namespace}CNPJ&#39;)) is not None:
+    if (cnpj := fornecedor_xml.find(f&#39;{namespace}CNPJ&#39;)) is not None:
         identificador = cnpj.text
     else:
-        identificador = fornecedor_XML.find(f&#39;{namespace}CPF&#39;).text
+        identificador = fornecedor_xml.find(f&#39;{namespace}CPF&#39;).text
 
     return Fornecedor(identificador)
 
-def parse_cliente(cliente_XML, namespace=&#39;&#39;):
+def parse_cliente(cliente_xml, namespace=&#39;&#39;):
     &#34;&#34;&#34;&#34;
     Parses a cliente from an XML element.
     
     Args:
-        cliente_XML (xml.etree.ElementTree.Element): The XML element to parse.
+        cliente_xml (xml.etree.ElementTree.Element): The XML element to parse.
         namespace (str): The namespace of the XML element.
 
     Returns:
         Cliente: The parsed cliente.
     &#34;&#34;&#34;
-    if (cnpj := cliente_XML.find(f&#39;{namespace}CNPJ&#39;)) is not None:
+    if (cnpj := cliente_xml.find(f&#39;{namespace}CNPJ&#39;)) is not None:
         identificador = cnpj.text
     else:
-        identificador = cliente_XML.find(f&#39;{namespace}CPF&#39;).text
-    nome = cliente_XML.find(f&#39;{namespace}xNome&#39;).text
+        identificador = cliente_xml.find(f&#39;{namespace}CPF&#39;).text
+    nome = cliente_xml.find(f&#39;{namespace}xNome&#39;).text
 
-    endereco_XML = cliente_XML.find(f&#39;{namespace}enderDest&#39;)
-    logradouro = endereco_XML.find(f&#39;{namespace}xLgr&#39;).text
-    numero = endereco_XML.find(f&#39;{namespace}nro&#39;).text
-    municipio = endereco_XML.find(f&#39;{namespace}xMun&#39;).text
-    unidade_federativa = endereco_XML.find(f&#39;{namespace}UF&#39;).text
+    endereco_xml = cliente_xml.find(f&#39;{namespace}enderDest&#39;)
+    logradouro = endereco_xml.find(f&#39;{namespace}xLgr&#39;).text
+    numero = endereco_xml.find(f&#39;{namespace}nro&#39;).text
+    municipio = endereco_xml.find(f&#39;{namespace}xMun&#39;).text
+    unidade_federativa = endereco_xml.find(f&#39;{namespace}UF&#39;).text
     endereco = f&#39;{logradouro}, Nº {numero}, {municipio} - {unidade_federativa}&#39;
 
     return Cliente(identificador, nome, endereco)
 
-def parse_NF(file_content):
+def parse_nota_fiscal(file_content):
     &#34;&#34;&#34;
     Parses a nota fiscal from an XML file.
 
@@ -83,27 +83,31 @@ def parse_NF(file_content):
         file_content (str): The XML file content.
 
     Returns:
-        NotaFiscal: The parsed nota fiscal.
+        NotaFiscal/None: The parsed nota fiscal or None if the file is not a nota fiscal.
     &#34;&#34;&#34;
-    root_XML = ET.fromstring(file_content)
-    NFe_XML = root_XML[0] # NFe
-    infNFe_XML = NFe_XML[0] # infNFe
-    namespace = regex.group(0) if (regex := re.match(r&#39;\{.*\}&#39;, root_XML.tag)) else &#39;&#39; # xmlns
+    try:
+        root_xml = ET.fromstring(file_content)
+        NFe_xml = root_xml[0] # NFe
+        infNFe_xml = NFe_xml[0] # infNFe
+        namespace = regex.group(0) if (regex := re.match(r&#39;\{.*\}&#39;, root_xml.tag)) else &#39;&#39; # xmlns
 
-    fornecedor = parse_fornecedor(infNFe_XML.find(f&#39;{namespace}emit&#39;), namespace)
-    cliente = parse_cliente(infNFe_XML.find(f&#39;{namespace}dest&#39;), namespace)
+        fornecedor = parse_fornecedor(infNFe_xml.find(f&#39;{namespace}emit&#39;), namespace)
+        cliente = parse_cliente(infNFe_xml.find(f&#39;{namespace}dest&#39;), namespace)
 
-    cobranca_XML = infNFe_XML.find(f&#39;{namespace}cobr&#39;)
-    duplicata_XML = cobranca_XML.findall(f&#39;{namespace}dup&#39;)
-    boletos = [
-        {
-            &#39;valor&#39;: float(dup_XML.find(f&#39;{namespace}vDup&#39;).text), 
-            &#39;vencimento&#39;: datetime.strptime(dup_XML.find(f&#39;{namespace}dVenc&#39;).text, &#39;%Y-%m-%d&#39;)
-        } 
-        for dup_XML in duplicata_XML
-    ]
+        cobranca_xml = infNFe_xml.find(f&#39;{namespace}cobr&#39;)
+        duplicata_xml = cobranca_xml.findall(f&#39;{namespace}dup&#39;)
+        boletos = [
+            {
+                &#39;valor&#39;: float(dup_xml.find(f&#39;{namespace}vDup&#39;).text), 
+                &#39;vencimento&#39;: datetime.strptime(dup_xml.find(f&#39;{namespace}dVenc&#39;).text, &#39;%Y-%m-%d&#39;)
+            } 
+            for dup_xml in duplicata_xml
+        ]
 
-    return NotaFiscal(fornecedor, cliente, boletos)</code></pre>
+        return NotaFiscal(infNFe_xml.attrib[&#39;Id&#39;][3:], fornecedor, cliente, boletos)
+
+    except Exception:
+        return None</code></pre>
 </details>
 </section>
 <section>
@@ -113,65 +117,15 @@ def parse_NF(file_content):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="src.parsing.parse_NF"><code class="name flex">
-<span>def <span class="ident">parse_NF</span></span>(<span>file_content)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Parses a nota fiscal from an XML file.</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>file_content</code></strong> :&ensp;<code>str</code></dt>
-<dd>The XML file content.</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>NotaFiscal</code></dt>
-<dd>The parsed nota fiscal.</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def parse_NF(file_content):
-    &#34;&#34;&#34;
-    Parses a nota fiscal from an XML file.
-
-    Args:
-        file_content (str): The XML file content.
-
-    Returns:
-        NotaFiscal: The parsed nota fiscal.
-    &#34;&#34;&#34;
-    root_XML = ET.fromstring(file_content)
-    NFe_XML = root_XML[0] # NFe
-    infNFe_XML = NFe_XML[0] # infNFe
-    namespace = regex.group(0) if (regex := re.match(r&#39;\{.*\}&#39;, root_XML.tag)) else &#39;&#39; # xmlns
-
-    fornecedor = parse_fornecedor(infNFe_XML.find(f&#39;{namespace}emit&#39;), namespace)
-    cliente = parse_cliente(infNFe_XML.find(f&#39;{namespace}dest&#39;), namespace)
-
-    cobranca_XML = infNFe_XML.find(f&#39;{namespace}cobr&#39;)
-    duplicata_XML = cobranca_XML.findall(f&#39;{namespace}dup&#39;)
-    boletos = [
-        {
-            &#39;valor&#39;: float(dup_XML.find(f&#39;{namespace}vDup&#39;).text), 
-            &#39;vencimento&#39;: datetime.strptime(dup_XML.find(f&#39;{namespace}dVenc&#39;).text, &#39;%Y-%m-%d&#39;)
-        } 
-        for dup_XML in duplicata_XML
-    ]
-
-    return NotaFiscal(fornecedor, cliente, boletos)</code></pre>
-</details>
-</dd>
 <dt id="src.parsing.parse_cliente"><code class="name flex">
-<span>def <span class="ident">parse_cliente</span></span>(<span>cliente_XML, namespace='')</span>
+<span>def <span class="ident">parse_cliente</span></span>(<span>cliente_xml, namespace='')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>"
 Parses a cliente from an XML element.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>cliente_XML</code></strong> :&ensp;<code>xml.etree.ElementTree.Element</code></dt>
+<dt><strong><code>cliente_xml</code></strong> :&ensp;<code>xml.etree.ElementTree.Element</code></dt>
 <dd>The XML element to parse.</dd>
 <dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
 <dd>The namespace of the XML element.</dd>
@@ -185,41 +139,41 @@ Parses a cliente from an XML element.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parse_cliente(cliente_XML, namespace=&#39;&#39;):
+<pre><code class="python">def parse_cliente(cliente_xml, namespace=&#39;&#39;):
     &#34;&#34;&#34;&#34;
     Parses a cliente from an XML element.
     
     Args:
-        cliente_XML (xml.etree.ElementTree.Element): The XML element to parse.
+        cliente_xml (xml.etree.ElementTree.Element): The XML element to parse.
         namespace (str): The namespace of the XML element.
 
     Returns:
         Cliente: The parsed cliente.
     &#34;&#34;&#34;
-    if (cnpj := cliente_XML.find(f&#39;{namespace}CNPJ&#39;)) is not None:
+    if (cnpj := cliente_xml.find(f&#39;{namespace}CNPJ&#39;)) is not None:
         identificador = cnpj.text
     else:
-        identificador = cliente_XML.find(f&#39;{namespace}CPF&#39;).text
-    nome = cliente_XML.find(f&#39;{namespace}xNome&#39;).text
+        identificador = cliente_xml.find(f&#39;{namespace}CPF&#39;).text
+    nome = cliente_xml.find(f&#39;{namespace}xNome&#39;).text
 
-    endereco_XML = cliente_XML.find(f&#39;{namespace}enderDest&#39;)
-    logradouro = endereco_XML.find(f&#39;{namespace}xLgr&#39;).text
-    numero = endereco_XML.find(f&#39;{namespace}nro&#39;).text
-    municipio = endereco_XML.find(f&#39;{namespace}xMun&#39;).text
-    unidade_federativa = endereco_XML.find(f&#39;{namespace}UF&#39;).text
+    endereco_xml = cliente_xml.find(f&#39;{namespace}enderDest&#39;)
+    logradouro = endereco_xml.find(f&#39;{namespace}xLgr&#39;).text
+    numero = endereco_xml.find(f&#39;{namespace}nro&#39;).text
+    municipio = endereco_xml.find(f&#39;{namespace}xMun&#39;).text
+    unidade_federativa = endereco_xml.find(f&#39;{namespace}UF&#39;).text
     endereco = f&#39;{logradouro}, Nº {numero}, {municipio} - {unidade_federativa}&#39;
 
     return Cliente(identificador, nome, endereco)</code></pre>
 </details>
 </dd>
 <dt id="src.parsing.parse_fornecedor"><code class="name flex">
-<span>def <span class="ident">parse_fornecedor</span></span>(<span>fornecedor_XML, namespace='')</span>
+<span>def <span class="ident">parse_fornecedor</span></span>(<span>fornecedor_xml, namespace='')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Parses a fornecedor from an XML element.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>fornecedor_XML</code></strong> :&ensp;<code>xml.etree.ElementTree.Element</code></dt>
+<dt><strong><code>fornecedor_xml</code></strong> :&ensp;<code>xml.etree.ElementTree.Element</code></dt>
 <dd>The XML element to parse.</dd>
 <dt><strong><code>namespace</code></strong> :&ensp;<code>str</code></dt>
 <dd>The namespace of the XML element.</dd>
@@ -233,23 +187,74 @@ Parses a cliente from an XML element.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parse_fornecedor(fornecedor_XML, namespace=&#39;&#39;):
+<pre><code class="python">def parse_fornecedor(fornecedor_xml, namespace=&#39;&#39;):
     &#34;&#34;&#34;
     Parses a fornecedor from an XML element.
 
     Args:
-        fornecedor_XML (xml.etree.ElementTree.Element): The XML element to parse.
+        fornecedor_xml (xml.etree.ElementTree.Element): The XML element to parse.
         namespace (str): The namespace of the XML element.
     
     Returns:
         Fornecedor: The parsed fornecedor.
     &#34;&#34;&#34;
-    if (cnpj := fornecedor_XML.find(f&#39;{namespace}CNPJ&#39;)) is not None:
+    if (cnpj := fornecedor_xml.find(f&#39;{namespace}CNPJ&#39;)) is not None:
         identificador = cnpj.text
     else:
-        identificador = fornecedor_XML.find(f&#39;{namespace}CPF&#39;).text
+        identificador = fornecedor_xml.find(f&#39;{namespace}CPF&#39;).text
 
     return Fornecedor(identificador)</code></pre>
+</details>
+</dd>
+<dt id="src.parsing.parse_nota_fiscal"><code class="name flex">
+<span>def <span class="ident">parse_nota_fiscal</span></span>(<span>file_content)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parses a nota fiscal from an XML file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>file_content</code></strong> :&ensp;<code>str</code></dt>
+<dd>The XML file content.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>NotaFiscal/None: The parsed nota fiscal or None if the file is not a nota fiscal.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse_nota_fiscal(file_content):
+    &#34;&#34;&#34;
+    Parses a nota fiscal from an XML file.
+
+    Args:
+        file_content (str): The XML file content.
+
+    Returns:
+        NotaFiscal/None: The parsed nota fiscal or None if the file is not a nota fiscal.
+    &#34;&#34;&#34;
+    try:
+        root_xml = ET.fromstring(file_content)
+        NFe_xml = root_xml[0] # NFe
+        infNFe_xml = NFe_xml[0] # infNFe
+        namespace = regex.group(0) if (regex := re.match(r&#39;\{.*\}&#39;, root_xml.tag)) else &#39;&#39; # xmlns
+
+        fornecedor = parse_fornecedor(infNFe_xml.find(f&#39;{namespace}emit&#39;), namespace)
+        cliente = parse_cliente(infNFe_xml.find(f&#39;{namespace}dest&#39;), namespace)
+
+        cobranca_xml = infNFe_xml.find(f&#39;{namespace}cobr&#39;)
+        duplicata_xml = cobranca_xml.findall(f&#39;{namespace}dup&#39;)
+        boletos = [
+            {
+                &#39;valor&#39;: float(dup_xml.find(f&#39;{namespace}vDup&#39;).text), 
+                &#39;vencimento&#39;: datetime.strptime(dup_xml.find(f&#39;{namespace}dVenc&#39;).text, &#39;%Y-%m-%d&#39;)
+            } 
+            for dup_xml in duplicata_xml
+        ]
+
+        return NotaFiscal(infNFe_xml.attrib[&#39;Id&#39;][3:], fornecedor, cliente, boletos)
+
+    except Exception:
+        return None</code></pre>
 </details>
 </dd>
 </dl>
@@ -270,9 +275,9 @@ Parses a cliente from an XML element.</p>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="src.parsing.parse_NF" href="#src.parsing.parse_NF">parse_NF</a></code></li>
 <li><code><a title="src.parsing.parse_cliente" href="#src.parsing.parse_cliente">parse_cliente</a></code></li>
 <li><code><a title="src.parsing.parse_fornecedor" href="#src.parsing.parse_fornecedor">parse_fornecedor</a></code></li>
+<li><code><a title="src.parsing.parse_nota_fiscal" href="#src.parsing.parse_nota_fiscal">parse_nota_fiscal</a></code></li>
 </ul>
 </li>
 </ul>

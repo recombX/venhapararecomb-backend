@@ -28,9 +28,9 @@
 </summary>
 <pre><code class="python">from flask import Flask, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
-from parsing import parse_NF
+from parsing import parse_nota_fiscal
 from database import create_database as create_database_original, \
-    create_NF as create_NF_original, \
+    create_nota_fiscal as create_nota_fiscal_original, \
     query1 as query1_original, \
     query2 as query2_original
 
@@ -38,7 +38,7 @@ from database import create_database as create_database_original, \
 DB_FILE_PATH = &#39;db/database.db&#39;
 DB_SCHEMA_PATH = &#39;db/schema.sql&#39;
 create_database = lambda: create_database_original(DB_FILE_PATH, DB_SCHEMA_PATH)
-create_NF = lambda x: create_NF_original(DB_FILE_PATH, x)
+create_nota_fiscal = lambda x: create_nota_fiscal_original(DB_FILE_PATH, x)
 query1 = lambda x: query1_original(DB_FILE_PATH, x)
 query2 = lambda x: query2_original(DB_FILE_PATH, x)
 
@@ -60,8 +60,9 @@ def page_2():
     for file in files:
         if file.filename == &#39;&#39;:
             continue
-        nf = parse_NF(file.read()) # Parse the file
-        create_NF(nf) # Create the nota fiscal in database
+        nf = parse_nota_fiscal(file.read()) # Parse the file
+        if nf is not None:
+            create_nota_fiscal(nf) # Create the nota fiscal in database
 
     return render_template(&#39;2.html&#39;)
 
@@ -73,7 +74,7 @@ def page_3():
     identificador = request.form.get(&#39;identificador&#39;, &#39;&#39;) # Get the identificador from the request
     boletos = query1(identificador) # Get all boletos from a fornecedor
     clientes = query2(identificador) # Get all clientes related to a fornecedor
-    print(clientes[0].__dict__)
+
     return render_template(&#39;3.html&#39;, clientes=clientes, boletos=boletos)
 
 @app.template_filter()
@@ -81,8 +82,11 @@ def format_datetime(value):
     return value.strftime(&#39;%d/%m/%Y&#39;)
 
 if __name__ == &#39;__main__&#39;:
-    create_database() # Create the database
-    app.run(debug = True) # Run the app</code></pre>
+    try:
+        create_database() # Create the database
+    except Exception:
+        print(&#34;Não foi possível criar o banco de dados&#34;)
+    app.run(&#34;0.0.0.0&#34;, port=5000, debug = True) # Run the app</code></pre>
 </details>
 </section>
 <section>
@@ -92,18 +96,6 @@ if __name__ == &#39;__main__&#39;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="src.service.create_NF"><code class="name flex">
-<span>def <span class="ident">create_NF</span></span>(<span>x)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">create_NF = lambda x: create_NF_original(DB_FILE_PATH, x)</code></pre>
-</details>
-</dd>
 <dt id="src.service.create_database"><code class="name flex">
 <span>def <span class="ident">create_database</span></span>(<span>)</span>
 </code></dt>
@@ -114,6 +106,18 @@ if __name__ == &#39;__main__&#39;:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">create_database = lambda: create_database_original(DB_FILE_PATH, DB_SCHEMA_PATH)</code></pre>
+</details>
+</dd>
+<dt id="src.service.create_nota_fiscal"><code class="name flex">
+<span>def <span class="ident">create_nota_fiscal</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">create_nota_fiscal = lambda x: create_nota_fiscal_original(DB_FILE_PATH, x)</code></pre>
 </details>
 </dd>
 <dt id="src.service.format_datetime"><code class="name flex">
@@ -164,8 +168,9 @@ def page_2():
     for file in files:
         if file.filename == &#39;&#39;:
             continue
-        nf = parse_NF(file.read()) # Parse the file
-        create_NF(nf) # Create the nota fiscal in database
+        nf = parse_nota_fiscal(file.read()) # Parse the file
+        if nf is not None:
+            create_nota_fiscal(nf) # Create the nota fiscal in database
 
     return render_template(&#39;2.html&#39;)</code></pre>
 </details>
@@ -187,7 +192,7 @@ def page_3():
     identificador = request.form.get(&#39;identificador&#39;, &#39;&#39;) # Get the identificador from the request
     boletos = query1(identificador) # Get all boletos from a fornecedor
     clientes = query2(identificador) # Get all clientes related to a fornecedor
-    print(clientes[0].__dict__)
+
     return render_template(&#39;3.html&#39;, clientes=clientes, boletos=boletos)</code></pre>
 </details>
 </dd>
@@ -233,8 +238,8 @@ def page_3():
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
-<li><code><a title="src.service.create_NF" href="#src.service.create_NF">create_NF</a></code></li>
 <li><code><a title="src.service.create_database" href="#src.service.create_database">create_database</a></code></li>
+<li><code><a title="src.service.create_nota_fiscal" href="#src.service.create_nota_fiscal">create_nota_fiscal</a></code></li>
 <li><code><a title="src.service.format_datetime" href="#src.service.format_datetime">format_datetime</a></code></li>
 <li><code><a title="src.service.page_1" href="#src.service.page_1">page_1</a></code></li>
 <li><code><a title="src.service.page_2" href="#src.service.page_2">page_2</a></code></li>

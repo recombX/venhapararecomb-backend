@@ -87,14 +87,14 @@ def parse_nota_fiscal(file_content):
     &#34;&#34;&#34;
     try:
         root_xml = ET.fromstring(file_content)
-        NFe_xml = root_xml[0] # NFe
-        infNFe_xml = NFe_xml[0] # infNFe
+        nfe_xml = root_xml[0] # NFe
+        inf_nfe_xml = nfe_xml[0] # infNFe
         namespace = regex.group(0) if (regex := re.match(r&#39;\{.*\}&#39;, root_xml.tag)) else &#39;&#39; # xmlns
 
-        fornecedor = parse_fornecedor(infNFe_xml.find(f&#39;{namespace}emit&#39;), namespace)
-        cliente = parse_cliente(infNFe_xml.find(f&#39;{namespace}dest&#39;), namespace)
+        fornecedor = parse_fornecedor(inf_nfe_xml.find(f&#39;{namespace}emit&#39;), namespace)
+        cliente = parse_cliente(inf_nfe_xml.find(f&#39;{namespace}dest&#39;), namespace)
 
-        cobranca_xml = infNFe_xml.find(f&#39;{namespace}cobr&#39;)
+        cobranca_xml = inf_nfe_xml.find(f&#39;{namespace}cobr&#39;)
         duplicata_xml = cobranca_xml.findall(f&#39;{namespace}dup&#39;)
         boletos = [
             {
@@ -104,7 +104,7 @@ def parse_nota_fiscal(file_content):
             for dup_xml in duplicata_xml
         ]
 
-        return NotaFiscal(infNFe_xml.attrib[&#39;Id&#39;][3:], fornecedor, cliente, boletos)
+        return NotaFiscal(inf_nfe_xml.attrib[&#39;Id&#39;][3:], fornecedor, cliente, boletos)
 
     except Exception:
         return None</code></pre>
@@ -234,14 +234,14 @@ Parses a cliente from an XML element.</p>
     &#34;&#34;&#34;
     try:
         root_xml = ET.fromstring(file_content)
-        NFe_xml = root_xml[0] # NFe
-        infNFe_xml = NFe_xml[0] # infNFe
+        nfe_xml = root_xml[0] # NFe
+        inf_nfe_xml = nfe_xml[0] # infNFe
         namespace = regex.group(0) if (regex := re.match(r&#39;\{.*\}&#39;, root_xml.tag)) else &#39;&#39; # xmlns
 
-        fornecedor = parse_fornecedor(infNFe_xml.find(f&#39;{namespace}emit&#39;), namespace)
-        cliente = parse_cliente(infNFe_xml.find(f&#39;{namespace}dest&#39;), namespace)
+        fornecedor = parse_fornecedor(inf_nfe_xml.find(f&#39;{namespace}emit&#39;), namespace)
+        cliente = parse_cliente(inf_nfe_xml.find(f&#39;{namespace}dest&#39;), namespace)
 
-        cobranca_xml = infNFe_xml.find(f&#39;{namespace}cobr&#39;)
+        cobranca_xml = inf_nfe_xml.find(f&#39;{namespace}cobr&#39;)
         duplicata_xml = cobranca_xml.findall(f&#39;{namespace}dup&#39;)
         boletos = [
             {
@@ -251,7 +251,7 @@ Parses a cliente from an XML element.</p>
             for dup_xml in duplicata_xml
         ]
 
-        return NotaFiscal(infNFe_xml.attrib[&#39;Id&#39;][3:], fornecedor, cliente, boletos)
+        return NotaFiscal(inf_nfe_xml.attrib[&#39;Id&#39;][3:], fornecedor, cliente, boletos)
 
     except Exception:
         return None</code></pre>

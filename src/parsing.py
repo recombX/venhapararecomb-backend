@@ -59,14 +59,14 @@ def parse_nota_fiscal(file_content):
     """
     try:
         root_xml = ET.fromstring(file_content)
-        NFe_xml = root_xml[0] # NFe
-        infNFe_xml = NFe_xml[0] # infNFe
+        nfe_xml = root_xml[0] # NFe
+        inf_nfe_xml = nfe_xml[0] # infNFe
         namespace = regex.group(0) if (regex := re.match(r'\{.*\}', root_xml.tag)) else '' # xmlns
 
-        fornecedor = parse_fornecedor(infNFe_xml.find(f'{namespace}emit'), namespace)
-        cliente = parse_cliente(infNFe_xml.find(f'{namespace}dest'), namespace)
+        fornecedor = parse_fornecedor(inf_nfe_xml.find(f'{namespace}emit'), namespace)
+        cliente = parse_cliente(inf_nfe_xml.find(f'{namespace}dest'), namespace)
 
-        cobranca_xml = infNFe_xml.find(f'{namespace}cobr')
+        cobranca_xml = inf_nfe_xml.find(f'{namespace}cobr')
         duplicata_xml = cobranca_xml.findall(f'{namespace}dup')
         boletos = [
             {
@@ -76,7 +76,7 @@ def parse_nota_fiscal(file_content):
             for dup_xml in duplicata_xml
         ]
 
-        return NotaFiscal(infNFe_xml.attrib['Id'][3:], fornecedor, cliente, boletos)
+        return NotaFiscal(inf_nfe_xml.attrib['Id'][3:], fornecedor, cliente, boletos)
 
     except Exception:
         return None

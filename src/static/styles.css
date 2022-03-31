@@ -12,12 +12,12 @@ body {
 }
 
 form {
-  background-color: $white;
+  background-color: rgba(255,255,255,0.1);
   padding: 3em;
   min-height: 320px;
   border-radius: 20px;
-  border-left: 1px solid $white;
-  border-top: 1px solid $white;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255,255,255,0.1);
   backdrop-filter: blur(10px);
   box-shadow: 20px 20px 40px -6px rgba(0,0,0,0.2);
   text-align: center;
@@ -48,10 +48,9 @@ input, label {
   padding: 1em;
   margin-bottom: 2em;
   border: none;
-  border-left: 1px solid $white;
-  border-top: 1px solid $white;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255,255,255,0.1);
   border-radius: 5000px;
-  backdrop-filter: blur(5px);
   box-shadow: 4px 4px 60px rgba(0,0,0,0.2);
   color: #fff;
   font-family: Montserrat, sans-serif;

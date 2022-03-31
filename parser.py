@@ -1,8 +1,8 @@
+from database_utils import create_db, delete_db
 from NotaFiscal import NotaFiscal
+from Database import Database
 from typing import List
 import os
-from database_utils import * 
-from Database import Database
 
 def main():
     print("Bem vindo!")
@@ -22,7 +22,7 @@ def main():
         exit(1)
 
     db_path = '../test.db'
-    # delete_db(db_path)
+    delete_db(db_path)
     test_db : Database = create_db('../test.db')
     
     # vetor das notas fiscais lidas na entrada
@@ -41,11 +41,11 @@ def main():
 
     # Percorre as notas fiscais guardadas
     for nota_fiscal in vet_nota_fiscal:
-        save_nota_fiscal_on_db(test_db, nota_fiscal)
+        test_db.save_nota_fiscal_on_db(nota_fiscal)
 
-    print("\n\nResultado")
-    consulta_boletos_de_um_emitente(test_db, idetifier)
-    consulta_clientes_de_um_emitente(test_db, idetifier)
+    # print("\n\nResultado")
+    # test_db.consulta_boletos_de_um_emitente(idetifier)
+    # test_db.consulta_clientes_de_um_emitente(idetifier)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,4 @@
 # Biblioteca para trabalhar com XML
-from cmath import exp
 import xml.etree.ElementTree as ET
 
 class NotaFiscal:

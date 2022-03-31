@@ -73,7 +73,7 @@ def page_3():
         # To avoid breaking the flow of application, we will redirect to the first page
         return redirect(url_for(&#39;page_1&#39;))
     # Get the identificador from the request without the following characters . - /
-    identificador = re.sub(r&#39;\.|\-|\/&#39;, &#39;&#39;, request.form.get(&#39;identificador&#39;, &#39;&#39;)) 
+    identificador = re.sub(r&#39;[\.\-\/]&#39;, &#39;&#39;, request.form.get(&#39;identificador&#39;, &#39;&#39;)) 
     boletos = query1(identificador) # Get all boletos from a fornecedor
     clientes = query2(identificador) # Get all clientes related to a fornecedor
 
@@ -192,7 +192,7 @@ def page_3():
         # To avoid breaking the flow of application, we will redirect to the first page
         return redirect(url_for(&#39;page_1&#39;))
     # Get the identificador from the request without the following characters . - /
-    identificador = re.sub(r&#39;\.|\-|\/&#39;, &#39;&#39;, request.form.get(&#39;identificador&#39;, &#39;&#39;)) 
+    identificador = re.sub(r&#39;[\.\-\/]&#39;, &#39;&#39;, request.form.get(&#39;identificador&#39;, &#39;&#39;)) 
     boletos = query1(identificador) # Get all boletos from a fornecedor
     clientes = query2(identificador) # Get all clientes related to a fornecedor
 

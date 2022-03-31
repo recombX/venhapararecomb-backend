@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
+import re
 from parsing import parse_nota_fiscal
 from database import create_database as create_database_original, \
     create_nota_fiscal as create_nota_fiscal_original, \
@@ -43,7 +44,8 @@ def page_3():
     if request.method != 'POST':
         # To avoid breaking the flow of application, we will redirect to the first page
         return redirect(url_for('page_1'))
-    identificador = request.form.get('identificador', '') # Get the identificador from the request
+    # Get the identificador from the request without the following characters . - /
+    identificador = re.sub(r'\.|\-|\/', '', request.form.get('identificador', '')) 
     boletos = query1(identificador) # Get all boletos from a fornecedor
     clientes = query2(identificador) # Get all clientes related to a fornecedor
 

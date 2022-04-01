@@ -15,8 +15,9 @@ Utilização do banco de dados:
 '''
 
 class Database():
-    def __init__(self, input_path: str):
+    def __init__(self, input_path: str, schema_path: str):
         self.db_path : str = input_path
+        self.schema_path : str = schema_path
         self.conn : Connection = self.create_connection()
         self.cursor = self.conn.cursor()
 
@@ -28,7 +29,9 @@ class Database():
         """
         conn : Connection = None
         try:
-            conn= sqlite3.connect(self.db_path)
+            conn = sqlite3.connect(self.db_path)
+            with open(self.schema_path) as f:
+                conn.executescript(f.read())
             return conn
         except Error as e:
             print(e)
@@ -129,50 +132,74 @@ class Database():
             print('Emitente com identificador %s já existe no sistema'%(identifier))
             return False
 
-    def consulta_boletos_de_um_emitente(self, identificador_emitente : str):
-        self.cursor.execute("SELECT nome FROM emitente WHERE emitente_id = ?", 
-                                (identificador_emitente,))
-        nome_emitente = self.cursor.fetchone()[0]
-        print("---------------------------------------------------------")
-        print("Consulta notas fiscais do emitente %s de identificador %s"%(nome_emitente, identificador_emitente))
+    def consulta_boletos_de_um_emitente(self, identificador_emitente : str) -> dict:
+        
         self.cursor.execute("SELECT * FROM nota_fiscal WHERE emitente_id = ?", 
                                 (identificador_emitente,))
         notas_fiscais=self.cursor.fetchall()
-        
+        if notas_fiscais == None:
+            return None
+
+        # print("Notas fiscais")
+        # print(notas_fiscais[0][0])
+        notas_fiscais_dict = []
         for nota_fiscal in notas_fiscais:
-            print('\n--------- Nota fiscal ---------')
-            print('Código: ', nota_fiscal[0], ' ')
-            print('Valor total da nota: ', nota_fiscal[3])
+            nota_fiscal_dict = {}
+            # print('\n--------- Nota fiscal ---------')
+            
+            # print('Código: ', nota_fiscal[0], ' ')
+            nota_fiscal_dict['nota_fical_id'] = nota_fiscal[0]
+            # print('Valor total da nota: ', nota_fiscal[3])
+            nota_fiscal_dict['valor_total'] = nota_fiscal[3]
+
             self.cursor.execute("SELECT * FROM duplicata WHERE nota_fiscal_id = ?", 
                                 (nota_fiscal[0],))
             duplicatas=self.cursor.fetchall()
-            if duplicatas != None:
-                print('\n--------- Parcelas da fatura ---------')
+            duplicatas_dict = []
+            # if duplicatas != None:
+            #     print('\n--------- Parcelas da fatura ---------')
             for dup in duplicatas:
-                print('Boleto: ', dup[0].split('NFe')[0]) 
-                print('Data de vencimento: ', dup[2])
-                print('Valor a ser pago: ', dup[3])
+                duplicata_dict = {}
+                # print('Boleto: ', dup[0].split('NFe')[0]) 
+                duplicata_dict['duplicata_id'] =  dup[0].split('NFe')[0]
+                # print('Data de vencimento: ', dup[2])
+                duplicata_dict['data_vencimento'] =  dup[2]
+                # print('Valor a ser pago: ', dup[3])
+                duplicata_dict['valor_pago'] =  dup[3]
+                duplicatas_dict.append(duplicata_dict)
+            nota_fiscal_dict['duplicatas'] = duplicatas_dict
+            notas_fiscais_dict.append(nota_fiscal_dict)
 
-            print('\n\n')
+            # print('\n\n')
+        # pprint(notas_fiscais_dict)
+        return notas_fiscais_dict
+        
 
-    def consulta_clientes_de_um_emitente(self, identificador_emitente : str):
-        self.cursor.execute("SELECT nome FROM emitente WHERE emitente_id = ?", 
-                                (identificador_emitente,))
-        nome_emitente = notas_fiscais=self.cursor.fetchone()[0]
-        print("---------------------------------------------------------")
-        print("Consulta clientes do emitente %s de identificador %s"%(nome_emitente, identificador_emitente))
+    def consulta_clientes_de_um_emitente(self, identificador_emitente : str) -> dict:
+        
         self.cursor.execute("SELECT * FROM nota_fiscal WHERE emitente_id = ?", 
                                 (identificador_emitente,))
         notas_fiscais=self.cursor.fetchall()
+
+        if notas_fiscais == None:
+            return None
+
+        destinadores_dict = []
 
         for nota_fiscal in notas_fiscais:
             self.cursor.execute("SELECT * FROM destinador WHERE destinador_id = ?", 
                                 (nota_fiscal[2],))
             destinadores=self.cursor.fetchall()
-            if destinadores != None:
-                print('\n--------- Clientes ---------')
+            # if destinadores != None:
+                # print('\n--------- Clientes ---------')
             for dest in destinadores:
-                print('Nome: ', dest[1], 'Identificador: ', dest[0]) 
+                # print('Nome: ', dest[1], 'Identificador: ', dest[0]) 
+                destinador_dict = {'destinador_id' : dest[0], 'nome':dest[1]}
+                destinadores_dict.append(destinador_dict)
+        
+        # pprint(destinadores_dict)
+        return destinadores_dict
+
 
     def save_nota_fiscal_on_db(self, nota_fiscal : NotaFiscal):
         

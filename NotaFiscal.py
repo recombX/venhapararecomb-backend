@@ -177,7 +177,3 @@ class NotaFiscal:
         for chield in xml_tree_element:
             result_dict[chield.tag] = chield.text
         return result_dict
-
-
-
-        

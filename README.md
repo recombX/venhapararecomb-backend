@@ -45,7 +45,8 @@ make clean_db_uploads
 |-----|--------------|
 |Criar um serviço com o problema 	|30|
 |Utilizar banco de dados 	|30|
-|Total |	60|
+|Qualidade de Código com SonarQube |15|
+|Total |	75|
 
 ## Desafio
 

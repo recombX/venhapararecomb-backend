@@ -1,62 +1,51 @@
 # Venha para Recomb
 
-O desafio é desenvolver um programa que permita realizar as seguintes buscas:
+## Documentação da solução
 
-1) Listar os valores e data de Vencimento dos boletos presentes em um nota fiscal conforme o CPF ou CNPJ de um fornecedor.
-2) Apresentar o nome, identificador (CPF ou CNPJ), endereço dos clientes de um fornecedor.
+### Solução
 
-**Escolha as tecnologias que você vai usar e tente montar uma solução completa para rodar a aplicação.**
+A solução implementada recebe um ou mais arquivos .xml de notas fiscais em um página web.
 
-Para enviar o resultado, basta realiazar um Fork deste repositório e abra um Pull Request, com seu nome.
+Através de um serviço Flask, esses arquivos são enviado da página web para ter suas informações extraidas e salvas em um banco de dados.
 
-É importante comentar que deve ser enviado apenas o código fonte. Não aceitaremos códigos compilados.
+Por fim, é possível realizar consultas aos clientes e boletos de um dado fornecedor.
+### Módulos
 
-Por fim, o candidato deve atualizar o Readme.md com as seguintes informações:
-  
- 1) Documentação da solução;
- 2) Lista dos diferenciais implementados
+A implentação da solução foi dividida em módulos:
+- [Database](./Database.py): Classe que realiza comunicação com o banco.
+- [NotaFiscal](./NotaFiscal.py): Classe que extrai e armazena em memória as informações de um arquivo XML.
+- [App](./app.py): Arquivo com funções que criam interfaces entre as classes chave do sistema e os componentes HTML que exibem os resultados.
+- [Schema](./schema.sql): Arquivo com schema do banco de dados.
 
-## Avaliação
+### Pastas
+- [Static](./static): Pasta que contem os estilos CSS das páginas do sistema.
+- [Templates](./templates/): Pasta que contem os arquivos HTML da página web.
+- [Uploads](./uploads/): Pasta que armazena os quivos XML enviados pelo usuário do sistema.
 
-O programa será avaliado levando em conta os seguintes critérios:
-|Critério|	Valor|
-|-------|--------|
-|Legibilidade do Código 	|10|
-|Organização do Código|10|
-|Documentação do código 	|10|
-|Documentação da solução 	|10|
-|Tratamento de Erros 	|10|
-|Total| 	50|
+### Execução
+Para preparar o ambiente execute o comando:
+```
+make init_env
+```
 
-A pontuação do candidato será a soma dos valores obtidos nos critérios acima.
+Para executar o código após a preparação do ambiente execute:
+```
+make all
+```
 
-## Diferenciais
+Durante a execução do algorítimo os dados utilizados serão guardados assim, caso o usuário deseje apagar todos os dados salvos basta rodar o comando:
+```
+make clean_db_uploads
+```
 
-O candidato pode aumentar a sua pontuação na seleção implementando um ou mais dos itens abaixo:
+## Lista dos diferenciais implementados
+
 |Item |	Pontos Ganhos|
 |-----|--------------|
 |Criar um serviço com o problema 	|30|
 |Utilizar banco de dados 	|30|
-|Implementar Clean Code 	|20|
-|Implementar o padrão de programação da tecnologia escolhida 	|20|
-|Qualidade de Código com SonarQube| 	15|
-|Implementar testes unitários 	|15|
-|Implementar testes comportamentais |	15|
-|Implementar integração com Travis 	|10|
-|Implementar integração com Travis + SonarQube 	|10|
-|Implementar usando Docker 	|5|
-|Total |	170|
+|Total |	60|
 
-A nota final do candidato será acrescido dos pontos referente ao item implementado corretamente.
+## Desafio
 
-## Penalizações
-
-O candidato será desclassifiado nas seguintes situações:
-
-1) Submeter um solução que não funcione;
-2) Não cumprir os critérios presentes no seção Avaliação;
-3) Plágio;
-
-    
-
-
+Descrito no [repositório original](https://github.com/recombX/venhapararecomb#readme) do desafio.

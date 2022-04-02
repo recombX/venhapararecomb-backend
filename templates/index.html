@@ -18,6 +18,7 @@
         <h3>Clientes: </h3>
         <div style="padding: 10px 25px;">
             <table class="table" style="padding: 10px;">
+                <caption> Tabela: Clientes </caption>
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -48,6 +49,7 @@
                     <h5>Esta nota fiscal não possui boletos.</h5>
                 {% else %}
                     <table class="table" >
+                        <caption> Tabela: Notas fiscais </caption>
                         <thead>
                             <tr>
                                 <th scope="col">Boleto n°</th>
@@ -70,9 +72,9 @@
         {% endfor %}
     </div>
 
-    {{ dropzone.create(action='upload') }}
+    {{ dropzone.create(action='upload_xml_files') }}
     {{ dropzone.load_js() }}
-    {{ dropzone.config() }}
+    {{ dropzone.config(default_message='Arreste os arquivos .xml das notas fiscais aqui.') }}
     {# You can get the success response from server like this: #}
     {#{ dropzone.config(custom_options="success: function(file, response){console.log(response);}") }#}
 

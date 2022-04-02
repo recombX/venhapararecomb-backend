@@ -21,12 +21,9 @@ class Database():
         self.conn : Connection = self.create_connection()
         self.cursor = self.conn.cursor()
 
+    # Cria conexão com um banco de dados já existente ou cria 
+    # um novo banco de dados atraves do esquema passado
     def create_connection(self) -> Connection:
-        """ create a Database connection to the SQLite Database
-            specified by db_file
-        :param db_file: Database file
-        :return: Connection object or None
-        """
         conn : Connection = None
         try:
             conn = sqlite3.connect(self.db_path)
@@ -38,13 +35,9 @@ class Database():
 
         return conn
 
+    # Cria tabela no banco de dados ou caso sejam passos argumentos
+    # os mesmos são usados para prencher uma tabela existente.
     def create_table(self, create_table_sql : str, args : str = None) -> None:
-        """ create a table from the create_table_sql statement
-        :param conn: Connection object
-        :param create_table_sql: a CREATE TABLE statement
-        :return:
-        """
-        # print(args)
         try:
             if args == None:
                 self.cursor.execute(create_table_sql)
@@ -55,12 +48,7 @@ class Database():
             print(e)
 
     def create_emitente(self, emitente) -> None:
-        """
-        Create a new project into the projects table
-        :param conn:
-        :param project:
-        :return: project id
-        """
+        
         sql = ''' INSERT INTO emitente(emitente_id,
                                        nome) 
                                        VALUES(?,?) '''
@@ -97,7 +85,6 @@ class Database():
                                   ))
         
     def create_nota_fiscal(self, nota_fiscal):
-        # print(nota_fiscal)
         sql = ''' INSERT INTO nota_fiscal(nota_fiscal_id, 
                                            emitente_id, 
                                            destinador_id,
@@ -120,19 +107,20 @@ class Database():
                                   duplicata['data_vencimento'],
                                   duplicata['valor_pago']))
 
+    # Checa se um dado identificador existe em uma dada tabela
     def check_if_exists_in_bd(self, table : str, identifier : str) -> bool:
         sql = "SELECT * FROM "+ table + " WHERE "+ table +"_id = ?"
         self.cursor.execute(sql, (identifier,))
 
         data = self.cursor.fetchone()
         if data is None:
-            # print('There is no component named %s', emitente_dict['emitente_id'])
             return True
         else:
             print('Emitente com identificador %s já existe no sistema'%(identifier))
             return False
 
-    def consulta_boletos_de_um_emitente(self, identificador_emitente : str) -> dict:
+    # Consulta nota fiscal de duplicatas de um dado emitente. 
+    def consulta_nota_fiscal_e_duplicatas_de_um_emitente(self, identificador_emitente : str) -> dict:
         
         self.cursor.execute("SELECT * FROM nota_fiscal WHERE emitente_id = ?", 
                                 (identificador_emitente,))
@@ -140,38 +128,27 @@ class Database():
         if notas_fiscais == None:
             return None
 
-        # print("Notas fiscais")
-        # print(notas_fiscais[0][0])
         notas_fiscais_dict = []
         for nota_fiscal in notas_fiscais:
             nota_fiscal_dict = {}
-            # print('\n--------- Nota fiscal ---------')
             
-            # print('Código: ', nota_fiscal[0], ' ')
             nota_fiscal_dict['nota_fical_id'] = nota_fiscal[0]
-            # print('Valor total da nota: ', nota_fiscal[3])
             nota_fiscal_dict['valor_total'] = nota_fiscal[3]
 
             self.cursor.execute("SELECT * FROM duplicata WHERE nota_fiscal_id = ?", 
                                 (nota_fiscal[0],))
             duplicatas=self.cursor.fetchall()
             duplicatas_dict = []
-            # if duplicatas != None:
-            #     print('\n--------- Parcelas da fatura ---------')
+
             for dup in duplicatas:
                 duplicata_dict = {}
-                # print('Boleto: ', dup[0].split('NFe')[0]) 
                 duplicata_dict['duplicata_id'] =  dup[0].split('NFe')[0]
-                # print('Data de vencimento: ', dup[2])
                 duplicata_dict['data_vencimento'] =  dup[2]
-                # print('Valor a ser pago: ', dup[3])
                 duplicata_dict['valor_pago'] =  dup[3]
                 duplicatas_dict.append(duplicata_dict)
             nota_fiscal_dict['duplicatas'] = duplicatas_dict
             notas_fiscais_dict.append(nota_fiscal_dict)
 
-            # print('\n\n')
-        # pprint(notas_fiscais_dict)
         return notas_fiscais_dict
         
 
@@ -190,26 +167,28 @@ class Database():
             self.cursor.execute("SELECT * FROM destinador WHERE destinador_id = ?", 
                                 (nota_fiscal[2],))
             destinadores=self.cursor.fetchall()
-            # if destinadores != None:
-                # print('\n--------- Clientes ---------')
+
             for dest in destinadores:
-                # print('Nome: ', dest[1], 'Identificador: ', dest[0]) 
+
                 destinador_dict = {'destinador_id' : dest[0], 'nome':dest[1]}
                 destinadores_dict.append(destinador_dict)
         
-        # pprint(destinadores_dict)
         return destinadores_dict
 
-
+    # Salva nota fiscal no banco de dados
     def save_nota_fiscal_on_db(self, nota_fiscal : NotaFiscal):
         
         # Emitente
+        # Salva novo emitente (fornecedor) no banco de dados caso o mesmo 
+        # não exista.
         emitente_dict = {'emitente_id' : nota_fiscal.get_emit_identifier(), 
                         'nome' : nota_fiscal.get_emit_name()}
         if self.check_if_exists_in_bd('emitente',emitente_dict['emitente_id']):
             self.create_emitente(emitente_dict)
 
         # Destinador
+        # Salva novo destinador (cliente) no banco de dados caso o mesmo
+        # não exista
         destinador_dict = {'destinador_id' : nota_fiscal.get_dest_identifier(), 
                         'nome' : nota_fiscal.get_dest_name()}
 
@@ -217,10 +196,12 @@ class Database():
             self.create_destinador(destinador_dict)
 
             # Endereço do destinador
+            # Salva endereço relacionado a um novo destinador.
             endereco_destinador = nota_fiscal.get_dest_enderDest()
             self.create_endereco_destinador(endereco_destinador)
 
         # Nota fiscal
+        # Salva uma nova nota fiscal no banco  caso a mesma não exista
         nota_fiscal_dict = {'nota_fiscal_id' : nota_fiscal.get_nota_fiscal_id(), 
                             'emitente_id' : nota_fiscal.get_emit_identifier(), 
                             'destinador_id' : nota_fiscal.get_dest_identifier(),
@@ -229,7 +210,9 @@ class Database():
         if self.check_if_exists_in_bd("nota_fiscal",nota_fiscal_dict['nota_fiscal_id']):
             self.create_nota_fiscal(nota_fiscal_dict)
 
+            # Salva as duplicatas relacionadas a uma nota fiscal.
             # Duplicata é parte da fatura pois a mesma pode ter mais de uma
-            # parcela.
+            # parcela. Duplicata também é chamada de boleto no contexto em
+            # que esse programa se aplica
             for duplicata in nota_fiscal.get_faturas():
                 self.create_duplicata(duplicata)

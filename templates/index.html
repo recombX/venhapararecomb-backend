@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Bem vindo ao leitor de notas fiscais {% endblock %}</h1>
+
+    <p>
+        Este site busca boletos e clientes baseado no identificador (CPF ou CNPJ) de um fornecedor.
+    <p>
+
+    <form class="form-inline my-2 my-lg-0" action="{{ url_for('search') }}" class="form-control">
+        <h5 style = " padding-right: 10px; margin-top: 4px; ">Digite o identificador de um forncedor: </h5>
+        <input id="dt" name='identificador' class="form-control mr-sm-2" type="text" 
+        placeholder="Identificador (CPF/CNPJ)" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+
+    <div action="{{ url_for('search') }}"  style="margin-bottom: 20px; margin-top: 20px">
+        <h3>Clientes: </h3>
+        <div style="padding: 10px 25px;">
+            <table class="table" style="padding: 10px;">
+                <caption> Tabela: Clientes </caption>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">destinador_id</th>
+                        <th scope="col">nome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes_de_um_emitente %}
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>{{ cliente.destinador_id }}</td>
+                        <td>{{ cliente.nome }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div action="{{ url_for('search') }}" style="margin-bottom: 20px; margin-top: 20px">
+        
+        <h3 >Notas fiscais:  </h3>
+        {% for nota_fiscal in notas_fiscais_de_um_emitente %}
+            <div style="margin-bottom: 10px; margin-top: 0px;  padding: 10px 25px;">
+                <h6>{{'infNFe: ' + nota_fiscal.nota_fical_id + ' Valor total a pagar: ' + nota_fiscal.valor_total}}</h6>
+                {% if nota_fiscal.duplicatas == []%}
+                    <h5>Esta nota fiscal não possui boletos.</h5>
+                {% else %}
+                    <table class="table" >
+                        <caption> Tabela: Notas fiscais </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Boleto n°</th>
+                                <th scope="col">data_vencimento</th>
+                                <th scope="col">valor_pago</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for duplicata in nota_fiscal.duplicatas %}
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>{{ duplicata.data_vencimento }}</td>
+                                <td>{{ duplicata.valor_pago }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {{ dropzone.create(action='upload_xml_files') }}
+    {{ dropzone.load_js() }}
+    {{ dropzone.config(default_message='Arreste os arquivos .xml das notas fiscais aqui.') }}
+    {# You can get the success response from server like this: #}
+    {#{ dropzone.config(custom_options="success: function(file, response){console.log(response);}") }#}
+
+
+{% endblock %}

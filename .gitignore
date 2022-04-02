@@ -1,0 +1,4 @@
+bin
+env
+*png
+__pycache__

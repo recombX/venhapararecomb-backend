@@ -124,4 +124,4 @@ O candidato será desclassifiado nas seguintes situações:
 
 ## Pessoas Desenvolvedoras do Projeto
 
-[<img src="https://avatars.githubusercontent.com/u/52933958?v=4" width=115><br><sub>Alexandre Jastrow da Cruz</sub>](https://github.com/alexnadrejastrow)
+[<img src="https://avatars.githubusercontent.com/u/52933958?v=4" width=115><br><sub>Alexandre Jastrow da Cruz</sub>](https://github.com/alexandrejastrow)

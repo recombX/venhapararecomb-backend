@@ -29,7 +29,7 @@
 
 ## Status do Projeto
 
-No momento o projeto se encontra finalizado, podendo no futuro ter alguma adição de funcionalidades, atualmente se encontra hospedado para teste em: https://venhapararecomb.herokuapp.com/
+No momento o projeto se encontra finalizado, podendo no futuro ter alguma adição de funcionalidades.
 
 ![Badge Finalizado](https://img.shields.io/badge/Venha%20para%20Recomb-Finalizado-green)
 

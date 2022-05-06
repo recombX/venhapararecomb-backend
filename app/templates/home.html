@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<p></p>
+<p class="h1">Insira aquivos XML de nota fiscal</p>
+<p>
+    <a class="btn btn-secondary" href="/files/" download="teste">XML de Exemplo</a>
+</p>
+<form class="" action="/files/" enctype="multipart/form-data" method="post"
+    style="margin-top: 50px; margin-bottom: 20px;">
+    <div class="custom-file">
+        <input input name="files" type="file" multiple class="custom-file-input" id="file" multiple
+            onchange="javascript:updateList()">
+        <label class="custom-file-label" for="customFile">Selecionar Aquivos</label>
+    </div>
+
+    <div class="mx-auto end-0">
+        <div id="fileList" style="margin-top: 15px; margin-bottom: 15px;"></div>
+        <input type="submit" class="btn btn-secondary" value="Enviar">
+    </div>
+
+</form>
+
+<div class="container-lg">
+    <div class="row g-3">
+        {% for nfe in data %}
+        <div class="col-12 col-md-8 col-md-6 col-lg-4 col-md-4" style="padding: 5px;">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Nota Fiscal</h5>
+
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Vencimento: {{nfe.date_venc}}</p>
+                    <p class="card-text">Valor: {{nfe.total}}</p>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <p>Nome fornecedor: {{nfe.provider.name}}</p>
+                        {% if nfe.provider.cnpj %}
+                        Documento fornecedor: {{nfe.provider.cnpj}}
+                        {% else %}
+                        Documento fornecedor: {{nfe.provider.cpf}}
+                        {% endif %}
+                    </li>
+
+                    <li class="list-group-item">
+                        <p> Nome cliente: {{nfe.client.name}}</p>
+                        {% if nfe.client.cnpj %}
+                        Documento do Cliente: {{nfe.client.cnpj}}
+                        {% else %}
+                        Documento Cliente: {{nfe.client.cpf}}
+                        {% endif %}
+                    </li>
+
+                    <li class="list-group-item">
+                        <p>
+                            Endereço do Cliente:
+                            {{nfe.client.address.logradouro}} -
+                            {{nfe.client.address.municipio}} -
+                            {{nfe.client.address.uf}}.
+                        </p>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a href="/api/xml/{{nfe.nfe_id}}" class="card-link"
+                        style="display: flex; justify-content: space-between; padding: 0 15px; align-items: center;">
+                        <p style="margin-top: 10px;">
+                            Todas as informações:
+                        </p>
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+{% endblock %}

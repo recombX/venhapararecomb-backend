@@ -1,0 +1,9 @@
+#database envs
+DATABASE_URL=""
+DATABASE_URL_DOCKER=""
+
+#app
+APP_NAME=""
+DEV=""
+APP_DOCKER_RUN=""
+APP_TEST=""

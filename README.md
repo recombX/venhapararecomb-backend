@@ -1,3 +1,65 @@
+
+<h1 align="center"> Projeto: Venha para Recomb</h1>
+
+## Preview
+![Exemple](https://github.com/alexandrejastrow/venhapararecomb/blob/main/images/exemple.gif)
+
+## Badges
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+
+
+
+
+## Índice 
+
+* [Preview](#preview)
+* [Badges](#badges)
+* [Índice](#índice)
+* [Desafio](#desafio)
+* [Configuração](#configuração)
+* [Status do Projeto](#status-do-Projeto)
+* [Tecnologias Ultilizadas](#tecnologias-ultilizadas)
+* [Pessoas Desenvolvedoras do Projeto](#pessoas-desenvolvedoras)
+
+
+## Status do Projeto
+
+No momento o projeto se encontra finalizado, podendo no futuro ter alguma adição de funcionalidades.
+
+![Badge Finalizado](https://img.shields.io/badge/Venha%20para%20Recomb-Finalizado-green)
+
+## ⚙ Configuração
+
+1- Para baixar o projeto:
+> git clone https://github.com/alexandrejastrow/venhapararecomb.git
+
+2- Variáveis de ambiente:
+> Crie um arquivo .env e use o .envExemple como base
+
+3- Para iniciar a aplicação:
+> docker-compose up
+
+## ✔️ Tecnologias Ultilizadas
+
+- ``Python 3.10``
+- ``FastAPI``
+- ``Postgres``
+- ``SQLAlchemy``
+- ``Alembic``
+- ``Jinja2``
+- ``Docker``
+- ``docker-compose``
+- ``Bootstrap``
+- ``HTML5``
+- ``CSS3``
+#
+
+## Desafio
 # Venha para Recomb
 
 O desafio é desenvolver um programa que permita realizar as seguintes buscas:
@@ -60,3 +122,6 @@ O candidato será desclassifiado nas seguintes situações:
     
 
 
+## Pessoas Desenvolvedoras do Projeto
+
+[<img src="https://avatars.githubusercontent.com/u/52933958?v=4" width=115><br><sub>Alexandre Jastrow da Cruz</sub>](https://github.com/alexandrejastrow)

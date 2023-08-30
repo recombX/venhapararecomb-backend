@@ -9,6 +9,15 @@ Para responder as questões utilizamos os endpoints:
   
 Que retornam as informações baseadas no identificador do fornecedor (CPF ou CNPJ)
 
+Para inicializar o servidor, basta rodar o script "create-container.sh" como super usuário. Ou utilizar os seguintes comandos direto no seu terminal unix ou powershell:
+```shell
+docker build -t flask-api .
+docker run -p 5000:5000 flask-api
+```
+O servidor Flask ficará disponivel em `localhost:5000`
+
+        
+
 ## Diferenciais
 |Item |	Pontos Ganhos|
 |-----|--------------|

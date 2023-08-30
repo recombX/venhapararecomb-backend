@@ -4,7 +4,7 @@ from app import db
 
 class Duplicata(db.Model):
     __tablename__ = "duplicata"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     valor = db.Column(db.Float(), nullable=False)
     dataVencimento = db.Column(db.Date(), nullable=False)
     nfe = db.Column(ForeignKey("nfe.id"))

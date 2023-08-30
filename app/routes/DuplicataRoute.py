@@ -16,8 +16,7 @@ def create_duplicata():
             if duplicata is not None:
                 return make_response("Erro: Duplicata já cadastrada.", 409)
             
-            duplicata = duplicata(id=data["id"],
-                                nfe=data["nfeId"],
+            duplicata = duplicata(nfe=data["nfeId"],
                                 valor=data["valor"],
                                 dataVencimento=datetime.strptime(data["vencimento"], "%Y-%m-%d").date())
             duplicata.add()

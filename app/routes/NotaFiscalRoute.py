@@ -33,36 +33,16 @@ def create_nfe_by_xml():
             fornecedor = Fornecedor.query.get(emit_data[fornecedor_tipo])
 
             if cliente is None:
-                cliente = Cliente(id=dest_data[cliente_tipo],
-                                nome=dest_data["xNome"],
-                                cep=dest_data["enderDest"]["CEP"])
-                cliente.add()
+                return make_response("Cliente não cadastrado.",404)
+
 
             if fornecedor is None:
-                fornecedor = Fornecedor(id=emit_data[fornecedor_tipo], nome=emit_data["xNome"])
-                fornecedor.add()
+                return make_response("Fornecedor não cadastrado.",404)
+
 
             nfe = NotaFiscal(id=nfe_data["@Id"], fornecedor=fornecedor, cliente=cliente)
             nfe.add()  
-            
-            # Abaixo temos mais uma verificação para sabermos se existe mais de um Boleto para
-            # a mesma NFe, caso exista cadastramos todos os boletos, caso contrário cadastramos
-            # apenas um
-            if isinstance(dup_data, list):
-                for dup in dup_data:
-                    duplicata = Duplicata(valor=dup["vDup"],
-                                        dataVencimento=datetime.strptime(dup["dVenc"], "%Y-%m-%d").date(),
-                                        nfe=nfe_data["@Id"])
-                    duplicata.add()
-            else:
-                print(dup_data)
 
-                duplicata = Duplicata(valor=dup_data["vDup"],
-                                    dataVencimento=datetime.strptime(dup_data["dVenc"], "%Y-%m-%d").date(),
-                                    nfe=nfe_data["@Id"])
-                
-                duplicata.add()
-            
             db.session.commit()
             return make_response("Dados armazenados com sucesso.", 201)
         except KeyError:

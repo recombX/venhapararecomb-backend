@@ -7,7 +7,9 @@ class Cliente(db.Model):
     __tablename__ = "cliente"
     id = db.Column(db.String(15), primary_key=True, autoincrement="False")
     nome = db.Column(db.String(100), nullable=False)
+    endereco = db.Column(db.String(200))
     cep = db.Column(db.String(8))
+
 
     notas_fiscais = relationship("NotaFiscal", back_populates="cliente")
 

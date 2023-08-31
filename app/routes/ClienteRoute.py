@@ -17,7 +17,7 @@ def create_cliente():
             if cliente is not None:
                 return make_response("Erro: Cliente já cadastrado.", 409)
             
-            cliente = Cliente(id=data["id"], nome=data["nome"], cep=data["cep"])
+            cliente = Cliente(id=data["id"], nome=data["nome"], endereco=data["endereco"], cep=data["cep"])
             cliente.add()
             
             db.session.commit()
@@ -41,7 +41,8 @@ def read_cliente():
             clientes.append(
                 {"id": cliente.id,
                 "nome": cliente.nome,
-                "cep": cliente.cep}
+                "cep": cliente.cep,
+                "endereco": cliente.endereco}
             )
         return make_response(jsonify(clientes), 200)
     except Exception as e:
@@ -61,7 +62,8 @@ def read_cliente_by_fornecedor_id(fornecedor_id):
             clientes.append(
                 {"id": cliente.id,
                 "nome": cliente.nome,
-                "cep": cliente.cep}
+                "cep": cliente.cep,
+                "endereco": cliente.endereco}
             )
         return make_response(jsonify(clientes), 200)
     except Exception as e:

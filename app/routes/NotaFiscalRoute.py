@@ -33,15 +33,31 @@ def create_nfe_by_xml():
             fornecedor = Fornecedor.query.get(emit_data[fornecedor_tipo])
 
             if cliente is None:
-                return make_response("Cliente não cadastrado.",404)
-
+                # Essa não é a melhor implementação para armazenar endereço em um banco de dados
+                # porém para evitar um complexidade a mais, optei por essa opção de inserir estáticamente
+                endereco = f'{dest_data["enderDest"]["xLgr"]}, {dest_data["enderDest"]["nro"]}, {dest_data["enderDest"]["xBairro"]}, {dest_data["enderDest"]["xMun"]}, {dest_data["enderDest"]["UF"]}, {dest_data["enderDest"]["xPais"]}'
+                cliente = Cliente(id=dest_data[cliente_tipo], nome=dest_data["xNome"], endereco=endereco, cep=dest_data["enderDest"]["CEP"])
+                cliente.add()
 
             if fornecedor is None:
-                return make_response("Fornecedor não cadastrado.",404)
+                fornecedor = Fornecedor(id=emit_data[fornecedor_tipo], nome=emit_data["xNome"])
+                fornecedor.add()
 
+            nfe = NotaFiscal(id=nfe_data["@Id"],fornecedor=fornecedor, cliente=cliente)
+            nfe.add() 
 
-            nfe = NotaFiscal(id=nfe_data["@Id"], fornecedor=fornecedor, cliente=cliente)
-            nfe.add()  
+            ## Verificando se é uma lista de duplicatas, ou apenas uma unidade
+            if isinstance(dup_data, list):
+                for dup in dup_data:
+                    duplicata = Duplicata(valor=dup["vDup"],
+                                        dataVencimento=datetime.strptime(dup["dVenc"], "%Y-%m-%d").date(),
+                                        nfe=nfe_data["@Id"])
+                    duplicata.add()
+            else:
+                duplicata = Duplicata(valor=dup_data["vDup"],
+                                        dataVencimento=datetime.strptime(dup_data["dVenc"], "%Y-%m-%d").date(),
+                                        nfe=nfe_data["@Id"])
+                duplicata.add()
 
             db.session.commit()
             return make_response("Dados armazenados com sucesso.", 201)
@@ -69,22 +85,13 @@ def create_nfe():
             fornecedor = Fornecedor.query.get(data["id_fornecedor"])
 
             if cliente is None:
-                cliente = Cliente(id=data["id_cliente"], nome=data["nome_cliente"])
-                cliente.add()
+                return make_response("Cliente não cadastrado.",404)
 
             if fornecedor is None:
-                fornecedor = Fornecedor(id=data["id_fornecedor"], nome=data["nome_fornecedor"])
-                fornecedor.add()
-
+                return make_response("Fornecedor não cadastrado.",404)
+            
             nfe = NotaFiscal(id=data["id"], fornecedor=fornecedor, cliente=cliente)
             nfe.add()
-
-            for dup in data["duplicatas"]:
-                duplicata = Duplicata(valor=dup["vDup"],
-                                    dataVencimento=datetime.strptime(dup["vencimento"], "%Y-%m-%d").date(),
-                                    nfe=data["id"])
-                duplicata.add()
-            
             db.session.commit()
             return make_response("Dados armazenados com sucesso.", 201)
         except KeyError:

@@ -111,6 +111,7 @@ Endpoints para controlar o cliente
 {
 	"id": "CPF ou CNPJ",
 	"nome": "Eduarsdoo",
+	"endereco": "Rua São João, 101, Serra, ES, Brasil",
     "cep": CEP
 }
 ````
@@ -121,6 +122,7 @@ Endpoints para controlar o cliente
 {
 	"id": "CPF ou CNPJ",
 	"nome": "Eduardo",
+	"endereco": "Rua São João, 101, Serra, ES, Brasil",
     "cep": CEP
 }
 ````

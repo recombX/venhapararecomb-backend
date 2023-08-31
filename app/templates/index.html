@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+    </head>
+    <body>
+        <h2 id="solu-o">Solução</h2>
+        <p> A solução escolhida foi uma REST Api desenvolvida com Flask. Abaixo
+            temos a descrição e instruções dos endpoints.</p>
+        <p>Para a solução do desafio, é necessário o cadastro das NFe&#39;s a
+            partir do endpoint: <code>POST /nfe/xml</code>. Nele é enviado um
+            arquivo XML no corpo da requisição e cadastradas as informações
+            necessárias para o problema.</p>
+        <p>Para responder as questões utilizamos os endpoints:</p>
+        <ul>
+            <li><code>GET /duplicata/&lt;fornecedor_id&gt;</code> </li>
+            <li><code>GET /cliente/&lt;fornecedor_id&gt;</code> </li>
+        </ul>
+        <p>Que retornam as informações baseadas no identificador do fornecedor
+            (CPF ou CNPJ)</p>
+        
+        <p>Para inicializar o servidor, basta rodar o script "create-container.sh" como super usuário. Ou utilizar os seguintes comandos direto no seu terminal unix ou powershell:</p>
+        <code>docker build -t flask-api .</code>
+        <code>docker run -p 5000:5000 flask-api</code>
+
+        <p>O servidor Flask ficará disponivel em "localhost:5000"</p>
+
+        <p>Para realizar um teste, na pasta "./test" existe um script Python que carrega o alguns exemplos no banco de dados</p>
+        <h2 id="diferenciais">Diferenciais</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Pontos Ganhos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Utilizar banco de dados</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>Implementar Clean Code</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>Implementar o padrão de programação da tecnologia
+                        escolhida</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>Implementar usando Docker</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>75</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <footer>Eduardo Henrique - duvrdx@gmail.com - <a href="https://www.linkedin.com/in/eduardo-prospero/">Linkedin</a></footer>
+    </body>
+</html>

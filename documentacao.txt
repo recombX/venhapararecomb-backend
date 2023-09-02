@@ -1,0 +1,44 @@
+O Problema:
+  A princípio, o problema abordado seria a necessidade da leitura e organização dos dados dos xmls.
+
+Ferramentas de Solução:
+  Linguagem Python
+    Biblioteca xmltodict
+    Conector de banco de dados psycopg2
+  banco de dados SQL
+  
+A solução:
+  Passo 1: Em primeiro lugar, o XML fornecido está extremamente mal organizado e ininteligível, então eu passei ele por um formatador automático de HTML, https://www.freeformatter.com/html-formatter.html, o que tornou eles mais legíveis.
+  
+  Passo 2: Entender como o Emitente e o Destinatário estão estruturados dentro do xml. basicamente eu só procurei a tag <emit> e </emit>, e considerei todas as tags dentro dela como atributos de um objeto, e fiz o mesmo para a tag <dest> e </dest>.
+
+  Passo 3: a noção de orientação a objetos casa muito bem com a Estrutura de Dados "Dicionário",
+amplamente usada no python, então eu procurei uma biblioteca que convertesse XML para Dicionário.
+Depois disso eu converti os arquivos de XML para Dicionários dentro do código.
+
+  Passo 4:
+  Após isso, eu configurei um banco de dados PostgreSQL para acomodar os dados, já que esse é um diferencial importante. O site que usei para isso é o Elephant SQL. https://www.elephantsql.com/
+  As credenciais do banco de dados estão na variavel connection/conn do código.
+  Após a leitura dos dados pro usuário, o sistema copia tudo que foi mostrado pro usuário e enviar pro banco de dados fazendo um insert simples.
+
+  Create do banco de dados:
+  CREATE TABLE VALORES_E_VENCIMENTOS_BOLETOS (
+    data_validade DATE,
+    valor_boleto DECIMAL(10, 2)
+  );
+  CREATE TABLE CLIENTES (
+    nome VARCHAR(100),
+    cpf VARCHAR(30),
+    cnpj VARCHAR(30),
+    endereco VARCHAR(200),
+  );
+
+  TEMPLATE DE INSERT:
+-- Inserção vazia na tabela VALORES_E_VENCIMENTOS_BOLETOS
+INSERT INTO VALORES_E_VENCIMENTOS_BOLETOS (data_validade, valor_boleto)
+VALUES (NULL, NULL);
+
+-- Inserção vazia na tabela CLIENTES
+INSERT INTO CLIENTES (nome, cpf, cnpj, endereco)
+VALUES (NULL, NULL, NULL, NULL);
+

@@ -1,2 +1,282 @@
-<?xml version="1.0" encoding="UTF-8" ?><nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><NFe xmlns="http://www.portalfiscal.inf.br/nfe"><infNFe Id="NFe32211207872718000117550010000217781877120005" versao="4.00"><ide><cUF>32</cUF><cNF>87712000</cNF><natOp>VENDA MERCAD.ADQ.TERCEIROS</natOp><mod>55</mod><serie>1</serie><nNF>21778</nNF><dhEmi>2021-12-01T19:03:21-03:00</dhEmi><dhSaiEnt>2021-12-01T19:03:21-03:00</dhSaiEnt><tpNF>1</tpNF><idDest>1</idDest><cMunFG>3201308</cMunFG><tpImp>1</tpImp><tpEmis>1</tpEmis><cDV>5</cDV><tpAmb>1</tpAmb><finNFe>1</finNFe><indFinal>0</indFinal><indPres>1</indPres><procEmi>0</procEmi><verProc>MeLinux 6.3</verProc></ide><emit><CNPJ>07872718000117</CNPJ><xNome>COMERCIAL S.R.DE ALIMENTOS LTDA-ME</xNome><xFant>SR ALIMENTOS</xFant><enderEmit><xLgr>R.ODONIA DA COSTA MACHADO TOLEDO</xLgr><nro>56</nro><xCpl>QUADRA 1 LOTE 5</xCpl><xBairro>TIRADENTES</xBairro><cMun>3201308</cMun><xMun>CARIACICA</xMun><UF>ES</UF><CEP>29143529</CEP><cPais>1058</cPais><xPais>BRASIL</xPais><fone>2733363026</fone></enderEmit><IE>082384975</IE><CRT>3</CRT></emit><dest><CNPJ>17197072000173</CNPJ><xNome>JEFERSON SIMAO DE OLIVEIRA - ME</xNome><enderDest><xLgr>RUA SAO JOAO</xLgr><nro>49</nro><xBairro>ITACIBA</xBairro><cMun>3201308</cMun><xMun>CARIACICA</xMun><UF>ES</UF><CEP>29150230</CEP><cPais>1058</cPais><xPais>BRASIL</xPais><fone>27996502121</fone></enderDest><indIEDest>1</indIEDest><IE>082917825</IE></dest><det nItem="1"><prod><cProd>001378</cProd><cEAN>SEM GTIN</cEAN><xProd>FILE MERLUZA ARGENTINA INTERF.CX 18 c/ 18 KG</xProd><NCM>03047400</NCM><CFOP>5102</CFOP><uCom>CX</uCom><qCom>1</qCom><vUnCom>503.82</vUnCom><vProd>503.82</vProd><cEANTrib>SEM GTIN</cEANTrib><uTrib>CX</uTrib><qTrib>18</qTrib><vUnTrib>27.99</vUnTrib><indTot>1</indTot></prod><imposto><ICMS><ICMS20><orig>2</orig><CST>20</CST><modBC>3</modBC><pRedBC>58.82</pRedBC><vBC>207.46</vBC><pICMS>17.00</pICMS><vICMS>35.27</vICMS></ICMS20></ICMS><IPI><cEnq>999</cEnq><IPINT><CST>53</CST></IPINT></IPI><PIS><PISAliq><CST>01</CST><vBC>503.82</vBC><pPIS>0.65</pPIS><vPIS>3.27</vPIS></PISAliq></PIS><COFINS><COFINSAliq><CST>01</CST><vBC>503.82</vBC><pCOFINS>3.00</pCOFINS><vCOFINS>15.11</vCOFINS></COFINSAliq></COFINS></imposto></det><det nItem="2"><prod><cProd>000195</cProd><cEAN>7896481907388</cEAN><xProd>CUPIM MAGRO FRISA CX -+ 18KG</xProd><NCM>02013000</NCM><CEST>1708400</CEST><CFOP>5405</CFOP><uCom>KG</uCom><qCom>21.71</qCom><vUnCom>29.12989406</vUnCom><vProd>632.41</vProd><cEANTrib>7896481907388</cEANTrib><uTrib>KG</uTrib><qTrib>21.71</qTrib><vUnTrib>29.12989406</vUnTrib><indTot>1</indTot></prod><imposto><ICMS><ICMS60><orig>0</orig><CST>60</CST></ICMS60></ICMS><IPI><cEnq>999</cEnq><IPINT><CST>53</CST></IPINT></IPI><PIS><PISAliq><CST>01</CST><vBC>632.41</vBC><pPIS>0.65</pPIS><vPIS>4.11</vPIS></PISAliq></PIS><COFINS><COFINSAliq><CST>01</CST><vBC>632.41</vBC><pCOFINS>3.00</pCOFINS><vCOFINS>18.97</vCOFINS></COFINSAliq></COFINS></imposto></det><total><ICMSTot><vBC>207.46</vBC><vICMS>35.27</vICMS><vICMSDeson>0.00</vICMSDeson><vFCP>0.00</vFCP><vBCST>0.00</vBCST><vST>0.00</vST><vFCPST>0.00</vFCPST><vFCPSTRet>0.00</vFCPSTRet><vProd>1136.23</vProd><vFrete>0.00</vFrete><vSeg>0.00</vSeg><vDesc>0.00</vDesc><vII>0.00</vII><vIPI>0.00</vIPI><vIPIDevol>0.00</vIPIDevol><vPIS>7.38</vPIS><vCOFINS>34.08</vCOFINS><vOutro>0.00</vOutro><vNF>1136.23</vNF></ICMSTot></total><transp><modFrete>9</modFrete><transporta><CNPJ>07872718000117</CNPJ><xNome>COMERCIAL S.R.DE ALIMENTOS LTDA-ME</xNome><IE>082384975</IE><xEnder>RUA ODONIA DA COSTA MACHADO TOLEDO, 41 QD 1 LOTE 5 TIRADENTE</xEnder><xMun>CARIACICA</xMun><UF>ES</UF></transporta><vol><qVol>23</qVol><esp>DIVERSAS</esp><marca>DIVERSAS</marca><pesoB>40.106</pesoB></vol></transp><cobr><fat><nFat>021778</nFat><vOrig>1136.23</vOrig><vDesc>0.00</vDesc><vLiq>1136.23</vLiq></fat><dup><nDup>001</nDup><dVenc>2022-12-15</dVenc><vDup>568.11</vDup></dup><dup><nDup>002</nDup><dVenc>2022-12-22</dVenc><vDup>568.12</vDup></dup></cobr><pag><detPag><tPag>15</tPag><vPag>1136.23</vPag></detPag></pag><infAdic><infCpl>Cod.Dest: 7452 Fantasia: REST.ESPA.GRILL Faturista: IGOR REIS # Forma Pag: BOLETO # Vendedor: TACIANI (27)99735-5228 Num.Ped: 102667 # Doc.emitido por ME/EPP optante do SIMPLES NACIONAL; nao gera credito fiscal de IPI e ISS # RUA DA FEIRA # sem email cadastrado para envio do XML # # Confira no ato da entrega, evite reclamacoes posteriores</infCpl></infAdic><infRespTec><CNPJ>19495981000113</CNPJ><xContato>OTMA SOLUCOES LTDA</xContato><email>contato@otmasolucoes.com.br</email><fone>2721417943</fone></infRespTec></infNFe><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#NFe32211207872718000117550010000217781877120005"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>yU29u4Sva8be/dmxDzD7eyMIOaY=</DigestValue></Reference></SignedInfo><SignatureValue>O3P2ebus27f8wlWBnyncdvcBVPvwWMqPMdMFehYZcjUxeY8Bir1ZPlf3ERQoBf3OQjlhQSlOL9MhDM2xVJ3tFKaqPSaDufIUGfuPSVgPOjtij6aCERyngmGJ+gSAVGLdEXB/a0/FJSEFF4qQCFeuQQVLC2fdKIEUEhCMgt/vqHHoyGuR9F+9x6Z7iZlUhltt7mmL/I0fCt3LFKLuXuVZUqURYRUhFU5EZF4jL0J7e4gl8CSN9DcLJH5I4IGDBzjcwVbqaSQ8mYWUx/bxCWzKGLYmmGcLwEOeZMJQcC7Q6O/Gy28kf1GFXHVtL7Yue3RkXS8BfxOVXN8LO5Yp6noBog==</SignatureValue><KeyInfo><X509Data><X509Certificate>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</X509Certificate></X509Data></KeyInfo></Signature></NFe>
-<protNFe versao="4.00"><infProt><tpAmb>1</tpAmb><verAplic>SVRS202111190951</verAplic><chNFe>32211207872718000117550010000217781877120005</chNFe><dhRecbto>2021-12-01T19:03:22-03:00</dhRecbto><nProt>332210083442441</nProt><digVal>yU29u4Sva8be/dmxDzD7eyMIOaY=</digVal><cStat>100</cStat><xMotivo>Autorizado o uso da NF-e</xMotivo></infProt></protNFe></nfeProc>
+<?xml version="1.0" encoding="UTF-8" ?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+        <infNFe Id="NFe32211207872718000117550010000217781877120005" versao="4.00">
+            <ide>
+                <cUF>32</cUF>
+                <cNF>87712000</cNF>
+                <natOp>VENDA MERCAD.ADQ.TERCEIROS</natOp>
+                <mod>55</mod>
+                <serie>1</serie>
+                <nNF>21778</nNF>
+                <dhEmi>2021-12-01T19:03:21-03:00</dhEmi>
+                <dhSaiEnt>2021-12-01T19:03:21-03:00</dhSaiEnt>
+                <tpNF>1</tpNF>
+                <idDest>1</idDest>
+                <cMunFG>3201308</cMunFG>
+                <tpImp>1</tpImp>
+                <tpEmis>1</tpEmis>
+                <cDV>5</cDV>
+                <tpAmb>1</tpAmb>
+                <finNFe>1</finNFe>
+                <indFinal>0</indFinal>
+                <indPres>1</indPres>
+                <procEmi>0</procEmi>
+                <verProc>MeLinux 6.3</verProc>
+            </ide>
+            <emit>
+                <CNPJ>07872718000117</CNPJ>
+                <xNome>COMERCIAL S.R.DE ALIMENTOS LTDA-ME</xNome>
+                <xFant>SR ALIMENTOS</xFant>
+                <enderEmit>
+                    <xLgr>R.ODONIA DA COSTA MACHADO TOLEDO</xLgr>
+                    <nro>56</nro>
+                    <xCpl>QUADRA 1 LOTE 5</xCpl>
+                    <xBairro>TIRADENTES</xBairro>
+                    <cMun>3201308</cMun>
+                    <xMun>CARIACICA</xMun>
+                    <UF>ES</UF>
+                    <CEP>29143529</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                    <fone>2733363026</fone>
+                </enderEmit>
+                <IE>082384975</IE>
+                <CRT>3</CRT>
+            </emit>
+            <dest>
+                <CNPJ>17197072000173</CNPJ>
+                <xNome>JEFERSON SIMAO DE OLIVEIRA - ME</xNome>
+                <enderDest>
+                    <xLgr>RUA SAO JOAO</xLgr>
+                    <nro>49</nro>
+                    <xBairro>ITACIBA</xBairro>
+                    <cMun>3201308</cMun>
+                    <xMun>CARIACICA</xMun>
+                    <UF>ES</UF>
+                    <CEP>29150230</CEP>
+                    <cPais>1058</cPais>
+                    <xPais>BRASIL</xPais>
+                    <fone>27996502121</fone>
+                </enderDest>
+                <indIEDest>1</indIEDest>
+                <IE>082917825</IE>
+            </dest>
+            <det nItem="1">
+                <prod>
+                    <cProd>001378</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>FILE MERLUZA ARGENTINA INTERF.CX 18 c/ 18 KG</xProd>
+                    <NCM>03047400</NCM>
+                    <CFOP>5102</CFOP>
+                    <uCom>CX</uCom>
+                    <qCom>1</qCom>
+                    <vUnCom>503.82</vUnCom>
+                    <vProd>503.82</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>CX</uTrib>
+                    <qTrib>18</qTrib>
+                    <vUnTrib>27.99</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS20>
+                            <orig>2</orig>
+                            <CST>20</CST>
+                            <modBC>3</modBC>
+                            <pRedBC>58.82</pRedBC>
+                            <vBC>207.46</vBC>
+                            <pICMS>17.00</pICMS>
+                            <vICMS>35.27</vICMS>
+                        </ICMS20>
+                    </ICMS>
+                    <IPI>
+                        <cEnq>999</cEnq>
+                        <IPINT>
+                            <CST>53</CST>
+                        </IPINT>
+                    </IPI>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>503.82</vBC>
+                            <pPIS>0.65</pPIS>
+                            <vPIS>3.27</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>503.82</vBC>
+                            <pCOFINS>3.00</pCOFINS>
+                            <vCOFINS>15.11</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+            </det>
+            <det nItem="2">
+                <prod>
+                    <cProd>000195</cProd>
+                    <cEAN>7896481907388</cEAN>
+                    <xProd>CUPIM MAGRO FRISA CX -+ 18KG</xProd>
+                    <NCM>02013000</NCM>
+                    <CEST>1708400</CEST>
+                    <CFOP>5405</CFOP>
+                    <uCom>KG</uCom>
+                    <qCom>21.71</qCom>
+                    <vUnCom>29.12989406</vUnCom>
+                    <vProd>632.41</vProd>
+                    <cEANTrib>7896481907388</cEANTrib>
+                    <uTrib>KG</uTrib>
+                    <qTrib>21.71</qTrib>
+                    <vUnTrib>29.12989406</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS60>
+                            <orig>0</orig>
+                            <CST>60</CST>
+                        </ICMS60>
+                    </ICMS>
+                    <IPI>
+                        <cEnq>999</cEnq>
+                        <IPINT>
+                            <CST>53</CST>
+                        </IPINT>
+                    </IPI>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>632.41</vBC>
+                            <pPIS>0.65</pPIS>
+                            <vPIS>4.11</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>632.41</vBC>
+                            <pCOFINS>3.00</pCOFINS>
+                            <vCOFINS>18.97</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+            </det>
+            <total>
+                <ICMSTot>
+                    <vBC>207.46</vBC>
+                    <vICMS>35.27</vICMS>
+                    <vICMSDeson>0.00</vICMSDeson>
+                    <vFCP>0.00</vFCP>
+                    <vBCST>0.00</vBCST>
+                    <vST>0.00</vST>
+                    <vFCPST>0.00</vFCPST>
+                    <vFCPSTRet>0.00</vFCPSTRet>
+                    <vProd>1136.23</vProd>
+                    <vFrete>0.00</vFrete>
+                    <vSeg>0.00</vSeg>
+                    <vDesc>0.00</vDesc>
+                    <vII>0.00</vII>
+                    <vIPI>0.00</vIPI>
+                    <vIPIDevol>0.00</vIPIDevol>
+                    <vPIS>7.38</vPIS>
+                    <vCOFINS>34.08</vCOFINS>
+                    <vOutro>0.00</vOutro>
+                    <vNF>1136.23</vNF>
+                </ICMSTot>
+            </total>
+            <transp>
+                <modFrete>9</modFrete>
+                <transporta>
+                    <CNPJ>07872718000117</CNPJ>
+                    <xNome>COMERCIAL S.R.DE ALIMENTOS LTDA-ME</xNome>
+                    <IE>082384975</IE>
+                    <xEnder>RUA ODONIA DA COSTA MACHADO TOLEDO, 41 QD 1 LOTE 5 TIRADENTE</xEnder>
+                    <xMun>CARIACICA</xMun>
+                    <UF>ES</UF>
+                </transporta>
+                <vol>
+                    <qVol>23</qVol>
+                    <esp>DIVERSAS</esp>
+                    <marca>DIVERSAS</marca>
+                    <pesoB>40.106</pesoB>
+                </vol>
+            </transp>
+            <cobr>
+                <fat>
+                    <nFat>021778</nFat>
+                    <vOrig>1136.23</vOrig>
+                    <vDesc>0.00</vDesc>
+                    <vLiq>1136.23</vLiq>
+                </fat>
+                <dup>
+                    <nDup>001</nDup>
+                    <dVenc>2022-12-15</dVenc>
+                    <vDup>568.11</vDup>
+                </dup>
+                <dup>
+                    <nDup>002</nDup>
+                    <dVenc>2022-12-22</dVenc>
+                    <vDup>568.12</vDup>
+                </dup>
+            </cobr>
+            <pag>
+                <detPag>
+                    <tPag>15</tPag>
+                    <vPag>1136.23</vPag>
+                </detPag>
+            </pag>
+            <infAdic>
+                <infCpl>Cod.Dest: 7452 Fantasia: REST.ESPA.GRILL Faturista: IGOR REIS # Forma Pag: BOLETO # Vendedor:
+                    TACIANI (27)99735-5228 Num.Ped: 102667 # Doc.emitido por ME/EPP optante do SIMPLES NACIONAL; nao
+                    gera credito fiscal de IPI e ISS # RUA DA FEIRA # sem email cadastrado para envio do XML # # Confira
+                    no ato da entrega, evite reclamacoes posteriores
+                </infCpl>
+            </infAdic>
+            <infRespTec>
+                <CNPJ>19495981000113</CNPJ>
+                <xContato>OTMA SOLUCOES LTDA</xContato>
+                <email>contato@otmasolucoes.com.br</email>
+                <fone>2721417943</fone>
+            </infRespTec>
+        </infNFe>
+        <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+            <SignedInfo>
+                <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+                <Reference URI="#NFe32211207872718000117550010000217781877120005">
+                    <Transforms>
+                        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                        <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+                    </Transforms>
+                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                    <DigestValue>yU29u4Sva8be/dmxDzD7eyMIOaY=</DigestValue>
+                </Reference>
+            </SignedInfo>
+            <SignatureValue>
+                O3P2ebus27f8wlWBnyncdvcBVPvwWMqPMdMFehYZcjUxeY8Bir1ZPlf3ERQoBf3OQjlhQSlOL9MhDM2xVJ3tFKaqPSaDufIUGfuPSVgPOjtij6aCERyngmGJ+gSAVGLdEXB/a0/FJSEFF4qQCFeuQQVLC2fdKIEUEhCMgt/vqHHoyGuR9F+9x6Z7iZlUhltt7mmL/I0fCt3LFKLuXuVZUqURYRUhFU5EZF4jL0J7e4gl8CSN9DcLJH5I4IGDBzjcwVbqaSQ8mYWUx/bxCWzKGLYmmGcLwEOeZMJQcC7Q6O/Gy28kf1GFXHVtL7Yue3RkXS8BfxOVXN8LO5Yp6noBog==
+            </SignatureValue>
+            <KeyInfo>
+                <X509Data>
+                    <X509Certificate>
+                        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
+                    </X509Certificate>
+                </X509Data>
+            </KeyInfo>
+        </Signature>
+    </NFe>
+    <protNFe versao="4.00">
+        <infProt>
+            <tpAmb>1</tpAmb>
+            <verAplic>SVRS202111190951</verAplic>
+            <chNFe>32211207872718000117550010000217781877120005</chNFe>
+            <dhRecbto>2021-12-01T19:03:22-03:00</dhRecbto>
+            <nProt>332210083442441</nProt>
+            <digVal>yU29u4Sva8be/dmxDzD7eyMIOaY=</digVal>
+            <cStat>100</cStat>
+            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+        </infProt>
+    </protNFe>
+</nfeProc>

@@ -13,7 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class BoletoDTO {
 
-    private Double Value;
-    private List<String> DataVencimento;
+    private String Value;
+    private String DataVencimento;
+    private String ValorParcelado;
 
 }

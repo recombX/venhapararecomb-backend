@@ -8,7 +8,6 @@
         Digite mais de 2 caracteres para filtrar
       </p>
       <div class="mt-10 text-center">
-        <!--      <p class="text-white">Digite mais {{ 3 - this.search.length }} caracteres</p>-->
         <input v-model="search" class="rounded-2xl text-center z-10 p-3" placeholder="Filtrar" type="text"/>
       </div>
     </div>
@@ -19,10 +18,10 @@
         </div>
         <form @submit.prevent="sendFile">
           <input
-              ref="uploadImage"
+              ref="uploadFile"
               accept=".xml"
               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              type="file" @change="onImageUpload()">
+              type="file" @change="onFileUpload()">
           <button class="w-full block focus:bg-indigo-400 text-white font-semibold rounded-lg
               px-4 py-3 mt-6" style="background-color: #FCDE9C" type="submit">ENVIAR
           </button>
@@ -192,8 +191,8 @@ export default {
       })
 
     },
-    onImageUpload() {
-      this.xml_file = this.$refs.uploadImage.files[0];
+    onFileUpload() {
+      this.xml_file = this.$refs.uploadFile.files[0];
     }
   },
   watch: {

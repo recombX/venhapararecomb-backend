@@ -24,11 +24,6 @@ public class NotaFiscalController {
     @Autowired
     NotaFiscalService notaFiscalService;
 
-    @GetMapping("/get")
-    public ResponseEntity<?> GetAllNotaFiscal(@RequestParam String Documento){
-        return ResponseEntity.ok().body("OK");
-    }
-
     @GetMapping("/{documento}")
     public ResponseEntity<NFResponse> ClienteFornecedorCPF(@PathVariable String documento)
     {

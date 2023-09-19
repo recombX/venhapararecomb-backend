@@ -3,19 +3,10 @@ package com.main.RecombApp.Services.Deserialize;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.main.RecombApp.DTO.BoletoDTO;
-import com.main.RecombApp.DTO.ClienteDTO;
-import com.main.RecombApp.DTO.EnderecoDTO;
-import com.main.RecombApp.DTO.FornecedorDTO;
-import com.main.RecombApp.Model.Boleto;
-import com.main.RecombApp.Model.Cliente;
-import com.main.RecombApp.Model.Endereco;
-import com.main.RecombApp.Model.Fornecedor;
+import com.main.RecombApp.DTO.*;
+import com.main.RecombApp.Model.*;
 import com.main.RecombApp.Payload.Response.NotaFiscalResponse;
-import com.main.RecombApp.Repository.BoletoRepository;
-import com.main.RecombApp.Repository.ClienteRepository;
-import com.main.RecombApp.Repository.EnderecoRepository;
-import com.main.RecombApp.Repository.FornecedorRepository;
+import com.main.RecombApp.Repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +33,20 @@ public class DeserializeXML {
         JsonNode node = xmlMapper.readTree(xmlFile.getBytes());
         ModelMapper modelMapper = new ModelMapper();
 
+        EnderecoDTO enderecoEmissorDTO = EnderecoDTO.builder()
+                .CEP(node.at("/NFe/infNFe/emit/enderEmit").get("CEP").asText())
+                .cMun(node.at("/NFe/infNFe/emit/enderEmit").get("cMun").asText())
+                .cMun(node.at("/NFe/infNFe/emit/enderEmit").get("cMun").asText())
+                .cPais(node.at("/NFe/infNFe/emit/enderEmit").get("cPais").asText())
+                .xMun(node.at("/NFe/infNFe/emit/enderEmit").get("xMun").asText())
+                .nro(node.at("/NFe/infNFe/emit/enderEmit").get("nro").asText())
+                .UF(node.at("/NFe/infNFe/emit/enderEmit").get("UF").asText())
+                .xLgr(node.at("/NFe/infNFe/emit/enderEmit").get("xLgr").asText())
+                .xBairro(node.at("/NFe/infNFe/emit/enderEmit").get("xBairro").asText())
+                .xPais(node.at("/NFe/infNFe/emit/enderEmit").get("xPais").asText())
+                .fone(node.at("/NFe/infNFe/emit/enderEmit").get("fone").asText())
+                .build();
+
         EnderecoDTO enderecoDTO = EnderecoDTO.builder()
                 .CEP(node.at("/NFe/infNFe/dest/enderDest").get("CEP").asText())
                 .cMun(node.at("/NFe/infNFe/dest/enderDest").get("cMun").asText())
@@ -65,6 +70,17 @@ public class DeserializeXML {
             enderecoRepository.save(enderecoDTOModel);
         }
 
+
+        Endereco enderecoEmissorDTOModel = modelMapper.map(enderecoEmissorDTO, Endereco.class);
+
+        if(enderecoRepository.findEnderecoByCEP(node.at("/NFe/infNFe/emit/enderEmit").get("CEP").asText()) != null)
+        {
+            enderecoEmissorDTOModel = enderecoRepository.findEnderecoByCEP(node.at("/NFe/infNFe/dest/enderDest").get("CEP").asText());
+        }
+        else{
+            enderecoRepository.save(enderecoEmissorDTOModel);
+        }
+
         ClienteDTO clienteDTO = ClienteDTO.builder()
                 .CPF(node.at("/NFe/infNFe/dest").get("CNPJ").asText())
                 .nome(node.at("/NFe/infNFe/dest").get("xNome").asText())
@@ -80,6 +96,7 @@ public class DeserializeXML {
         FornecedorDTO fornecedorDTO = FornecedorDTO.builder()
                 .CNPJ(node.at("/NFe/infNFe/emit").get("CNPJ").asText())
                 .nome(node.at("/NFe/infNFe/emit").get("xNome").asText())
+                .EnderecoEmissor(enderecoEmissorDTOModel)
                 .build();
 
         Fornecedor fornecedorDTOModel = modelMapper.map(fornecedorDTO, Fornecedor.class);

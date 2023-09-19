@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.Set;
+
 @Table(name = "fornecedor")
 @Entity
 @Getter
@@ -23,6 +25,11 @@ public class Fornecedor {
     private String CNPJ;
     @NotBlank
     private String nome;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "endereco_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    Endereco endereco;
 
 
 }

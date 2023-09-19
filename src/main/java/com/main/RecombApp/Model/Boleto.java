@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.Set;
+
 @Table(name = "boleto")
 @Entity
 @Getter
@@ -22,4 +24,11 @@ public class Boleto {
     private String ValorParcelado;
     @NotBlank
     private String DataVencimento;
+
+    @ManyToMany
+    @JoinTable(
+            name = "clientefornecedor_boleto",
+            joinColumns = @JoinColumn(name = "boleto_id"),
+            inverseJoinColumns = @JoinColumn(name = "cliente_id"))
+    Set<Boleto> boletos;
 }

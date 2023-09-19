@@ -1,8 +1,10 @@
 package com.main.RecombApp.Controller;
 
 import com.main.RecombApp.Payload.Request.NotaFiscalRequest;
+import com.main.RecombApp.Payload.Response.NFResponse;
 import com.main.RecombApp.Payload.Response.NotaFiscalResponse;
 import com.main.RecombApp.Services.Deserialize.DeserializeXML;
+import com.main.RecombApp.Services.NotaFiscal.NotaFiscalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +21,17 @@ public class NotaFiscalController {
 
     @Autowired
     DeserializeXML deserializeXML;
+    @Autowired
+    NotaFiscalService notaFiscalService;
 
-//    @GetMapping("/get")
-//    public ResponseEntity<NotaFiscalResponse> GetAllNotaFiscal(){
-//
-//    }
+    @GetMapping("/get")
+    public ResponseEntity<?> GetAllNotaFiscal(@RequestParam String Documento){
+        return ResponseEntity.ok().body("OK");
+    }
 
-    @PostMapping("/send")
-    public ResponseEntity<?> SendNotaFiscal(@RequestParam MultipartFile NotaFiscalFile) throws IOException {
-        deserializeXML.SaveXml(NotaFiscalFile);
-        return ResponseEntity.ok().body("TESTE");
+    @GetMapping("/{documento}")
+    public ResponseEntity<NFResponse> ClienteFornecedorCPF(@PathVariable String documento)
+    {
+        return  ResponseEntity.ok().body(notaFiscalService.GetFornecedorClienteCPF(documento));
     }
 }

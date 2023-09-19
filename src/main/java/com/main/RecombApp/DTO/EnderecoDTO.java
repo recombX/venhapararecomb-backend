@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EnderecoDTO {
-
     private String xLgr;
     private String nro;
     private String xBairro;

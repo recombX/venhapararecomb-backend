@@ -1,0 +1,19 @@
+version: '3.6'
+services:
+  back:
+    build:
+      context: ./
+    image: recomb/backend
+    container_name: recomb_back
+    ports:
+      - 8082:8082
+
+
+  front:
+    build: ./front-end/recombfront
+    image: recomb/frontend
+    container_name: recomb_front
+    ports:
+      - 5173:5173
+    depends_on:
+      - back

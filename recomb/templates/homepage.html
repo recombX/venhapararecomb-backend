@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Venha para Recomb</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+          <nav>
+            <div class="bloco-logo">
+                <svg 
+                    viewBox="150.27 175.539 72.102 74.5605"
+                    width="72.102"
+                    height="74.561">
+                    <ellipse style="fill: rgb(43, 174, 89); stroke: rgba(192, 188, 188, 0);" cx="186.321" cy="211.59" rx="36.051" ry="36.051"></ellipse>
+                    <text style="fill: rgb(230, 221, 221); font-family: 'Ink Free'; font-size: 39.5072px; font-weight: 700; line-height: 63.2116px; white-space: pre;" transform="matrix(1.4516130685806274, 0, 0, 1.4680850505828857, -80.53637935329607, -81.78009276926787)" x="173.854" y="213.275">R</text>
+                  </svg>
+              <h1>Venha para Recomb</h1>
+            </div>
+          </nav>
+        </header>
+    
+        <div>
+        <form method="POST" enctype="multipart/form-data", class="bloco-logo">
+          {{ form.csrf_token }}
+          {{ form.hidden_tag() }}
+
+          <h2>Nota Fiscal Eletrônica</h2><br>
+          
+          <div class="bloco-input-botao">
+            <div class="bloco-arquivo">
+                {{ form.botao_NFe(class="botao-arquivo") }}
+            </div>       
+          </div><br>
+        {{ form.botao_confirmacao(class="botao-nota") }}
+
+        {% if fornecedor != undefined %}
+        <section class="modal">
+          <div id="card">
+            <a href="/" id="fechar">x</a>
+            <h2>Nota Fiscal {{nota.num_nota}}</h2>
+            <hr>
+            <p>Fornecedor: {{fornecedor.nome}}</p>
+            <p>CNPJ/CPF: {{fornecedor.documento}}</p>
+            <hr>
+            <p>Cliente: {{cliente.nome}}</p>
+            <p>CNPJ/CPF: {{cliente.documento}}</p>
+            <p>Rua: {{endereco.rua}}, n: {{endereco.num}},
+              Bairro: {{endereco.bairro}}, Município: {{endereco.municipio}},
+              Estado: {{endereco.uf}}, CEP: {{endereco.cep}},
+              País: {{endereco.pais}}, Telefone: {{endereco.telefone}}</p>
+            <hr>         
+              {% for nota in cliente.nota %}
+                <p>Vencimento: {{nota.vencimento}} | 
+                Valor: {{nota.valor}} reais </p>
+              {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+      </div>
+  </body>
+</html>

@@ -1,4 +1,39 @@
-# Venha para Recomb
+# VENHA PARA RECOMB
+
+
+Instruções:
+
+### CRIAR IMAGEM DOCKER
+```
+$ docker build --tag recomb .
+```
+
+### EXECUTAR CONTAINER
+```
+$ docker run --rm -p 5000:5000 recomb
+```
+
+### ABRIR ENDEREÇO LOCAL NO NAVEGADOR
+http://127.0.0.1:5000/
+
+`Selecionar arquivo .xml`
+
+`Enviar arquivo`
+
+#
+~ 🖥 TECNOLOGIAS USADAS 🖥 ~
+- CSS3
+- Docker
+- Flask
+- HTML5
+- Jinja2
+- Python 3.10
+- SQLAlchemy
+- SQLite
+
+  #
+
+# DESAFIO:
 
 O desafio é desenvolver um programa que permita realizar as seguintes buscas:
 

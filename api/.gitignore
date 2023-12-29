@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+node_modules/*
+
+# Logs
+logs
+*.log
+
+# Dependency directories
+pnp/
+pnp.js
+
+# Testing
+coverage/
+
+# Build output
+build/
+dist/
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Yarn
+yarn-error.log
+yarn.lock
+.pnp.*
+.pnp.js
+.yarn

@@ -1,0 +1,36 @@
+/* Adicione isso ao seu arquivo styles.css ou em uma tag <style> no cabeçalho do seu arquivo HTML */
+
+#fileInput {
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px;
+  background-color: #4caf50; /* Cor de fundo verde */
+  color: white; /* Cor do texto branco */
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049; /* Cor de fundo verde mais escura quando hover */
+}
+
+p {
+  margin: 5px 0; /* Margem superior e inferior de 5px*/
+}
+.container {
+  max-width: 1200px; /* Largura máxima do container*/
+  margin: 0 auto; /* Centraliza o container horizontalmente */
+  padding: 20px; /* Adiciona um espaço interno ao redor do container */
+}
+
+.file-upload-container {
+  max-width: 1200px; /* Largura máxima do container*/
+  margin: 0 auto; /* Centraliza o container horizontalmente */
+  padding: 20px; /* Adiciona um espaço interno ao redor do container */
+  display: flex;
+  flex-direction: column; /* Empilhe os elementos verticalmente */
+  align-items: center; /* Centralize os elementos horizontalmente */
+  margin-bottom: 20px; /* Adiciona espaço na parte inferior, ajuste conforme necessário */
+}

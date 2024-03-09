@@ -10,7 +10,25 @@
         {% csrf_token %}
         <label for="xml_file">Arquivo XML</label>
         <input type="file" name="xml_file" id="xml_file" required>
-        <button type="submit">Enviar</button>
+        <button type="submit" name="read_xml">Enviar</button>
+        
     </form>
+    {% if xml_data %}
+        <h1>Nota Fiscal</h1>
+        <p>Fornecedor: Nome - {{ xml_data.fornecedor.nome }} | CNPJ - {{ xml_data.fornecedor.cnpj }} </p>
+        <p>Clientes:</p>
+        {% for cliente in xml_data.clientes %}
+            <p>Nome: {{ cliente.nome }} Identificação: {{ cliente.identificador }} </p>   
+        {% endfor %}
+        <p>Boletos:</p>
+        {% for boleto in xml_data.boletos %}
+            <p>Valor: {{ boleto.valor }}</p>
+            <p>Vencimento: {{ boleto.vencimento }}</p>
+        {% endfor %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="save_nf">Salvar</button>
+        </form>
+    {% endif %}
 </body>
 </html>

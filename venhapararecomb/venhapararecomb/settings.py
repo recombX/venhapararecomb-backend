@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure--okz#m@yr*2dh72v&hf420%djgsnt457yxdcqe$&1hjcoc#yhl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#ALLOWED_HOSTS = ['trumpet.db.elephantsql.com', '127.0.0.1']
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -75,13 +75,23 @@ WSGI_APPLICATION = 'venhapararecomb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'azixfhyp',
+#         'USER': 'azixfhyp',
+#         'PASSWORD': 'mx7x20d6m-3JM4MVisx8sicxwyg0NVTI',
+#         'HOST': 'trumpet.db.elephantsql.com',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -105,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -119,9 +129,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

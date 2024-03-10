@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Lista de Notas Fiscais
+Lista de Clientes
 {% endblock %}
 
 {% block content %}
-<!-- Lista de Notas Fiscais -->
+<!-- Lista de Clientes -->
 <div class="px-4 py-5 my-5">
-    <h1>Notas Fiscais</h1>
-    {% if nfs %}
+    <h1>Clientes</h1>
+
+    {% if clientes %}
     <ul class="list-group">
-        {% for nf in nfs %}
+        {% for cliente in clientes %}
         <li class="list-group-item">
-            <a  href="{% url 'detail_nf' nf.id %}">
-                {{ nf }}
+            <a  href="#">
+                {{ cliente }}
             </a>
-            <form action="{% url 'delete_nf' nf.id %}" method="post">
+            <form action="{% url 'delete_cliente' cliente.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger btn-sm ">Excluir</button>
             </form>

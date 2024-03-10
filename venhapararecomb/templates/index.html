@@ -21,9 +21,21 @@ Gerenciamento de Notas Fiscais
     </div>
 </div>  
 
+<!-- Seção de Mensagens -->
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% elif success %}
+<div class="alert alert-success" role="alert">
+    Arquivo XML carregado com sucesso!
+</div>
+{% endif %}
+
 <!-- Seção de Nota Fiscal -->
-{% if xml_data %}
+{% if xml_data  and not error %}
 <div class="px-4 my-5">
+    <!-- Botão de Salvar -->
     <div class="row align-items-center my-2">
         <h1 class="col">Nota Fiscal</h1>
         <div class="col text-end">
@@ -33,14 +45,18 @@ Gerenciamento de Notas Fiscais
             </form>
         </div>
     </div>
+
+    <!-- Dados da Nota Fiscal -->
     <div class="row">
         <div class="col">
             <ul class="list-group list-group-flush">
+                <!-- Dados do Fornecedor -->
                 <li class="list-group-item">
                     <strong>Fornecedor:</strong><br>
                     <span>Nome - {{ xml_data.fornecedor.nome }}</span> | 
                     <span>CNPJ - {{ xml_data.fornecedor.cnpj }}</span>
                 </li>
+                <!-- Dados dos Clientes -->
                 <li class="list-group-item">
                     <strong>Clientes:</strong>
                     <ul class="list-group">
@@ -48,7 +64,7 @@ Gerenciamento de Notas Fiscais
                             <li class="list-group-item">
                                 <span>Nome: {{ cliente.nome }}</span> | 
                                 <span>{{ cliente.tipo_documento }}: {{ cliente.documento }}</span>
-                                <!-- endereco.logradouro numero cep cidade estado pais numero de telefone-->
+                                <!-- Dados do Endereço do cliente-->
                                 <ul class="list-group">
                                     <li class="list-group-item">Endereço: {{ cliente.endereco.logradouro }} {{ cliente.endereco.numero }}</li>
                                     <li class="list-group-item">CEP: {{ cliente.endereco.cep }}</li>
@@ -61,6 +77,7 @@ Gerenciamento de Notas Fiscais
                         {% endfor %}
                     </ul>
                 </li>
+                <!-- Dados dos Boletos -->
                 <li class="list-group-item">
                     <strong>Boletos:</strong>
                     <ul class="list-group">

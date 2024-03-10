@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 import xml.etree.ElementTree as ET
-from .models import Fornecedor, Cliente, Boleto, NotaFiscal
+from .models import Fornecedor, Cliente, Boleto, NotaFiscal, Endereco
 
 
 def parse_xml(xml_file):
@@ -18,10 +18,25 @@ def parse_xml(xml_file):
         cpf = dest.find('ns:CPF', nsNFe)
         cnpj = dest.find('ns:CNPJ', nsNFe)
 
+        endereco = dest.find('ns:enderDest', nsNFe)
+        logradouro = endereco.find('ns:xLgr', nsNFe).text
+        numero = endereco.find('ns:nro', nsNFe).text
+        bairro = endereco.find('ns:xBairro', nsNFe).text
+        cidade = endereco.find('ns:xMun', nsNFe).text
+        estado = endereco.find('ns:UF', nsNFe).text
+        cep = endereco.find('ns:CEP', nsNFe).text
+        pais = endereco.find('ns:xPais', nsNFe).text
+        telefone = endereco.find('ns:fone', nsNFe).text
+        
         documento = cpf.text if cpf is not None else cnpj.text
         tipo_documento = 'CPF' if cpf is not None else 'CNPJ'
 
-        clientes.append({'nome': xNome, 'documento': documento, 'tipo_documento': tipo_documento})
+        endereco_json = {
+            'logradouro': logradouro, 'numero': numero, 'bairro': bairro,
+            'cidade': cidade, 'estado': estado, 'cep': cep, 'pais': pais, 'telefone': telefone
+        }
+        
+        clientes.append({'nome': xNome, 'documento': documento, 'tipo_documento': tipo_documento, 'endereco': endereco_json})
 
     boletos = []
     for det in root.findall('ns:NFe/ns:infNFe/ns:cobr/ns:dup', nsNFe):
@@ -30,7 +45,6 @@ def parse_xml(xml_file):
         boletos.append({'valor': valor, 'data_vencimento': data_vencimento})
 
     return {'fornecedor': fornecedor, 'clientes': clientes, 'boletos': boletos}
-
 
 def index(request):
     context = {}
@@ -48,7 +62,10 @@ def index(request):
             nf = NotaFiscal.objects.create(fornecedor=fornecedor)
 
             for cliente in xml_data['clientes']:
-                Cliente.objects.create(nome=cliente['nome'], documento=cliente['documento'], tipo_documento=cliente['tipo_documento'], nota_fiscal=nf)
+               
+                endereco_obj = Endereco.objects.create(logradouro=cliente['endereco']['logradouro'], numero=cliente['endereco']['numero'], bairro=cliente['endereco']['bairro'], cidade=cliente['endereco']['cidade'], estado=cliente['endereco']['estado'], cep=cliente['endereco']['cep'], pais=cliente['endereco']['pais'], telefone=cliente['endereco']['telefone'])
+                cliente_obj, created = Cliente.objects.get_or_create(documento=cliente['documento'], defaults={'nome': cliente['nome'], 'tipo_documento': cliente['tipo_documento']}, endereco=endereco_obj)
+                nf.clientes.add(cliente_obj)
 
             for boleto in xml_data['boletos']:
                 Boleto.objects.create(valor=boleto['valor'], data_vencimento=boleto['data_vencimento'], nota_fiscal=nf)
@@ -56,3 +73,17 @@ def index(request):
             return redirect('index')
 
     return render(request, 'index.html', context)
+
+
+def list_nfs(request):
+    context = {
+        'nfs': NotaFiscal.objects.all()
+    }
+    return render(request, 'list_nfs.html', context)
+
+def detail_nf(request, nf_id):
+    context = {
+        'nf': NotaFiscal.objects.get(id=nf_id)
+    }
+    return render(request, 'detail_nf.html', context)
+

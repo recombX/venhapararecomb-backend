@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Informações da nota fiscal {{ nf.id }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="px-4 py-5 my-5">
+        <h1>Nota Fiscal</h1>
+        <div class="row align-items-center my-2">
+            <h1 class="col">Nota Fiscal</h1>
+            <div class="col text-end">
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-lg fw-bold" name="save_nf">Salvar</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Fornecedor:</strong><br>
+                        <span>Nome - {{ nf.fornecedor.nome }}</span> | 
+                        <span>CNPJ - {{ nf.fornecedor.cnpj }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Clientes:</strong>
+                        <ul class="list-group">
+                            {% for cliente in nf.clientes %}
+                                <li class="list-group-item">
+                                    <span>Nome: {{ cliente.nome }}</span> | 
+                                    <span>{{ cliente.tipo_documento }}: {{ cliente.documento }}</span>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Endereço: {{ cliente.endereco.logradouro }} {{ cliente.endereco.numero }}</li>
+                                        <li class="list-group-item">CEP: {{ cliente.endereco.cep }}</li>
+                                        <li class="list-group-item">Cidade: {{ cliente.endereco.cidade }}</li>
+                                        <li class="list-group-item">Estado: {{ cliente.endereco.estado }}</li>
+                                        <li class="list-group-item">País: {{ cliente.endereco.pais }}</li>
+                                        <li class="list-group-item">Telefone: {{ cliente.endereco.telefone }}</li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Boletos:</strong>
+                        <ul class="list-group">
+                            {% for boleto in nf.boletos %}
+                                <li class="list-group-item">
+                                    <span>Valor: {{ boleto.valor }}</span> | 
+                                    <span>Vencimento: {{ boleto.data_vencimento }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="px-4 py-5 my-5">
+        <a href="{% url 'notas_fiscais' %}" class="btn btn-primary">Voltar</a>
+    </div>
+
+{% endblock %}

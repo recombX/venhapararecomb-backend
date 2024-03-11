@@ -16,7 +16,7 @@
 7. **Listagem de Fornecedores**: A view list_fornecedores lista todos os fornecedores cadastrados no sistema.
 8. **Exclusão de Fornecedores**: A view delete_fornecedor permite excluir um fornecedor do banco de dados. Ao excluir um fornecedor do banco de dados as notas fiscais associadas também são apagadas.
 9. **Listagem de Clientes**: A view list_clientes lista todos os clientes cadastrados no sistema.
-10. **Exclusão de Clientes**: A view delete_cliente permite excluir um cliente do banco de dados. Ao apagar um cliente, as notas fiscais relacionadas não são apagadas.
+10. **Exclusão de Clientes**: A view delete_cliente permite excluir um cliente do banco de dados. Ao apagar um cliente, as notas fiscais relacionadas são apagadas.
 
 ### Como Executar a Aplicação
 1. Clone o repositório do projeto:

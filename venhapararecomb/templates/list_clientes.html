@@ -8,6 +8,10 @@ Lista de Clientes
 <!-- Lista de Clientes -->
 <div class="px-4 py-5 my-5">
     <h1>Clientes</h1>
+    <!-- Mensagem de alerta amarelo -->
+    <div class="alert alert-warning" role="alert">
+        <strong>Atenção!</strong> A exclusão de um cliente também excluirá todas as notas fiscais associadas a ele.
+    </div>
 
     {% if clientes %}
     <ul class="list-group">

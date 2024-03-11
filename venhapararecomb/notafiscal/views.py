@@ -213,6 +213,10 @@ def delete_cliente(request, id):
     """
     try:
         cliente = Cliente.objects.get(id=id)
+        # deletar todas as notas fiscais relacionadas ao cliente
+        notas = cliente.notas_fiscais.all()
+        for nota in notas:
+            nota.delete()
         cliente.delete()
     except Cliente.DoesNotExist:
         pass

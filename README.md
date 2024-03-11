@@ -4,6 +4,7 @@
 - Django: Framework web em Python.
 - Sqlite3: Serviço de banco de dados local do Django.
 - HTML, CSS e Bootstrap: para a interface do usuário.
+- Docker.
 
 ### Funcionalidades Implementadas
 1. **Parse de XML**: A função parse_xml recebe um arquivo XML de uma nota fiscal e extrai as informações relevantes, como fornecedor, clientes, endereços e boletos.
@@ -22,22 +23,29 @@
    ```
    git clone https://github.com/jcquadros/venhapararecomb-backend.git
    ```
-2. Instale o Django:
+2. Execute:
    ```
-   pip install django
+   docker-compose build
+   docker-compose up
    ```
-3. Navegue até o diretório do projeto que contenha o arquivo manage.py.
+   Acesse 'http://localhost:8000/' no navegador.
 
-4. Inicie o servidor:
+3. Testes:
+   Para executar os testes, certifique estar dentro do diretório venhapararecomb/ de instalar as bibliotecas e executar o teste:
    ```
+   pip install -r requirements.txt
+   python manage.py test
+   ```
+   De forma semelhante, se optar por nao usar o Docker, a aplicação pode ser executada com os seguintes comandos:
+   ```
+   pip install -r requirements.txt
    python manage.py runserver
    ```
-
-5. Acesse a aplicação em seu navegador, através do endereço 'http://127.0.0.1:8000/'.
-
+   Após isso acesse 'http://127.0.0.1:8000/' no navegador.
 ## Diferenciais Implementados
 - Interface de Usuário Responsiva: A interface do usuário foi desenvolvida de forma simples com Bootstrap, mas responsiva.
 - Tratamento de Erros: O sistema trata erros comuns, como tentativa de envio de nota fiscal fornecedores e clientes duplicados.
 - Padrão de programação Django MTV (Model, Template, View)
 - Uso de banco de dados: A aplicação utiliza o Sqlite3 como serviço de banco de dados local.
-- Implementação de Testes Unitários: Os testes cobrem as principais funções da aplicação, incluindo o parse de XML, as views e os modelos do Django.
+- Implementação de Testes Unitários: Os testes cobrem as principais funções da aplicação,  incluindo as views e os modelos do Django.
+- Uso de docker.

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Informações da nota fiscal {{ nf.identificador }}
+{% endblock %}
+
+
+{% block content %}
+<!-- Seção de Nota Fiscal -->
+<div class="px-4 py-5 my-5">
+    <h1>Nota Fiscal</h1>
+        <div class="row">
+            <div class="col">
+                <ul class="list-group list-group-flush">
+                    <!-- Dados do Fornecedor -->
+                    <li class="list-group-item">
+                        <strong>Fornecedor:</strong><br>
+                        <span>Nome - {{ fornecedor.nome }}</span> | 
+                        <span>CNPJ - {{ fornecedor.cnpj }}</span>
+                    </li>
+                    <!-- Dados dos Clientes -->
+                    <li class="list-group-item">
+                        <strong>Clientes:</strong>
+                        <ul class="list-group">
+                            {% for cliente in clientes %}
+                                <li class="list-group-item">
+                                    <span>Nome: {{ cliente.nome }}</span> | 
+                                    <span>{{ cliente.tipo_documento }}: {{ cliente.documento }}</span>
+                                    <!-- Dados do Endereço do cliente-->
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Endereço: {{ cliente.endereco.logradouro }} {{ cliente.endereco.numero }}</li>
+                                        <li class="list-group-item">CEP: {{ cliente.endereco.cep }}</li>
+                                        <li class="list-group-item">Cidade: {{ cliente.endereco.cidade }}</li>
+                                        <li class="list-group-item">Estado: {{ cliente.endereco.estado }}</li>
+                                        <li class="list-group-item">País: {{ cliente.endereco.pais }}</li>
+                                        <li class="list-group-item">Telefone: {{ cliente.endereco.telefone }}</li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <!-- Dados dos Boletos -->
+                    <li class="list-group-item">
+                        <strong>Boletos:</strong>
+                        <ul class="list-group">
+                            {% for boleto in boletos %}
+                                <li class="list-group-item">
+                                    <span>Valor: {{ boleto.valor }}</span> | 
+                                    <span>Vencimento: {{ boleto.data_vencimento }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Botão de Voltar -->
+    <div class="px-4 py-5 my-5">
+        <a href="{% url 'list_nfs' %}" class="btn btn-primary">Voltar</a>
+    </div>
+
+{% endblock %}

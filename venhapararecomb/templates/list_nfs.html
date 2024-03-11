@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lista de Notas Fiscais
+{% endblock %}
+
+{% block content %}
+<!-- Lista de Notas Fiscais -->
+<div class="px-4 py-5 my-5">
+    <h1>Notas Fiscais</h1>
+    {% if nfs %}
+    <ul class="list-group">
+        {% for nf in nfs %}
+        <li class="list-group-item">
+            <a  href="{% url 'detail_nf' nf.id %}">
+                {{ nf }}
+            </a>
+            <form action="{% url 'delete_nf' nf.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm ">Excluir</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+<div class="px-4 py-5 my-5">
+    <a href="{% url 'index' %}" class="btn btn-primary">Voltar</a>
+</div>
+{% endblock %}

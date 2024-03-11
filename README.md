@@ -1,62 +1,51 @@
-# Venha para Recomb
+## Documentação da Solução
 
-O desafio é desenvolver um programa que permita realizar as seguintes buscas:
+### Tecnologias Utilizadas
+- Django: Framework web em Python.
+- Sqlite3: Serviço de banco de dados local do Django.
+- HTML, CSS e Bootstrap: para a interface do usuário.
+- Docker.
 
-1) Listar os valores e data de Vencimento dos boletos presentes em um nota fiscal conforme o CPF ou CNPJ de um fornecedor.
-2) Apresentar o nome, identificador (CPF ou CNPJ), endereço dos clientes de um fornecedor.
+### Funcionalidades Implementadas
+1. **Parse de XML**: A função parse_xml recebe um arquivo XML de uma nota fiscal e extrai as informações relevantes, como fornecedor, clientes, endereços e boletos.
+2. **Página Inicial**: A view index renderiza a página inicial do sistema, permitindo aos usuários enviar arquivos XML para processamento.
+3. **Cadastro de Notas Fiscais**: Ao submeter um arquivo XML válido, as informações da nota fiscal são salvas no banco de dados, incluindo fornecedor, clientes e boletos associados.
+4. **Listagem de Notas Fiscais**: A view list_nfs apresenta uma lista de todas as notas fiscais cadastradas no sistema.
+5. **Detalhes da Nota Fiscal**: A view detail_nf permite visualizar os detalhes de uma nota fiscal específica, incluindo clientes e boletos associados.
+6. **Exclusão de Notas Fiscais**: A view delete_nf permite excluir uma nota fiscal do banco de dados, mas não exclui dados de fornecedor e clientes.
+7. **Listagem de Fornecedores**: A view list_fornecedores lista todos os fornecedores cadastrados no sistema.
+8. **Exclusão de Fornecedores**: A view delete_fornecedor permite excluir um fornecedor do banco de dados. Ao excluir um fornecedor do banco de dados as notas fiscais associadas também são apagadas.
+9. **Listagem de Clientes**: A view list_clientes lista todos os clientes cadastrados no sistema.
+10. **Exclusão de Clientes**: A view delete_cliente permite excluir um cliente do banco de dados. Ao apagar um cliente, as notas fiscais relacionadas são apagadas.
 
-**Escolha as tecnologias que você vai usar e tente montar uma solução completa para rodar a aplicação.**
+### Como Executar a Aplicação
+1. Clone o repositório do projeto:
+   ```
+   git clone https://github.com/jcquadros/venhapararecomb-backend.git
+   ```
+2. Certifique-se de estar dentro do diretorio venhapararecomb/ Execute:
+   ```
+   docker-compose build
+   docker-compose up
+   ```
+   Acesse 'http://localhost:8000/' no navegador.
 
-Para enviar o resultado, basta realiazar um Fork deste repositório e abra um Pull Request, com seu nome.
-
-É importante comentar que deve ser enviado apenas o código fonte. Não aceitaremos códigos compilados.
-
-Por fim, o candidato deve atualizar o Readme.md com as seguintes informações:
-  
- 1) Documentação da solução;
- 2) Lista dos diferenciais implementados
-
-## Avaliação
-
-O programa será avaliado levando em conta os seguintes critérios:
-|Critério|	Valor|
-|-------|--------|
-|Legibilidade do Código 	|10|
-|Organização do Código|10|
-|Documentação do código 	|10|
-|Documentação da solução 	|10|
-|Tratamento de Erros 	|10|
-|Total| 	50|
-
-A pontuação do candidato será a soma dos valores obtidos nos critérios acima.
-
-## Diferenciais
-
-O candidato pode aumentar a sua pontuação na seleção implementando um ou mais dos itens abaixo:
-|Item |	Pontos Ganhos|
-|-----|--------------|
-|Criar um serviço com o problema 	|30|
-|Utilizar banco de dados 	|30|
-|Implementar Clean Code 	|20|
-|Implementar o padrão de programação da tecnologia escolhida 	|20|
-|Qualidade de Código com SonarQube| 	15|
-|Implementar testes unitários 	|15|
-|Implementar testes comportamentais |	15|
-|Implementar integração com Travis 	|10|
-|Implementar integração com Travis + SonarQube 	|10|
-|Implementar usando Docker 	|5|
-|Total |	170|
-
-A nota final do candidato será acrescido dos pontos referente ao item implementado corretamente.
-
-## Penalizações
-
-O candidato será desclassifiado nas seguintes situações:
-
-1) Submeter um solução que não funcione;
-2) Não cumprir os critérios presentes no seção Avaliação;
-3) Plágio;
-
-    
-
-
+3. Testes:
+   Para executar os testes, certifique estar dentro do diretório venhapararecomb/ de instalar as bibliotecas e executar o teste:
+   ```
+   pip install -r requirements.txt
+   python manage.py test
+   ```
+   De forma semelhante, se optar por nao usar o Docker, a aplicação pode ser executada com os seguintes comandos:
+   ```
+   pip install -r requirements.txt
+   python manage.py runserver
+   ```
+   Após isso acesse 'http://127.0.0.1:8000/' no navegador.
+## Diferenciais Implementados
+- Interface de Usuário Responsiva: A interface do usuário foi desenvolvida de forma simples com Bootstrap, mas responsiva.
+- Tratamento de Erros: O sistema trata erros comuns, como tentativa de envio de nota fiscal fornecedores e clientes duplicados.
+- Padrão de programação Django MTV (Model, Template, View)
+- Uso de banco de dados: A aplicação utiliza o Sqlite3 como serviço de banco de dados local.
+- Implementação de Testes Unitários: Os testes cobrem as principais funções da aplicação,  incluindo as views e os modelos do Django.
+- Uso de docker.

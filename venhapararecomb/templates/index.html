@@ -1,0 +1,98 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Gerenciamento de Notas Fiscais
+{% endblock %}
+
+{% block content %}
+<!-- Seção de Upload -->
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">Olá, seja bem vindo!</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Este é um sistema de gerenciamento de notas fiscais. Envie um arquivo XML para começar:</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <form method="post" enctype="multipart/form-data" class="row g-3">
+                {% csrf_token %}
+                <input type="file" class="form-control" name="xml_file" id="xml_file" required>
+                <button type="submit" class="btn btn-primary btn-mg fw-bold" name="read_xml">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>  
+
+<!-- Seção de Mensagens -->
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% elif success %}
+<div class="alert alert-success" role="alert">
+    Arquivo XML carregado com sucesso!
+</div>
+{% endif %}
+
+<!-- Seção de Nota Fiscal -->
+{% if xml_data  and not error %}
+<div class="px-4 my-5">
+    <!-- Botão de Salvar -->
+    <div class="row align-items-center my-2">
+        <h1 class="col">Nota Fiscal</h1>
+        <div class="col text-end">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg fw-bold" name="save_nf">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dados da Nota Fiscal -->
+    <div class="row">
+        <div class="col">
+            <ul class="list-group list-group-flush">
+                <!-- Dados do Fornecedor -->
+                <li class="list-group-item">
+                    <strong>Fornecedor:</strong><br>
+                    <span>Nome - {{ xml_data.fornecedor.nome }}</span> | 
+                    <span>CNPJ - {{ xml_data.fornecedor.cnpj }}</span>
+                </li>
+                <!-- Dados dos Clientes -->
+                <li class="list-group-item">
+                    <strong>Clientes:</strong>
+                    <ul class="list-group">
+                        {% for cliente in xml_data.clientes %}
+                            <li class="list-group-item">
+                                <span>Nome: {{ cliente.nome }}</span> | 
+                                <span>{{ cliente.tipo_documento }}: {{ cliente.documento }}</span>
+                                <!-- Dados do Endereço do cliente-->
+                                <ul class="list-group">
+                                    <li class="list-group-item">Endereço: {{ cliente.endereco.logradouro }} {{ cliente.endereco.numero }}</li>
+                                    <li class="list-group-item">CEP: {{ cliente.endereco.cep }}</li>
+                                    <li class="list-group-item">Cidade: {{ cliente.endereco.cidade }}</li>
+                                    <li class="list-group-item">Estado: {{ cliente.endereco.estado }}</li>
+                                    <li class="list-group-item">País: {{ cliente.endereco.pais }}</li>
+                                    <li class="list-group-item">Telefone: {{ cliente.endereco.telefone }}</li>
+                                </ul>
+                            </li>   
+                        {% endfor %}
+                    </ul>
+                </li>
+                <!-- Dados dos Boletos -->
+                <li class="list-group-item">
+                    <strong>Boletos:</strong>
+                    <ul class="list-group">
+                        {% for boleto in xml_data.boletos %}
+                            <li class="list-group-item">
+                                <span>Valor: {{ boleto.valor }}</span> | 
+                                <span>Vencimento: {{ boleto.data_vencimento }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+    
+{% endblock %}

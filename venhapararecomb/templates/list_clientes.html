@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lista de Clientes
+{% endblock %}
+
+{% block content %}
+<!-- Lista de Clientes -->
+<div class="px-4 py-5 my-5">
+    <h1>Clientes</h1>
+    <!-- Mensagem de alerta amarelo -->
+    <div class="alert alert-warning" role="alert">
+        <strong>Atenção!</strong> A exclusão de um cliente também excluirá todas as notas fiscais associadas a ele.
+    </div>
+
+    {% if clientes %}
+    <ul class="list-group">
+        {% for cliente in clientes %}
+        <li class="list-group-item">
+            <a  href="#">
+                {{ cliente }}
+            </a>
+            <form action="{% url 'delete_cliente' cliente.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm ">Excluir</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+<div class="px-4 py-5 my-5">
+    <a href="{% url 'index' %}" class="btn btn-primary">Voltar</a>
+</div>
+{% endblock %}

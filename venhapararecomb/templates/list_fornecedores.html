@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lista de Fornecedores
+{% endblock %}
+
+{% block content %}
+<!-- Lista de Fornecedores -->
+<div class="px-4 py-5 my-5">
+    <h1>Fornecedores</h1>
+    <!-- Mensagem de alerta amarelo -->
+    <div class="alert alert-warning" role="alert">
+        <strong>Atenção!</strong> A exclusão de um fornecedor também excluirá todas as notas fiscais associadas a ele.
+    </div>
+
+    {% if fornecedores %}
+    <ul class="list-group">
+        {% for fornecedor in fornecedores %}
+        <li class="list-group-item">
+            <a  href="#">
+                {{ fornecedor }}
+            </a>
+            <form action="{% url 'delete_fornecedor' fornecedor.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm ">Excluir</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+<div class="px-4 py-5 my-5">
+    <a href="{% url 'index' %}" class="btn btn-primary">Voltar</a>
+</div>
+{% endblock %}

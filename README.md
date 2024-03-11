@@ -23,7 +23,7 @@
    ```
    git clone https://github.com/jcquadros/venhapararecomb-backend.git
    ```
-2. Execute:
+2. Certifique-se de estar dentro do diretorio venhapararecomb/ Execute:
    ```
    docker-compose build
    docker-compose up
